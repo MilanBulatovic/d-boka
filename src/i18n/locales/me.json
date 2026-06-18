@@ -1,0 +1,87 @@
+{
+	"site": {
+		"title": "DBoka One"
+	},
+	"nav": {
+		"home": "Početna",
+		"about": "O nama",
+		"contact": "Kontakt"
+	},
+	"hero": {
+		"title": "Privatna kolekcija luksuznih rezidencija s pogledom na Jadransku obalu."
+	},
+	"pages": {
+		"home": {
+			"title": "Početna",
+			"placeholder": "Ovdje ide sadržaj stranice Početna.",
+			"about": {
+				"label": "O nama",
+				"title1": "Više od mjesta.",
+				"title2": "To je dom.",
+				"body": "Smješten u Dobroti, D One Boka Residence je pažljivo osmišljen stambeni projekat koji spaja modernu arhitekturu sa promišljenim osjećajem prostora, svjetla i privatnosti. Razvoj nudi ograničen broj rezidencija u mirnom, dobro pozicioniranom okruženju s pogledom na Boku Kotorsku.",
+				"button": "O projektu"
+			},
+			"residencies": {
+				"label": "Rezidencije",
+				"title": "Dizajnirano kao dvije jedinstvene zgrade"
+			},
+			"apartments": {
+				"label": "Apartmani",
+				"title": "Izvanredne rezidencije"
+			},
+			"buildings": {
+				"building1": {
+					"title": "Zgrada 1",
+					"description": "Ograničena kolekcija od samo četiri ekskluzivne rezidencije dizajnirane s naglaskom na privatnost, prostrane enterijere i panoramski pogled na Boku Kotorsku.",
+					"imageAlt": "Zgrada 1 — eksterijer"
+				},
+				"building2": {
+					"title": "Zgrada 2",
+					"description": "Profinjena stambena zgrada koja nudi pažljivo osmišljene apartmane, moderne sadržaje i ugodan životni doživljaj u Dobroti.",
+					"imageAlt": "Zgrada 2 — eksterijer"
+				}
+			},
+			"imageAlt": "Garden apartman — obalni enterijer",
+			"suite": {
+				"headline": "Opusti se, obnovi se, ponovi: unutar našeg garden wellness apartmana",
+				"intro": "Otkrijte svoj novo omiljeno utočište dizajnirano za mir, jasnoću i povezanost s obalom.",
+				"body": "Minimalistički stog morskih kamenova\nSkriven iza zavjese tropske zelenila, Coastal Garden Suite je skriveni dragulj za putnike kojima treba više od odmora — traže obnovu. Bilo da ste usred ličnog resetovanja, wellness vikenda ili jednostavno žudite za tišinom, ovaj prostor je dizajniran za svjesni bijeg.\n\nDiši lakše, spavaj dublje\nApartman ima hipoalergensku posteljinu, prozore od poda do plafona i unutrašnje-vanjsko kišno tuširanje koje pušta zvukove okeana. Gosti takođe uživaju u privatnoj terasi s kutkom za meditaciju — s yoga prostirkom, zvučnom zdjelom i svijećom s mirisom okeana.\n\nWellness, isporučen na vaša vrata\nVrhunac? Besplatna dostava doručka svako jutro: svježe cijeđeni sokovi, chia parfe i umirujući čajevi. Možete rezervisati i dodatke poput aromaterapijskih sprejeva za jastuke, kupki za stopala sa solom ili vođene sesije disanja.\n\nJoga na izlasku sunca i spa paketi\nGosti Garden Suite-a imaju prioritetnu rezervaciju za našu jogu na izlasku sunca na pijesku i seriju biljnih masaža. Tražite nešto jedinstveno? Pitajte za našeg wellness konciergea koji može sastaviti prilagođeni plan opuštanja.",
+				"closing": "Mariven vjeruje da wellness treba da bude jednostavan — a ovaj apartman je dokaz. Ponekad vam je potreban samo meki ogrtač, lagani povjetarac i prostor za disanje."
+			},
+			"values": {
+				"items": [
+					{ "word": "Mir", "tagline": "Mir koji osjećate" },
+					{ "word": "Prostor", "tagline": "Dizajniran da diše" },
+					{ "word": "Perspektiva", "tagline": "Pogledi koji ostaju s vama" }
+				]
+			}
+		},
+		"about": {
+			"title": "O nama",
+			"placeholder": "Ovdje ide sadržaj stranice O nama."
+		},
+		"contact": {
+			"title": "Kontakt",
+			"placeholder": "Ovdje ide sadržaj stranice Kontakt."
+		}
+	},
+	"footer": {
+		"title": "Podnožje"
+	},
+	"a11y": {
+		"home": "Početna",
+		"openMenu": "Otvori meni",
+		"closeMenu": "Zatvori meni",
+		"languageSwitcher": "Izaberi jezik",
+		"currentLanguage": "Trenutni jezik",
+		"navPrimary": "Glavna navigacija",
+		"navMobile": "Mobilna navigacija",
+		"apartmentsSlider": "Apartmani",
+		"prevApartment": "Prethodni apartman",
+		"nextApartment": "Sljedeći apartman"
+	},
+	"lang": {
+		"en": "EN",
+		"me": "ME"
+	}
+}

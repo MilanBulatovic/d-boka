@@ -1,0 +1,183 @@
+---
+import type { ImageMetadata } from 'astro';
+import IoImage from './IoImage.astro';
+
+export type BuildingItem = {
+	title: string;
+	description: string;
+	image: ImageMetadata;
+	alt: string;
+	href?: string;
+};
+
+type Props = {
+	buildings: BuildingItem[];
+};
+
+const { buildings } = Astro.props;
+---
+
+<section class="split-building">
+		<div class="split-building__grid">
+			{
+				buildings.map((building) => {
+					const Tag = building.href ? 'a' : 'article';
+					const linkProps = building.href ? { href: building.href } : {};
+
+					return (
+						<Tag class="split-building__card" {...linkProps}>
+							<div class="split-building__media">
+								<IoImage
+									src={building.image}
+									alt={building.alt}
+									class="split-building__image"
+									sizes="(max-width: 768px) 100vw, 50vw"
+								/>
+							</div>
+							<div class="split-building__overlay">
+								<div class="split-building__overlay-header">
+									<h3 class="split-building__title">{building.title}</h3>
+									<span class="split-building__arrow" aria-hidden="true">
+										<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.2929 21.2929C16.9024 21.6834 16.9024 22.3166 17.2929 22.7071C17.6834 23.0976 18.3166 23.0976 18.7071 22.7071L18 22L17.2929 21.2929ZM40 1C40 0.447716 39.5523 3.73706e-07 39 1.20825e-07L30 -4.27084e-07C29.4477 5.84441e-07 29 0.447715 29 1C29 1.55229 29.4477 2 30 2L38 2L38 10C38 10.5523 38.4477 11 39 11C39.5523 11 40 10.5523 40 10L40 1ZM18 22L18.7071 22.7071L39.7071 1.70711L39 1L38.2929 0.292894L17.2929 21.2929L18 22Z" fill="white"/>
+</svg>
+
+
+									</span>
+								</div>
+								<p class="split-building__description">{building.description}</p>
+							</div>
+						</Tag>
+					);
+				})
+			}
+		</div>
+</section>
+
+<style>
+	.split-building {
+		padding-bottom: 7rem;
+	}
+
+	.split-building__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        margin-top:64px;
+
+        @media (max-width: 768px) {
+            margin-top: 32px;
+        }
+	}
+
+	.split-building__card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		height: 950px;
+		overflow: hidden;
+		color: var(--color-white);
+		text-decoration: none;
+    }
+
+	.split-building__media {
+		position: absolute;
+		inset: 0;
+	}
+
+	.split-building__media :global(.io-image-watch),
+	.split-building__media :global(.io-image-frame) {
+		height: 100%;
+		border-radius: 0;
+	}
+
+	.split-building__media :global(.io-image) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		border-radius: 0;
+	}
+
+	.split-building__overlay {
+        max-width: 600px;
+        width: 100%;
+		position: relative;
+		z-index: 1;
+		padding: 5rem 4rem 3rem 2rem;
+		background: color-mix(in srgb, var(--color-nebula) 55%, transparent);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		margin-bottom: 4rem;
+	}
+
+	.split-building__overlay-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.split-building__title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-style: normal;
+		font-size: 3rem;
+		line-height: 120%;
+		vertical-align: bottom;
+		color: var(--color-white);
+	}
+
+	.split-building__arrow {
+		flex-shrink: 0;
+		display: inline-flex;
+		opacity: 0.9;
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+	}
+
+	.split-building__description {
+		margin: 0;
+		max-width: none;
+		font-size: clamp(0.9rem, 1.25vw, 1rem);
+		line-height: 120%;
+		color: var(--color-white);
+	}
+
+    @media (max-width: 1560px) {
+        .split-building__card {
+            height: 700px;
+        }
+    }
+    @media (max-width: 1024px) {
+        .split-building__card {
+            height: 500px;
+        }
+    }
+	@media (max-width: 768px) {
+		.split-building__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.split-building__card {
+			height: 400px;
+		}
+
+		.split-building__overlay {
+			margin: 1.25rem;
+			padding: 1.5rem;
+		}
+
+		.split-building__title {
+			font-size: 2rem;
+		}
+
+        .split-building {
+		    padding-bottom: 4rem;
+	    }
+	}
+</style>

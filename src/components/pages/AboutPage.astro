@@ -1,0 +1,23 @@
+---
+// SADRŽAJ stranice (ne ruta). Prevodi: src/i18n/locales/*.json
+// Rute: src/pages/about.astro i src/pages/me/o-nama.astro
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import Layout from '../../layouts/Layout.astro';
+import { type Locale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/utils';
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+---
+
+<Layout>
+	<Header overHero={false} />
+
+	<main>
+		<h1>{t('pages.about.title')}</h1>
+		<p>{t('pages.about.placeholder')}</p>
+	</main>
+
+	<Footer />
+</Layout>

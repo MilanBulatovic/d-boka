@@ -1,0 +1,152 @@
+---
+import heroBg from '../assets/bg.jpg';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	/** Fiksiran hero; sadržaj ispod (main + spacer) skrola preko njega. */
+	fixedOnScroll?: boolean;
+}
+
+const { fixedOnScroll = false } = Astro.props;
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+---
+
+<section
+	id="site-hero"
+	class:list={['hero', { 'hero--fixed': fixedOnScroll }]}
+	style={`background-image:url(${heroBg.src})`}
+	transition:animate="none"
+>
+	<div class="hero__container container">
+		<div class="hero__content">
+			<h1 class="page__title max-width-title page-title--white hero__title">
+				{t('hero.title')}
+			</h1>
+		</div>
+	</div>
+</section>
+
+<script>
+	import gsap from 'gsap';
+
+	let heroTimeline: gsap.core.Timeline | null = null;
+	let heroMotionRun = 0;
+
+	function splitTitleIntoLines(titleEl: HTMLElement): HTMLElement[] {
+		const existingLines = [...titleEl.querySelectorAll<HTMLElement>('.hero__title-line')];
+		if (titleEl.dataset.linesSplit === 'true' && existingLines.length) {
+			return existingLines;
+		}
+
+		delete titleEl.dataset.linesSplit;
+		const text = titleEl.textContent?.trim() ?? '';
+		const words = text.split(/\s+/).filter(Boolean);
+		titleEl.textContent = '';
+
+		const wordSpans = words.map((word, index) => {
+			const span = document.createElement('span');
+			span.textContent = word + (index < words.length - 1 ? ' ' : '');
+			titleEl.appendChild(span);
+			return span;
+		});
+
+		const lines: HTMLSpanElement[][] = [];
+		let currentLine: HTMLSpanElement[] = [];
+		let lineTop = wordSpans[0]?.offsetTop ?? 0;
+
+		for (const span of wordSpans) {
+			if (span.offsetTop !== lineTop && currentLine.length) {
+				lines.push(currentLine);
+				currentLine = [];
+				lineTop = span.offsetTop;
+			}
+			currentLine.push(span);
+		}
+
+		if (currentLine.length) lines.push(currentLine);
+
+		titleEl.textContent = '';
+		const lineEls = lines.map((lineWords) => {
+			const line = document.createElement('span');
+			line.className = 'hero__title-line';
+			line.textContent = lineWords.map((span) => span.textContent?.trim() ?? '').join(' ');
+			titleEl.appendChild(line);
+			return line;
+		});
+
+		titleEl.dataset.linesSplit = 'true';
+		return lineEls;
+	}
+
+	function heroMotion() {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const root = document.getElementById('site-hero');
+		if (!root) return;
+
+		const title = root.querySelector<HTMLElement>('.hero__title');
+		if (!title) return;
+
+		const lines = splitTitleIntoLines(title);
+		const copy = root.querySelectorAll<HTMLElement>('.hero__description');
+		const animated = [root, ...lines, ...copy];
+
+		heroTimeline?.kill();
+		gsap.killTweensOf(animated);
+
+		gsap.set(root, { opacity: 0, y: -22 });
+		gsap.set(lines, { opacity: 0, y: 18 });
+		gsap.set(copy, { opacity: 0, y: 18 });
+
+		heroTimeline = gsap.timeline({
+			onComplete: () => {
+				gsap.set(root, { clearProps: 'transform' });
+				gsap.set([...lines, ...copy], { clearProps: 'transform' });
+				heroTimeline = null;
+			},
+		});
+
+		heroTimeline.to(root, { opacity: 1, duration: 1.35, ease: 'sine.out' }, 0);
+		heroTimeline.to(root, { y: 0, duration: 0.85, ease: 'power3.out' }, 0);
+
+		/* Naslov: red po red (stagger), pa opcioni opis ispod. */
+		const textStart = 0.32;
+		heroTimeline.to(
+			lines,
+			{ opacity: 1, y: 0, duration: 0.7, stagger: 0.14, ease: 'power2.out' },
+			textStart,
+		);
+
+		if (copy.length) {
+			heroTimeline.to(
+				copy,
+				{ opacity: 1, y: 0, duration: 0.7, stagger: 0.14, ease: 'power2.out' },
+				textStart + 0.14 * lines.length,
+			);
+		}
+	}
+
+	async function scheduleHeroMotion() {
+		const run = ++heroMotionRun;
+
+		if (document.fonts?.ready) await document.fonts.ready;
+
+		await new Promise<void>((resolve) => {
+			requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+		});
+
+		if (run !== heroMotionRun) return;
+
+		heroMotion();
+	}
+
+	const win = window as Window & { __heroNavHooked?: boolean };
+	if (!win.__heroNavHooked) {
+		win.__heroNavHooked = true;
+		document.addEventListener('astro:page-load', () => {
+			void scheduleHeroMotion();
+		});
+	}
+</script>

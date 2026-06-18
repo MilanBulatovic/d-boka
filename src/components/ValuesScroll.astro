@@ -1,0 +1,333 @@
+---
+import en from '../i18n/locales/en.json';
+import me from '../i18n/locales/me.json';
+import { type Locale } from '../i18n/config';
+import { getLocaleFromUrl } from '../i18n/utils';
+
+type ValueItem = {
+	word: string;
+	tagline: string;
+};
+
+type Props = {
+	locale?: Locale;
+};
+
+const locale = (Astro.props.locale ?? Astro.currentLocale ?? getLocaleFromUrl(Astro.url)) as Locale;
+const dict = locale === 'me' ? me : en;
+const items = dict.pages.home.values.items as ValueItem[];
+
+const lineModifiers = ['serenity', 'space', 'perspective'] as const;
+---
+
+<section class="values-scroll" data-values-scroll aria-label="Values">
+	<div class="values-scroll__pin">
+		<div class="values-scroll__bg" aria-hidden="true">
+			<img
+				class="values-scroll__bg-image"
+				src="/bg-section.png"
+				alt=""
+				width="900"
+				height="900"
+				loading="lazy"
+				decoding="async"
+			/>
+		</div>
+
+		<div class="values-scroll__content container">
+			<div class="values-scroll__lines">
+				{
+					items.map((item, index) => (
+						<div
+							class:list={['values-scroll__line', `values-scroll__line--${lineModifiers[index]}`]}
+							data-values-line
+						>
+							<span class="values-scroll__word">{item.word}</span>
+							<span class="values-scroll__pill">{item.tagline}</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	type WindowWithValues = Window & {
+		__valuesScrollHooked?: boolean;
+		__valuesScrollTriggers?: ScrollTrigger[];
+	};
+
+	function getTriggerStore() {
+		const win = window as WindowWithValues;
+		if (!win.__valuesScrollTriggers) win.__valuesScrollTriggers = [];
+		return win.__valuesScrollTriggers;
+	}
+
+	function killValuesScrollTriggers() {
+		const store = getTriggerStore();
+		for (const trigger of store) trigger.kill();
+		store.length = 0;
+
+		document.querySelectorAll<HTMLElement>('[data-values-scroll]').forEach((section) => {
+			delete section.dataset.valuesReady;
+		});
+	}
+
+	function showFinalState(section: HTMLElement) {
+		section.querySelectorAll<HTMLElement>('.values-scroll__word, .values-scroll__pill').forEach((el) => {
+			gsap.set(el, { clearProps: 'all', opacity: 1 });
+		});
+	}
+
+	function initValuesScroll() {
+		killValuesScrollTriggers();
+
+		document.querySelectorAll<HTMLElement>('[data-values-scroll]').forEach((section) => {
+			if (section.dataset.valuesReady === 'true') return;
+
+			const pin = section.querySelector<HTMLElement>('.values-scroll__pin');
+			const lines = section.querySelectorAll<HTMLElement>('[data-values-line]');
+			if (!pin || !lines.length) return;
+
+			const words = section.querySelectorAll<HTMLElement>('.values-scroll__word');
+			const pills = section.querySelectorAll<HTMLElement>('.values-scroll__pill');
+
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				showFinalState(section);
+				section.dataset.valuesReady = 'true';
+				return;
+			}
+
+			const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+			gsap.set(words, { opacity: 0, y: 48 });
+			gsap.set(pills, isMobile ? { opacity: 0, y: 24, x: 0 } : { opacity: 0, x: 72, y: 0 });
+
+			const scrollDistance = isMobile ? '+=200%' : '+=280%';
+
+			const timeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: section,
+					start: 'top top',
+					end: scrollDistance,
+					pin,
+					scrub: 0.85,
+					anticipatePin: 1,
+					invalidateOnRefresh: true,
+				},
+			});
+
+			lines.forEach((line, index) => {
+				const word = line.querySelector<HTMLElement>('.values-scroll__word');
+				const pill = line.querySelector<HTMLElement>('.values-scroll__pill');
+				if (!word || !pill) return;
+
+				const step = index * 1.1;
+
+				timeline.to(word, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, step);
+				timeline.to(
+					pill,
+					isMobile
+						? { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+						: { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' },
+					step + 0.2,
+				);
+			});
+
+			const trigger = timeline.scrollTrigger;
+			if (trigger) getTriggerStore().push(trigger);
+
+			section.dataset.valuesReady = 'true';
+		});
+
+		ScrollTrigger.refresh();
+	}
+
+	function scheduleInit() {
+		requestAnimationFrame(() => {
+			requestAnimationFrame(initValuesScroll);
+		});
+	}
+
+	scheduleInit();
+
+	const win = window as WindowWithValues;
+	if (!win.__valuesScrollHooked) {
+		win.__valuesScrollHooked = true;
+		document.addEventListener('astro:page-load', scheduleInit);
+	}
+</script>
+
+<style>
+	.values-scroll {
+		position: relative;
+		background-color: var(--color-white);
+	}
+
+	.values-scroll__pin {
+		position: relative;
+		min-height: 100vh;
+		min-height: 100dvh;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.values-scroll__bg {
+		position: absolute;
+		top: 50%;
+		right: 0;
+		z-index: 0;
+		width: min(58vw, 52rem);
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	.values-scroll__bg-image {
+		width: 100%;
+		height: auto;
+		border-radius: 0;
+		opacity: 0.9;
+	}
+
+	.values-scroll__content {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+	}
+
+	.values-scroll__lines {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 4vh, 3.5rem);
+		padding-block: clamp(3rem, 8vh, 6rem);
+	}
+
+	.values-scroll__line {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: clamp(0.75rem, 2vw, 1.75rem);
+		width: fit-content;
+		max-width: 100%;
+	}
+
+	.values-scroll__line--serenity {
+		margin-left: clamp(0%, 42vw, 52%);
+	}
+
+	.values-scroll__line--space {
+		margin-left: 0;
+	}
+
+	.values-scroll__line--perspective {
+		margin-left: clamp(0%, 22vw, 32%);
+	}
+
+	.values-scroll__word {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: 150px;
+		line-height: 1.2;
+		color: var(--color-nebula);
+		white-space: nowrap;
+	}
+
+	.values-scroll__pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 1.25rem;
+		border-radius: var(--radius-100);
+		border: 1px solid color-mix(in srgb, var(--color-nebula) 35%, transparent);
+		background-color: var(--color-muted-gray);
+		color: var(--color-nebula);
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 1.2;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+
+	@media (max-width: 1500px) {
+		.values-scroll__word {
+			font-size: clamp(60px, 12vw, 120px);
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.values-scroll__word {
+			font-size: clamp(60px, 10vw, 120px);
+		}
+
+		.values-scroll__line--serenity {
+			margin-left: clamp(0%, 30vw, 42%);
+		}
+
+		.values-scroll__line--perspective {
+			margin-left: clamp(0%, 12vw, 22%);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.values-scroll__bg {
+			width: min(72vw, 22rem);
+			opacity: 0.55;
+		}
+
+		.values-scroll__line {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.75rem;
+		}
+
+		.values-scroll__word {
+			font-size: 60px;
+		}
+
+		.values-scroll__pill {
+			font-size: 14px;
+			padding: 0.4rem 1rem;
+			white-space: normal;
+			text-align: left;
+		}
+
+		.values-scroll__line--serenity {
+			align-self: center;
+			align-items: center;
+			margin-left: 0;
+			margin-inline: auto;
+		}
+
+		.values-scroll__line--serenity .values-scroll__pill {
+			text-align: center;
+		}
+
+		.values-scroll__line--space {
+			margin-left: 0;
+		}
+
+		.values-scroll__line--perspective {
+			align-self: flex-end;
+			align-items: flex-end;
+			margin-left: auto;
+			margin-right: 0;
+		}
+
+		.values-scroll__line--perspective .values-scroll__pill {
+			text-align: right;
+		}
+
+		.values-scroll__lines {
+			gap: 2rem;
+		}
+	}
+</style>

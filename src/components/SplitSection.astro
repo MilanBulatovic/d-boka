@@ -1,0 +1,58 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import Button from './Button.astro';
+
+type Props = {
+	label: string;
+	title: string | string[];
+	body: string;
+	buttonText?: string;
+	buttonHref?: string;
+};
+
+const { label, title, body, buttonText, buttonHref } = Astro.props;
+const showButton = Boolean(buttonText && buttonHref);
+---
+
+<section class="split-section">
+	<div class="split-section__inner">
+		<div class="split-section__col split-section__col--heading">
+			<SectionHeading label={label} title={title} align="left" />
+		</div>
+		<div class="split-section__col split-section__col--content">
+			<p class="split-section__body">{body}</p>
+			{showButton && (
+				<Button as="link" href={buttonHref!} variant="nebula">
+					{buttonText}
+				</Button>
+			)}
+		</div>
+	</div>
+</section>
+
+<style>
+	.split-section {
+		padding: clamp(4rem, 8vw, 7rem) 0;
+	}
+
+	.split-section__inner {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: end;
+	}
+
+	.split-section__body {
+		margin: 0 0 1.5rem;
+		max-width: none;
+		font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+		line-height: 140%;
+		color: var(--color-nebula);
+	}
+
+	@media (max-width: 768px) {
+		.split-section__inner {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

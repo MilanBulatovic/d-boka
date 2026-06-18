@@ -1,0 +1,87 @@
+{
+	"site": {
+		"title": "DBoka One"
+	},
+	"nav": {
+		"home": "Home",
+		"about": "About",
+		"contact": "Contact"
+	},
+	"hero": {
+		"title": "A Private Collection Of Luxury Residences Overlooking The Adriatic Coast."
+	},
+	"pages": {
+		"home": {
+			"title": "Home",
+			"placeholder": "Home page content goes here.",
+			"about": {
+				"label": "About Us",
+				"title1": "More Than a Place.",
+				"title2": "It's a Home.",
+				"body": "Located in Dobrota, D One Boka Residence is a thoughtfully designed residential project that combines modern architecture with a carefully considered sense of space, light, and privacy. The development offers a limited number of residences within a quiet, well-positioned setting overlooking the Bay of Kotor.",
+				"button": "About the project"
+			},
+			"residencies": {
+				"label": "Residencies",
+				"title": "Designed as Two Unique Buildings"
+			},
+			"apartments": {
+				"label": "Apartments",
+				"title": "Residencies Of Distinction"
+			},
+			"buildings": {
+				"building1": {
+					"title": "Building 1",
+					"description": "A limited collection of only four exclusive residences designed with an emphasis on privacy, spacious interiors, and panoramic views of the Bay of Kotor.",
+					"imageAlt": "Building 1 — exterior rendering"
+				},
+				"building2": {
+					"title": "Building 2",
+					"description": "A refined residential building offering thoughtfully designed apartments, modern amenities, and a comfortable living experience in Dobrota.",
+					"imageAlt": "Building 2 — exterior rendering"
+				}
+			},
+			"imageAlt": "Garden suite — coastal interior",
+			"suite": {
+				"headline": "Relax, Restore, Repeat: Inside Our Garden Wellness Suite",
+				"intro": "Discover your new favorite retreat designed for calm, clarity, and coastal connection.",
+				"body": "Minimalist Beach Stone Stack\nTucked away behind a curtain of tropical greenery, the Coastal Garden Suite is a hidden gem built for travelers who need a little more than rest — they're looking for restoration. Whether you're in the middle of a personal reset, a wellness weekend, or simply craving quiet, this space is designed for mindful escape.\n\nBreathe Easier, Sleep Deeper\nThe suite features hypoallergenic bedding, floor-to-ceiling windows, and an indoor-outdoor rain shower that lets in the sounds of the ocean. Guests also enjoy a private patio with a meditation corner — complete with a yoga mat, sound bowl, and ocean-scented candle.\n\nWellness, Delivered to Your Door\nA highlight? Complimentary breakfast delivery each morning: think fresh-pressed juices, chia parfaits, and calming teas. You can also book add-ons like aromatherapy pillow sprays, salt foot soaks, or a guided breathing session.\n\nSunrise Yoga & Spa Pairings\nGuests of the Garden Suite receive priority booking for our sunrise yoga on the sand and our herbal massage series. Looking for something unique? Ask about our wellness concierge who can build a custom relaxation itinerary just for you.",
+				"closing": "Mariven believes wellness should feel effortless — and this suite is proof. Sometimes, all you need is a soft robe, a quiet breeze, and space to breathe."
+			},
+			"values": {
+				"items": [
+					{ "word": "Serenity", "tagline": "The peace you feel" },
+					{ "word": "Space", "tagline": "Designed to breathe" },
+					{ "word": "Perspective", "tagline": "Views that stay with you" }
+				]
+			}
+		},
+		"about": {
+			"title": "About",
+			"placeholder": "About page content goes here."
+		},
+		"contact": {
+			"title": "Contact",
+			"placeholder": "Contact page content goes here."
+		}
+	},
+	"footer": {
+		"title": "Footer"
+	},
+	"a11y": {
+		"home": "Home",
+		"openMenu": "Open menu",
+		"closeMenu": "Close menu",
+		"languageSwitcher": "Select language",
+		"currentLanguage": "Current language",
+		"navPrimary": "Primary",
+		"navMobile": "Mobile",
+		"apartmentsSlider": "Apartments",
+		"prevApartment": "Previous apartment",
+		"nextApartment": "Next apartment"
+	},
+	"lang": {
+		"en": "EN",
+		"me": "ME"
+	}
+}

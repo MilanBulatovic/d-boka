@@ -1,0 +1,82 @@
+---
+// SADRŽAJ stranice (ne ruta). Prevodi: src/i18n/locales/*.json
+// Rute koje ovo učitavaju: src/pages/index.astro i src/pages/me/pocetna.astro
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import IoImage from '../IoImage.astro';
+import Layout from '../../layouts/Layout.astro';
+import gardenSuite from '../../assets/garden-suite.jpg';
+import imageAvif from '../../assets/image.avif';
+import Hero from '../Hero.astro';
+import SplitSection from '../SplitSection.astro';
+import { type Locale } from '../../i18n/config';
+import { getRouteUrl } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/utils';
+import Separator from '../Separator.astro';
+import SectionHeading from '../SectionHeading.astro';
+import SplitBuilding from '../SplitBuilding.astro';
+import building1 from '../../assets/b1.jpg';
+import building2 from '../../assets/b2.jpg';
+import ApartmentSlider from '../ApartmentSlider.astro';
+import ValuesScroll from '../ValuesScroll.astro';
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+---
+
+<Layout>
+	<Header overHero />
+	<Hero fixedOnScroll />
+	<div class="hero-scroll-spacer" aria-hidden="true"></div>
+		<main class="main--over-hero">
+			<div class="container">
+				<SplitSection
+					label={t('pages.home.about.label')}
+					title={[t('pages.home.about.title1'), t('pages.home.about.title2')]}
+					body={t('pages.home.about.body')}
+					buttonText={t('pages.home.about.button')}
+					buttonHref={getRouteUrl(locale, 'about')}
+				/>
+
+				<Separator />
+
+				<SectionHeading
+					label={t('pages.home.residencies.label')}
+					title={t('pages.home.residencies.title')}
+					align="right"
+				/>
+			
+
+				<SplitBuilding
+				buildings={[
+					{
+						title: t('pages.home.buildings.building1.title'),
+						description: t('pages.home.buildings.building1.description'),
+						image: building1,
+						alt: t('pages.home.buildings.building1.imageAlt'),
+					},
+					{
+						title: t('pages.home.buildings.building2.title'),
+						description: t('pages.home.buildings.building2.description'),
+						image: building2,
+						alt: t('pages.home.buildings.building2.imageAlt'),
+					},
+				]}
+			/>
+
+				<SectionHeading
+					label={t('pages.home.apartments.label')}
+					title={t('pages.home.apartments.title')}
+					align="center"
+				/>
+
+				<Separator marginTop />
+			</div>
+
+			<ApartmentSlider locale={locale} />
+
+			<ValuesScroll locale={locale} />
+			
+		</main>
+	<Footer/>
+</Layout>

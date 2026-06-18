@@ -1,0 +1,404 @@
+---
+import apartmentsEn from '../data/apartments.en.json';
+import apartmentsMe from '../data/apartments.me.json';
+import { type Locale } from '../i18n/config';
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils';
+
+export type Apartment = {
+	title: string;
+	description: string;
+	imageUrl: string;
+};
+
+type Props = {
+	locale?: Locale;
+	apartments?: Apartment[];
+};
+
+const locale = (Astro.props.locale ?? Astro.currentLocale ?? getLocaleFromUrl(Astro.url)) as Locale;
+const t = useTranslations(locale);
+
+const apartmentsByLocale = {
+	en: apartmentsEn.apartments,
+	me: apartmentsMe.apartments,
+} as const;
+
+const { apartments = apartmentsByLocale[locale] ?? apartmentsByLocale.en } = Astro.props;
+const sliderId = `apartment-slider-${locale}`;
+---
+
+<section class="apartment-slider" aria-label={t('a11y.apartmentsSlider')} transition:animate="none">
+	<div class="apartment-slider__nav">
+		<button
+			type="button"
+			class="apartment-slider__arrow apartment-slider__arrow--prev"
+			data-slider-prev={sliderId}
+			aria-label={t('a11y.prevApartment')}
+		>
+			<svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M8.5 0.999999L1 8.5L8.5 16" stroke="#1F3A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</button>
+		<button
+			type="button"
+			class="apartment-slider__arrow apartment-slider__arrow--next"
+			data-slider-next={sliderId}
+			aria-label={t('a11y.nextApartment')}
+		>
+			<svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M1 16L8.5 8.5L1 1" stroke="#1F3A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</button>
+	</div>
+
+	<div class="apartment-slider__viewport">
+		<div class="swiper apartment-slider__swiper" data-slider-id={sliderId}>
+			<div class="swiper-wrapper">
+				{
+					apartments.map((apartment) => (
+						<div class="swiper-slide apartment-slider__slide">
+							<article class="apartment-slider__card">
+								<div class="apartment-slider__media">
+									<img
+										class="apartment-slider__image"
+										src={apartment.imageUrl}
+										alt={apartment.title}
+										width="1060"
+										height="600"
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+								<div class="apartment-slider__overlay">
+									<h3 class="apartment-slider__title">{apartment.title}</h3>
+									<p class="apartment-slider__description">{apartment.description}</p>
+								</div>
+							</article>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import Swiper from 'swiper';
+	import { Navigation } from 'swiper/modules';
+	import type { Swiper as SwiperInstance } from 'swiper';
+	import 'swiper/css';
+
+	type ManagedSlider = {
+		swiper: SwiperInstance;
+		intersectionObserver: IntersectionObserver;
+		resizeObserver: ResizeObserver;
+	};
+
+	type WindowWithSliders = Window & {
+		__apartmentSliderBootstrapped?: boolean;
+		__apartmentSliders?: Map<string, ManagedSlider>;
+		__apartmentSliderGeneration?: number;
+		__apartmentSliderInitRun?: number;
+	};
+
+	const MAX_LAYOUT_RETRIES = 24;
+
+	function getWin() {
+		return window as WindowWithSliders;
+	}
+
+	function getStore() {
+		const win = getWin();
+		if (!win.__apartmentSliders) win.__apartmentSliders = new Map();
+		return win.__apartmentSliders;
+	}
+
+	function destroySlider(id: string) {
+		const managed = getStore().get(id);
+		if (!managed) return;
+
+		managed.intersectionObserver.disconnect();
+		managed.resizeObserver.disconnect();
+
+		if (!managed.swiper.destroyed) {
+			managed.swiper.destroy(true, true);
+		}
+
+		getStore().delete(id);
+	}
+
+	function destroyDetachedSliders() {
+		for (const id of [...getStore().keys()]) {
+			if (!document.querySelector(`[data-slider-id="${id}"]`)) {
+				destroySlider(id);
+			}
+		}
+	}
+
+	function refreshSlider(managed: ManagedSlider) {
+		if (managed.swiper.destroyed) return;
+		managed.swiper.update();
+		managed.swiper.slideToLoop(managed.swiper.realIndex, 0, false);
+	}
+
+	function mountSlider(el: HTMLElement, generation: number, attempt = 0) {
+		const id = el.dataset.sliderId;
+		if (!id || generation !== getWin().__apartmentSliderGeneration) return;
+
+		if (!el.isConnected) return;
+
+		if (el.offsetWidth === 0) {
+			if (attempt >= MAX_LAYOUT_RETRIES) return;
+			requestAnimationFrame(() => mountSlider(el, generation, attempt + 1));
+			return;
+		}
+
+		destroySlider(id);
+
+		const section = el.closest('.apartment-slider');
+		const prevEl = section?.querySelector<HTMLButtonElement>(`[data-slider-prev="${id}"]`);
+		const nextEl = section?.querySelector<HTMLButtonElement>(`[data-slider-next="${id}"]`);
+
+		const swiper = new Swiper(el, {
+			modules: [Navigation],
+			centeredSlides: true,
+			slidesPerView: 1.08,
+			spaceBetween: 16,
+			speed: 600,
+			loop: true,
+			observer: true,
+			observeParents: true,
+			resizeObserver: true,
+			navigation: {
+				prevEl,
+				nextEl,
+			},
+			breakpoints: {
+				640: {
+					slidesPerView: 1.15,
+					spaceBetween: 20,
+				},
+				1024: {
+					slidesPerView: 'auto',
+					spaceBetween: 24,
+				},
+			},
+		});
+
+		const managed: ManagedSlider = {
+			swiper,
+			intersectionObserver: new IntersectionObserver(
+				(entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) {
+						refreshSlider(managed);
+					}
+				},
+				{ threshold: 0.01 },
+			),
+			resizeObserver: new ResizeObserver(() => refreshSlider(managed)),
+		};
+
+		managed.intersectionObserver.observe(el);
+		managed.resizeObserver.observe(el);
+
+		el.querySelectorAll<HTMLImageElement>('.apartment-slider__image').forEach((image) => {
+			if (image.complete) return;
+			image.addEventListener('load', () => refreshSlider(managed), { once: true });
+			image.addEventListener('error', () => refreshSlider(managed), { once: true });
+		});
+
+		getStore().set(id, managed);
+		refreshSlider(managed);
+	}
+
+	function initApartmentSliders() {
+		const win = getWin();
+		const generation = (win.__apartmentSliderGeneration = (win.__apartmentSliderGeneration ?? 0) + 1);
+
+		destroyDetachedSliders();
+
+		const elements = [...document.querySelectorAll<HTMLElement>('[data-slider-id]')];
+		if (!elements.length) return;
+
+		for (const el of elements) {
+			const id = el.dataset.sliderId;
+			if (id) destroySlider(id);
+		}
+
+		for (const el of elements) {
+			mountSlider(el, generation);
+		}
+	}
+
+	async function scheduleInit() {
+		const run = (getWin().__apartmentSliderInitRun = (getWin().__apartmentSliderInitRun ?? 0) + 1);
+
+		if (document.fonts?.ready) {
+			await document.fonts.ready;
+		}
+
+		await new Promise<void>((resolve) => {
+			requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+		});
+
+		if (run !== getWin().__apartmentSliderInitRun) return;
+
+		initApartmentSliders();
+	}
+
+	function bootstrap() {
+		const win = getWin();
+		if (win.__apartmentSliderBootstrapped) return;
+
+		win.__apartmentSliderBootstrapped = true;
+
+		document.addEventListener('astro:after-swap', () => {
+			void scheduleInit();
+		});
+		document.addEventListener('astro:page-load', () => {
+			void scheduleInit();
+		});
+
+		window.addEventListener('resize', () => {
+			getStore().forEach((managed) => refreshSlider(managed));
+		});
+	}
+
+	bootstrap();
+	void scheduleInit();
+</script>
+
+<style>
+	.apartment-slider {
+		padding: 0 0 7rem;
+		background-color: var(--color-white);
+		margin-top: -50px;
+	}
+
+	.apartment-slider__nav {
+		display: flex;
+		justify-content: center;
+		gap: 0;
+		margin-bottom: 2.5rem;
+	}
+
+	.apartment-slider__arrow {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--color-nebula);
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+	}
+
+	.apartment-slider__arrow:hover {
+		opacity: 0.7;
+	}
+
+	.apartment-slider__arrow:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	.apartment-slider__viewport {
+		overflow: hidden;
+	}
+
+	.apartment-slider__swiper {
+		overflow: visible;
+	}
+
+	.apartment-slider__slide {
+		width: min(92vw, 1060px);
+		height: auto;
+		transition: opacity 0.4s ease;
+	}
+
+	.apartment-slider__slide:not(.swiper-slide-active) {
+		opacity: 0.55;
+	}
+
+	.apartment-slider__card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		width: 100%;
+		max-width: 1060px;
+		height: 600px;
+		margin-inline: auto;
+		overflow: hidden;
+		background: rgba(175, 167, 158, 0.2);
+	}
+
+	.apartment-slider__media {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem 2rem 8rem;
+	}
+
+	.apartment-slider__image {
+		width: 100%;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+		border-radius: 0;
+	}
+
+	.apartment-slider__overlay {
+		position: relative;
+		bottom:32px;
+		z-index: 1;
+		max-width: 880px;
+		width: 100%;
+		padding: 2rem 2.5rem 2.5rem;
+		background: color-mix(in srgb, var(--color-nebula) 72%, transparent);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	.apartment-slider__title {
+		margin: 0 0 0.75rem;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+		line-height: 1.2;
+		color: var(--color-white);
+	}
+
+	.apartment-slider__description {
+		margin: 0;
+		max-width: 52ch;
+		font-size: clamp(0.875rem, 1.25vw, 1rem);
+		line-height: 1.4;
+		color: var(--color-white);
+	}
+
+	@media (max-width: 768px) {
+		.apartment-slider {
+			padding: 2rem 0 4rem;
+			margin-top: 0;
+		}
+
+		.apartment-slider__card {
+			height: 420px;
+		}
+
+		.apartment-slider__media {
+			padding: 1.25rem 1.25rem 7rem;
+		}
+
+		.apartment-slider__overlay {
+			padding: 1.25rem 1.5rem 1.5rem;
+		}
+	}
+</style>

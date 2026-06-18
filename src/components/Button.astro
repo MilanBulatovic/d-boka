@@ -1,0 +1,75 @@
+---
+export type ButtonVariant = 'blur' | 'border-transparent' | 'nebula' | 'muted-gray';
+export type ButtonAs = 'link' | 'tag';
+
+type Props = {
+	variant?: ButtonVariant;
+} & (
+	| { as?: 'tag' }
+	| { as: 'link'; href: string }
+);
+
+const {
+	variant = 'nebula',
+	as = 'tag',
+	...rest
+} = Astro.props as Props;
+
+const classList = ['btn', `btn--${variant}`];
+---
+
+{
+	as === 'link' ? (
+		<a class:list={classList} {...rest}>
+			<slot />
+		</a>
+	) : (
+		<button type="button" class:list={classList} {...rest}>
+			<slot />
+		</button>
+	)
+}
+
+<style>
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 1.25rem;
+		border-radius: 100px;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: 1.2;
+		text-decoration: none;
+		transition: opacity 0.2s ease;
+	}
+
+	.btn:hover {
+		opacity: 0.85;
+	}
+
+	.btn--blur {
+		backdrop-filter: blur(16.2px);
+		-webkit-backdrop-filter: blur(16.2px);
+		background-color: transparent;
+		color: var(--color-white);
+	}
+
+	.btn--border-transparent {
+		background-color: transparent;
+		color: var(--color-white);
+		border: 1px solid var(--color-white);
+	}
+
+	.btn--nebula {
+		background-color: var(--color-nebula);
+		color: var(--color-white);
+	}
+
+	.btn--muted-gray {
+		background-color: var(--color-muted-gray);
+		color: var(--color-greige);
+	}
+</style>

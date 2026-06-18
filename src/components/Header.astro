@@ -1,0 +1,682 @@
+---
+import logoLight from '../assets/light.svg';
+import logoDark from '../assets/darko-logo.svg';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { type Locale } from '../i18n/config';
+import { getRouteUrl, type RouteId } from '../i18n/routes';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	/** Početna: transparentan header preko heroa, bijeli logo. Ostale stranice: bijela pozadina, nebula tekst. */
+	overHero?: boolean;
+}
+
+const { overHero = false } = Astro.props;
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+
+const nav: ReadonlyArray<{ routeId: RouteId; key: string }> = [
+	{ routeId: 'home', key: 'nav.home' },
+	{ routeId: 'about', key: 'nav.about' },
+	{ routeId: 'contact', key: 'nav.contact' },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function isActive(href: string) {
+	const normalized = href === '/' ? '/' : href.replace(/\/$/, '') || '/';
+	if (normalized === '/') return pathname === '/';
+	return pathname === normalized || pathname.startsWith(`${normalized}/`);
+}
+---
+
+<header
+	id="site-header"
+	class="site-header is-revealed"
+	data-menu-open="false"
+	data-revealed="true"
+	data-scroll-dir="up"
+	data-over-hero={overHero ? 'true' : 'false'}
+	data-at-top={overHero ? 'true' : 'false'}
+	data-solid={overHero ? 'false' : 'true'}
+>
+	<div class="site-header__bar">
+		<a class="site-header__logo" href={getRouteUrl(locale, 'home')} aria-label={t('a11y.home')}>
+			<span class="site-header__logo-mark">
+				<img class="site-header__logo-img site-header__logo-img--light" src={logoLight.src} width={84} height={70} alt="" />
+				<img class="site-header__logo-img site-header__logo-img--dark" src={logoDark.src} width={84} height={70} alt="" />
+			</span>
+		</a>
+
+		<nav class="site-header__nav site-header__nav--desktop" aria-label={t('a11y.navPrimary')}>
+			{
+				nav.map((item) => {
+					const href = getRouteUrl(locale, item.routeId);
+					return (
+						<a
+							class:list={['site-header__link', { 'is-active': isActive(href) }]}
+							href={href}
+							aria-current={isActive(href) ? 'page' : undefined}
+						>
+							<span class="site-header__link-label">{t(item.key)}</span>
+						</a>
+					);
+				})
+			}
+		</nav>
+
+		<div class="site-header__end">
+			<LanguageSwitcher variant="desktop" />
+
+			<button
+				type="button"
+				class="site-header__toggle"
+				data-menu-toggle
+				aria-expanded="false"
+				aria-controls="mobile-nav"
+				aria-label={t('a11y.openMenu')}
+				data-label-open={t('a11y.openMenu')}
+				data-label-close={t('a11y.closeMenu')}
+			>
+				<span class="site-header__burger" aria-hidden="true">
+					<span class="site-header__line site-header__line--top" />
+					<span class="site-header__line site-header__line--mid" />
+					<span class="site-header__line site-header__line--bot" />
+				</span>
+			</button>
+		</div>
+	</div>
+
+	<div
+		id="mobile-nav"
+		class="site-header__drawer"
+		hidden
+		role="navigation"
+		aria-label={t('a11y.navMobile')}
+	>
+		<nav class="site-header__drawer-inner">
+			{
+				nav.map((item) => {
+					const href = getRouteUrl(locale, item.routeId);
+					return (
+						<a
+							class:list={['site-header__drawer-link', { 'is-active': isActive(href) }]}
+							href={href}
+							aria-current={isActive(href) ? 'page' : undefined}
+						>
+							<span class="site-header__drawer-label">{t(item.key)}</span>
+							<span class="site-header__drawer-chev" aria-hidden="true">→</span>
+						</a>
+					);
+				})
+			}
+			<LanguageSwitcher variant="mobile" />
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		--ink: var(--color-nebula, #1f3a4a);
+		--paper: var(--color-white, #fff);
+		--muted: var(--color-greige, #afa79e);
+		--line: color-mix(in srgb, var(--ink) 12%, transparent);
+		--accent: var(--color-nebula, #1f3a4a);
+		--accent-soft: color-mix(in srgb, var(--accent) 10%, var(--paper));
+		--header-fg: var(--paper);
+		--header-bg: transparent;
+		--header-border: transparent;
+		--header-shadow: none;
+
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		color: var(--header-fg);
+		background: var(--header-bg);
+		border-bottom: 1px solid var(--header-border);
+		box-shadow: var(--header-shadow);
+		opacity: 0;
+		transform: translate3d(0, calc(-100% - 0.4rem), 0);
+		pointer-events: none;
+		will-change: transform, opacity;
+		transition:
+			transform 0.34s cubic-bezier(0.55, 0, 1, 0.45),
+			opacity 0.24s ease,
+			background 0.32s ease,
+			color 0.32s ease,
+			border-color 0.32s ease,
+			box-shadow 0.32s ease;
+	}
+
+	.site-header[data-solid='true'] {
+		--header-fg: var(--ink);
+		--header-bg: var(--paper);
+		--header-border: color-mix(in srgb, var(--ink) 8%, transparent);
+		--header-shadow: 0 4px 24px color-mix(in srgb, var(--ink) 6%, transparent);
+	}
+
+	.site-header.is-revealed {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+		pointer-events: auto;
+	}
+
+	/* Scroll up — blaži ulazak */
+	.site-header[data-scroll-dir='up'] {
+		transition:
+			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+			opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.06s,
+			border-color 0.25s ease;
+	}
+
+	/* Scroll down — brži, suptilan izlazak */
+	.site-header[data-scroll-dir='down'] {
+		transition:
+			transform 0.32s cubic-bezier(0.55, 0, 1, 0.45),
+			opacity 0.2s ease,
+			border-color 0.25s ease;
+	}
+
+	.site-header__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		max-width: 1400px;
+		margin: 0 auto;
+		min-height: 3.5rem;
+		padding: 0.65rem 1.25rem;
+		will-change: transform, opacity;
+		transition:
+			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+			opacity 0.4s ease;
+	}
+
+	.site-header:not(.is-revealed) .site-header__bar {
+		transform: translateY(-0.2rem);
+		opacity: 0.72;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header,
+		.site-header__bar,
+		.site-header__logo-img {
+			transition: none;
+		}
+
+		.site-header:not(.is-revealed) .site-header__bar {
+			transform: none;
+			opacity: 1;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.site-header__bar {
+			padding: 0.65rem 2rem;
+		}
+	}
+
+	.site-header__logo {
+		text-decoration: none;
+		color: inherit;
+		flex-shrink: 0;
+	}
+
+	.site-header__logo-mark {
+		position: relative;
+		display: block;
+		width: clamp(3.25rem, 8vw, 4.25rem);
+		aspect-ratio: 84 / 70;
+		line-height: 0;
+	}
+
+	.site-header__logo-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		border-radius: 0;
+		transition: opacity 0.32s ease;
+	}
+
+	.site-header__logo-img--light {
+		opacity: 1;
+	}
+
+	.site-header__logo-img--dark {
+		opacity: 0;
+	}
+
+	.site-header[data-solid='true'] .site-header__logo-img--light {
+		opacity: 0;
+	}
+
+	.site-header[data-solid='true'] .site-header__logo-img--dark {
+		opacity: 1;
+	}
+
+	/* Desktop navigacija — samo ≥768px */
+	.site-header__nav--desktop {
+		display: none;
+		align-items: center;
+		gap: 0.15rem;
+	}
+
+	@media (min-width: 768px) {
+		.site-header__nav--desktop {
+			display: flex;
+		}
+	}
+
+	.site-header__link {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.45rem 0.65rem;
+		border-radius: 6px;
+		text-decoration: none;
+		color: inherit;
+		font-size: 0.68rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		transition:
+			background 0.18s ease,
+			color 0.18s ease;
+	}
+
+	.site-header__link:hover {
+		background: color-mix(in srgb, currentColor 8%, transparent);
+	}
+
+	.site-header__link.is-active {
+		background: var(--accent-soft);
+		color: var(--header-fg);
+	}
+
+	.site-header[data-solid='true'] .site-header__link.is-active {
+		color: var(--ink);
+	}
+
+	.site-header__link-num {
+		color: color-mix(in srgb, currentColor 72%, var(--muted));
+		font-variant-numeric: tabular-nums;
+		transition: color 0.32s ease;
+	}
+
+	.site-header[data-at-top='true'] .site-header__link-num {
+		color: color-mix(in srgb, var(--paper) 75%, transparent);
+	}
+
+	.site-header__end {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-shrink: 0;
+	}
+
+	/* CTA na desktopu — sakriven na mobilnom */
+	.site-header__cta {
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.5rem 0.85rem;
+		border-radius: 6px;
+		font-size: 0.68rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		border: 1px solid var(--paper);
+		background: transparent;
+		color: var(--paper);
+		transition:
+			background 0.32s ease,
+			border-color 0.32s ease,
+			color 0.32s ease,
+			transform 0.2s ease;
+	}
+
+	.site-header[data-solid='true'] .site-header__cta {
+		border-color: var(--ink);
+		background: var(--ink);
+		color: var(--paper);
+	}
+
+	.site-header__cta:hover {
+		background: color-mix(in srgb, var(--paper) 14%, transparent);
+		border-color: var(--paper);
+		color: var(--paper);
+	}
+
+	.site-header[data-solid='true'] .site-header__cta:hover {
+		background: color-mix(in srgb, var(--ink) 88%, var(--paper));
+		border-color: var(--ink);
+		color: var(--paper);
+	}
+
+	.site-header__cta--desktop {
+		display: none;
+	}
+
+	@media (min-width: 768px) {
+		.site-header__cta--desktop {
+			display: inline-flex;
+		}
+	}
+
+	/* Mobilni CTA u draweru */
+	.site-header__cta--mobile {
+		display: flex;
+		margin-top: 0.5rem;
+		justify-content: center;
+		width: 100%;
+		box-sizing: border-box;
+		border-top: 1px solid var(--line);
+		padding-top: 1rem;
+		border-radius: 0;
+		background: var(--ink);
+		color: var(--paper);
+	}
+
+	.site-header__cta--mobile:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
+	@media (min-width: 768px) {
+		.site-header__cta--mobile {
+			display: none;
+		}
+	}
+
+	.site-header__cta-arrow {
+		opacity: 0.85;
+	}
+
+	/* Hamburger — samo <768px */
+	.site-header__toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.35rem;
+		height: 2.35rem;
+		padding: 0;
+		border: 1px solid color-mix(in srgb, var(--header-fg) 35%, transparent);
+		border-radius: 8px;
+		background: color-mix(in srgb, var(--header-fg) 8%, transparent);
+		color: var(--header-fg);
+		cursor: pointer;
+		transition:
+			border-color 0.32s ease,
+			background 0.32s ease,
+			color 0.32s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.site-header__toggle:hover {
+		border-color: color-mix(in srgb, var(--header-fg) 50%, transparent);
+		box-shadow: 0 2px 10px color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	@media (min-width: 768px) {
+		.site-header__toggle {
+			display: none;
+		}
+	}
+
+	.site-header__burger {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+
+	.site-header__line {
+		display: block;
+		width: 1rem;
+		height: 2px;
+		background: currentColor;
+		border-radius: 2px;
+		transition:
+			transform 0.22s ease,
+			opacity 0.18s ease,
+			background 0.32s ease;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header__line {
+			transition: none;
+		}
+	}
+
+	#site-header[data-menu-open='true'] .site-header__line--top {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	#site-header[data-menu-open='true'] .site-header__line--mid {
+		opacity: 0;
+	}
+
+	#site-header[data-menu-open='true'] .site-header__line--bot {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	/* Drawer — samo mobilno; na desktopu uvek sakriven */
+	.site-header__drawer {
+		display: none;
+		border-top: 1px solid var(--line);
+		background: color-mix(in srgb, var(--paper) 96%, transparent);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		color: var(--ink);
+	}
+
+	@media (max-width: 767px) {
+		#site-header[data-menu-open='true'] .site-header__drawer {
+			display: block;
+			animation: siteHeaderDrawer 0.24s ease-out;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.site-header__drawer {
+			display: none !important;
+		}
+	}
+
+	@keyframes siteHeaderDrawer {
+		from {
+			opacity: 0;
+			transform: translateY(-6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#site-header[data-menu-open='true'] .site-header__drawer {
+			animation: none;
+		}
+	}
+
+	.site-header__drawer-inner {
+		display: flex;
+		flex-direction: column;
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0.35rem 1.25rem 1.25rem;
+	}
+
+	.site-header__drawer-link {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		padding: 0.95rem 0;
+		text-decoration: none;
+		color: inherit;
+		font-size: 0.8rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		border-bottom: 1px solid var(--line);
+		transition: background 0.15s ease;
+	}
+
+	.site-header__drawer-link:hover {
+		background: color-mix(in srgb, var(--ink) 3%, transparent);
+		margin-left: -0.5rem;
+		margin-right: -0.5rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		border-radius: 8px;
+	}
+
+	.site-header__drawer-link.is-active {
+		color: var(--accent);
+	}
+
+	.site-header__drawer-num {
+		font-size: 0.65rem;
+		color: var(--accent);
+		font-variant-numeric: tabular-nums;
+		min-width: 1.5rem;
+	}
+
+	.site-header__drawer-label {
+		flex: 1;
+	}
+
+	.site-header__drawer-chev {
+		color: var(--muted);
+		font-size: 0.85rem;
+	}
+</style>
+
+<script is:inline>
+	function syncHeaderTheme(header, y) {
+		const topZone = 48;
+		const overHero = header.dataset.overHero === 'true';
+
+		if (!overHero) {
+			header.dataset.atTop = 'false';
+			header.dataset.solid = 'true';
+			return;
+		}
+
+		const atTop = y <= topZone;
+		const revealed = y <= topZone || header.dataset.menuOpen === 'true';
+		const solid = !atTop && revealed;
+
+		header.dataset.atTop = atTop ? 'true' : 'false';
+		header.dataset.solid = solid ? 'true' : 'false';
+	}
+
+	function syncHeaderReveal(header) {
+		const topZone = 48;
+		const y = window.scrollY;
+		const revealed = y <= topZone || header.dataset.menuOpen === 'true';
+		if (revealed) header.dataset.scrollDir = 'up';
+		header.classList.toggle('is-revealed', revealed);
+		header.dataset.revealed = revealed ? 'true' : 'false';
+		syncHeaderTheme(header, y);
+		header.dataset.scrollLastY = String(y);
+	}
+
+	function attachHeaderScroll() {
+		const header = document.getElementById('site-header');
+		if (!header) return;
+
+		const scrollThreshold = 10;
+		const topZone = 48;
+
+		function setRevealed(revealed, direction) {
+			if (direction) header.dataset.scrollDir = direction;
+			header.classList.toggle('is-revealed', revealed);
+			header.dataset.revealed = revealed ? 'true' : 'false';
+		}
+
+		function update() {
+			const y = window.scrollY;
+			const lastY = Number(header.dataset.scrollLastY ?? y);
+			const delta = y - lastY;
+
+			if (header.dataset.menuOpen === 'true') {
+				setRevealed(true, 'up');
+				syncHeaderTheme(header, y);
+				header.dataset.scrollLastY = String(y);
+				return;
+			}
+
+			if (y <= topZone) {
+				setRevealed(true, 'up');
+			} else if (delta > scrollThreshold) {
+				setRevealed(false, 'down');
+			} else if (delta < -scrollThreshold) {
+				setRevealed(true, 'up');
+			}
+
+			syncHeaderTheme(header, y);
+			header.dataset.scrollLastY = String(y);
+		}
+
+		if (header.dataset.scrollInit !== '1') {
+			header.dataset.scrollInit = '1';
+			let ticking = false;
+
+			window.addEventListener(
+				'scroll',
+				() => {
+					if (ticking) return;
+					ticking = true;
+					requestAnimationFrame(() => {
+						update();
+						ticking = false;
+					});
+				},
+				{ passive: true },
+			);
+		}
+
+		syncHeaderReveal(header);
+	}
+
+	function attachMobileMenu() {
+		const header = document.getElementById('site-header');
+		const btn = header?.querySelector('[data-menu-toggle]');
+		const panel = header?.querySelector('#mobile-nav');
+		if (!header || !btn || !panel || header.dataset.menuInit === '1') return;
+		header.dataset.menuInit = '1';
+
+		function setOpen(open) {
+			header.dataset.menuOpen = open ? 'true' : 'false';
+			btn.setAttribute('aria-expanded', String(open));
+			btn.setAttribute(
+				'aria-label',
+				open ? btn.dataset.labelClose ?? 'Close menu' : btn.dataset.labelOpen ?? 'Open menu',
+			);
+			panel.hidden = !open;
+			document.body.style.overflow = open ? 'hidden' : '';
+			syncHeaderTheme(header, window.scrollY);
+		}
+
+		btn.addEventListener('click', () => setOpen(header.dataset.menuOpen !== 'true'));
+		panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+		window.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+		matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && setOpen(false));
+	}
+
+	attachHeaderScroll();
+	attachMobileMenu();
+	document.addEventListener('astro:page-load', () => {
+		const header = document.getElementById('site-header');
+		if (header) syncHeaderReveal(header);
+		attachHeaderScroll();
+		attachMobileMenu();
+	});
+</script>

@@ -1,0 +1,11 @@
+---
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+---
+
+<footer>
+	<h2>{t('footer.title')}</h2>
+</footer>

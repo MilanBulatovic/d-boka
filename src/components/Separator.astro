@@ -1,0 +1,35 @@
+---
+type Props = {
+	marginTop?: boolean;
+};
+
+const { marginTop = false } = Astro.props;
+---
+
+<section class:list={['separator', { 'separator--margin-top': marginTop }]}>
+	<div class="separator__inner"></div>
+</section>
+
+<style>
+	.separator__inner {
+		height: 1px;
+		width: 100%;
+		background-color: rgba(31, 58, 74, 0.25);
+		margin-bottom: 7rem;
+	}
+
+	.separator--margin-top .separator__inner {
+		margin-top: 64px;
+	}
+
+	@media (max-width: 768px) {
+		.separator__inner {
+			margin-bottom: 5rem;
+            display: none;
+		}
+
+		.separator--margin-top .separator__inner {
+			margin-top: 32px;
+		}
+	}
+</style>
