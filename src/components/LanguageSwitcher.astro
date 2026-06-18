@@ -23,7 +23,8 @@ function localeHref(target: Locale) {
 	role="group"
 	aria-label={t('a11y.languageSwitcher')}
 >
-	<svg
+	<div class="lang-switcher__inner">
+		<svg
 		class="lang-switcher__icon"
 		width="24"
 		height="24"
@@ -72,88 +73,7 @@ function localeHref(target: Locale) {
 				</li>
 			))
 		}
-	</ul>
+		</ul>
+	</div>
+	{variant === 'mobile' && <p class="lang-switcher__drawer-logo">D One Boka Residence</p>}
 </div>
-
-<style>
-	.lang-switcher {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.45rem 0.75rem;
-		border-radius: 6px;
-		border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-		background: color-mix(in srgb, currentColor 6%, transparent);
-		color: inherit;
-	}
-
-	.lang-switcher--mobile {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		box-sizing: border-box;
-		margin-top: 0.5rem;
-		padding: 0.75rem 1rem;
-		border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
-		border-radius: 0;
-	}
-
-	.lang-switcher__icon {
-		flex-shrink: 0;
-		display: block;
-	}
-
-	.lang-switcher__list {
-		display: flex;
-		align-items: center;
-		gap: 0.15rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.lang-switcher__item {
-		display: flex;
-	}
-
-	.lang-switcher__link {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 2rem;
-		padding: 0.2rem 0.35rem;
-		border-radius: 4px;
-		font-size: 0.68rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-decoration: none;
-		color: color-mix(in srgb, currentColor 72%, transparent);
-		transition:
-			background 0.18s ease,
-			color 0.18s ease;
-	}
-
-	.lang-switcher__link:hover {
-		color: inherit;
-		background: color-mix(in srgb, currentColor 10%, transparent);
-	}
-
-	.lang-switcher__link.is-active {
-		color: inherit;
-		background: color-mix(in srgb, currentColor 14%, transparent);
-	}
-
-	.lang-switcher--desktop {
-		display: none;
-	}
-
-	@media (min-width: 768px) {
-		.lang-switcher--desktop {
-			display: inline-flex;
-		}
-
-		.lang-switcher--mobile {
-			display: none;
-		}
-	}
-</style>

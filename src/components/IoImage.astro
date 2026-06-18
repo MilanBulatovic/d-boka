@@ -11,6 +11,9 @@ interface Props {
 	alt: string;
 	class?: string;
 	sizes?: string;
+	/** Ograničava generisane dimenzije slike (HTML atributi + optimizacija). */
+	width?: number;
+	height?: number;
 	/** Hero / LCP: pravi src odmah u HTML-u (eager + fetchpriority high). Bez ovoga IO čeka viewport — može odložiti LCP. */
 	priority?: boolean;
 	/** @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority */
@@ -22,24 +25,34 @@ const {
 	alt,
 	class: className,
 	sizes = '(max-width: 768px) 100vw, min(72rem, 92vw)',
+	width: widthProp,
+	height: heightProp,
 	priority = false,
 	fetchpriority: fetchpriorityProp,
 } = Astro.props;
 
 const fetchpriority = fetchpriorityProp ?? (priority ? 'high' : 'low');
 
+const displayWidth = widthProp ?? meta.width;
+const displayHeight =
+	heightProp ?? (widthProp ? Math.round(meta.height * (widthProp / meta.width)) : meta.height);
+
 const preset = [480, 720, 960, 1200, 1600];
-const widths = [...new Set([...preset.filter((w) => w <= meta.width), meta.width])].sort((a, b) => a - b);
+const maxOptimizeWidth = widthProp ?? meta.width;
+const widths = [
+	...new Set([...preset.filter((w) => w <= maxOptimizeWidth && w <= meta.width), maxOptimizeWidth, meta.width]),
+].sort((a, b) => a - b);
 
 const optimized = await getImage({
 	src: meta,
 	format: 'webp',
+	...(widthProp ? { width: widthProp, ...(heightProp ? { height: heightProp } : {}) } : {}),
 	widths,
 	sizes,
 });
 
-const w = meta.width;
-const h = meta.height;
+const w = displayWidth;
+const h = displayHeight;
 const svgMarkup =
 	'<svg xmlns="http://www.w3.org/2000/svg" width="' +
 	w +
@@ -62,8 +75,8 @@ const placeholder = 'data:image/svg+xml,' + encodeURIComponent(svgMarkup);
 					src={optimized.src}
 					srcset={optimized.srcSet.attribute}
 					sizes={sizes}
-					width={optimized.attributes.width}
-					height={optimized.attributes.height}
+					width={displayWidth}
+					height={displayHeight}
 					alt={alt}
 					loading="eager"
 					decoding="sync"
@@ -74,8 +87,8 @@ const placeholder = 'data:image/svg+xml,' + encodeURIComponent(svgMarkup);
 				<img
 					class:list={['io-image', className]}
 					src={placeholder}
-					width={optimized.attributes.width}
-					height={optimized.attributes.height}
+					width={displayWidth}
+					height={displayHeight}
 					alt={alt}
 					decoding="async"
 					fetchpriority={fetchpriority}

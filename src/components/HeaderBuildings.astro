@@ -1,0 +1,51 @@
+---
+import { buildings } from '../data/buildings';
+import { type Locale } from '../i18n/config';
+import { getRouteUrl } from '../i18n/routes';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	locale: Locale;
+	variant: 'drawer' | 'dropdown';
+	pathname: string;
+}
+
+const { locale, variant, pathname } = Astro.props;
+const t = useTranslations(locale);
+
+function isActive(href: string) {
+	const normalized = href === '/' ? '/' : href.replace(/\/$/, '') || '/';
+	if (normalized === '/') return pathname === '/';
+	return pathname === normalized || pathname.startsWith(`${normalized}/`);
+}
+
+const itemClass =
+	variant === 'drawer' ? 'site-header__drawer-building' : 'site-header__dropdown-building';
+const imageClass =
+	variant === 'drawer' ? 'site-header__drawer-building-image' : 'site-header__dropdown-building-image';
+const titleClass =
+	variant === 'drawer' ? 'site-header__drawer-building-title' : 'site-header__dropdown-building-title';
+---
+
+{
+	buildings.map((building) => {
+		const href = getRouteUrl(locale, building.routeId);
+		return (
+			<a
+				class:list={[itemClass, { 'is-active': isActive(href) }]}
+				href={href}
+				aria-current={isActive(href) ? 'page' : undefined}
+			>
+				<img
+					class={imageClass}
+					src={building.image.src}
+					width={building.image.width}
+					height={building.image.height}
+					alt={t(`pages.home.buildings.${building.id}.imageAlt`)}
+					loading="lazy"
+				/>
+				<span class={titleClass}>{t(`pages.home.buildings.${building.id}.title`)}</span>
+			</a>
+		);
+	})
+}

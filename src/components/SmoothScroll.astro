@@ -1,0 +1,166 @@
+---
+/** Global Lenis smooth scroll + GSAP ScrollTrigger sync (Astro view transitions safe). */
+---
+
+<script>
+	import Lenis from 'lenis';
+	import 'lenis/dist/lenis.css';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	type SmoothScrollStore = {
+		lenis: Lenis | null;
+		tickerFn: ((time: number) => void) | null;
+		triggers: ScrollTrigger[];
+		bodyObserver: MutationObserver | null;
+		hooked: boolean;
+	};
+
+	type WindowWithSmooth = Window & {
+		__smoothScroll?: SmoothScrollStore;
+	};
+
+	function getStore(): SmoothScrollStore {
+		const win = window as WindowWithSmooth;
+		if (!win.__smoothScroll) {
+			win.__smoothScroll = {
+				lenis: null,
+				tickerFn: null,
+				triggers: [],
+				bodyObserver: null,
+				hooked: false,
+			};
+		}
+		return win.__smoothScroll;
+	}
+
+	function destroySmoothScroll() {
+		const store = getStore();
+
+		for (const trigger of store.triggers) trigger.kill();
+		store.triggers = [];
+
+		if (store.tickerFn) {
+			gsap.ticker.remove(store.tickerFn);
+			store.tickerFn = null;
+		}
+
+		store.bodyObserver?.disconnect();
+		store.bodyObserver = null;
+
+		store.lenis?.destroy();
+		store.lenis = null;
+
+		document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-scrolling');
+	}
+
+	function initHeroReveal(store: SmoothScrollStore) {
+		const hero = document.querySelector<HTMLElement>('.hero--fixed');
+		const spacer = document.querySelector<HTMLElement>('.hero-scroll-spacer');
+		const main = document.querySelector<HTMLElement>('.main--over-hero');
+
+		if (!hero || !spacer || !main) return;
+
+		const heroTween = gsap.fromTo(
+			hero,
+			{ scale: 1, filter: 'brightness(1)' },
+			{
+				scale: 1.05,
+				filter: 'brightness(0.72)',
+				ease: 'none',
+				scrollTrigger: {
+					trigger: spacer,
+					start: 'top top',
+					end: 'bottom top',
+					scrub: 0.9,
+					invalidateOnRefresh: true,
+				},
+			},
+		);
+
+		const mainTween = gsap.fromTo(
+			main,
+			{
+				borderTopLeftRadius: 20,
+				borderTopRightRadius: 20,
+				boxShadow: '0 -6px 28px color-mix(in srgb, #1F3A4A 6%, transparent)',
+			},
+			{
+				borderTopLeftRadius: 8,
+				borderTopRightRadius: 8,
+				boxShadow: '0 -12px 40px color-mix(in srgb, #1F3A4A 10%, transparent)',
+				ease: 'none',
+				scrollTrigger: {
+					trigger: spacer,
+					start: 'top bottom',
+					end: 'bottom top',
+					scrub: 0.95,
+					invalidateOnRefresh: true,
+				},
+			},
+		);
+
+		for (const tween of [heroTween, mainTween]) {
+			const trigger = tween.scrollTrigger;
+			if (trigger) store.triggers.push(trigger);
+		}
+	}
+
+	function initSmoothScroll() {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		destroySmoothScroll();
+
+		const store = getStore();
+		const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+		const lenis = new Lenis({
+			lerp: isCoarsePointer ? 0.12 : 0.085,
+			duration: isCoarsePointer ? 1.1 : 1.35,
+			smoothWheel: true,
+			touchMultiplier: 1.15,
+			autoRaf: false,
+			anchors: true,
+		});
+
+		store.lenis = lenis;
+
+		lenis.on('scroll', ScrollTrigger.update);
+
+		const tickerFn = (time: number) => {
+			lenis.raf(time * 1000);
+		};
+
+		store.tickerFn = tickerFn;
+		gsap.ticker.add(tickerFn);
+		gsap.ticker.lagSmoothing(0);
+
+		const bodyObserver = new MutationObserver(() => {
+			if (document.body.style.overflow === 'hidden') lenis.stop();
+			else lenis.start();
+		});
+
+		bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+		store.bodyObserver = bodyObserver;
+
+		initHeroReveal(store);
+		ScrollTrigger.refresh();
+	}
+
+	function scheduleInit() {
+		requestAnimationFrame(() => {
+			requestAnimationFrame(initSmoothScroll);
+		});
+	}
+
+	scheduleInit();
+
+	const store = getStore();
+	if (!store.hooked) {
+		store.hooked = true;
+		document.addEventListener('astro:page-load', scheduleInit);
+		document.addEventListener('astro:before-swap', destroySmoothScroll);
+	}
+</script>

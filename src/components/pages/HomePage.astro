@@ -15,10 +15,10 @@ import { useTranslations } from '../../i18n/utils';
 import Separator from '../Separator.astro';
 import SectionHeading from '../SectionHeading.astro';
 import SplitBuilding from '../SplitBuilding.astro';
-import building1 from '../../assets/b1.jpg';
-import building2 from '../../assets/b2.jpg';
+import { buildings } from '../../data/buildings';
 import ApartmentSlider from '../ApartmentSlider.astro';
 import ValuesScroll from '../ValuesScroll.astro';
+import BenefitsSection from '../BenefitsSection.astro';
 
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
@@ -48,20 +48,13 @@ const t = useTranslations(locale);
 			
 
 				<SplitBuilding
-				buildings={[
-					{
-						title: t('pages.home.buildings.building1.title'),
-						description: t('pages.home.buildings.building1.description'),
-						image: building1,
-						alt: t('pages.home.buildings.building1.imageAlt'),
-					},
-					{
-						title: t('pages.home.buildings.building2.title'),
-						description: t('pages.home.buildings.building2.description'),
-						image: building2,
-						alt: t('pages.home.buildings.building2.imageAlt'),
-					},
-				]}
+				buildings={buildings.map((building) => ({
+					title: t(`pages.home.buildings.${building.id}.title`),
+					description: t(`pages.home.buildings.${building.id}.description`),
+					image: building.image,
+					alt: t(`pages.home.buildings.${building.id}.imageAlt`),
+					href: getRouteUrl(locale, building.routeId),
+				}))}
 			/>
 
 				<SectionHeading
@@ -76,7 +69,9 @@ const t = useTranslations(locale);
 			<ApartmentSlider locale={locale} />
 
 			<ValuesScroll locale={locale} />
-			
+
+			<BenefitsSection locale={locale} />
+
 		</main>
 	<Footer/>
 </Layout>

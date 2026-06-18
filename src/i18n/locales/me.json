@@ -4,6 +4,7 @@
 	},
 	"nav": {
 		"home": "Početna",
+		"residencies": "Rezidencije",
 		"about": "O nama",
 		"contact": "Kontakt"
 	},
@@ -54,6 +55,25 @@
 					{ "word": "Prostor", "tagline": "Dizajniran da diše" },
 					{ "word": "Perspektiva", "tagline": "Pogledi koji ostaju s vama" }
 				]
+			},
+			"benefits": {
+				"label": "Prednosti",
+				"title": "Osmišljeno za udobnost i privatnost",
+				"imageAlt": "Moderan enterijer sa trpezarijom i kuhinjom",
+				"columns": {
+					"left": [
+						"Panoramski pogled na Boku",
+						"Vanjski bazen",
+						"Privatni parking",
+						"Pristup liftom"
+					],
+					"right": [
+						"Materijali vrhunskog kvaliteta",
+						"Prostrane terase",
+						"Mirno stambeno okruženje",
+						"Završetak 2027. godine"
+					]
+				}
 			}
 		},
 		"about": {

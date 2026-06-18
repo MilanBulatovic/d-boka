@@ -5,6 +5,8 @@ export const routes = {
 	home: { en: '', me: 'pocetna' },
 	about: { en: 'about', me: 'o-nama' },
 	contact: { en: 'contact', me: 'kontakt' },
+	building1: { en: 'building-1', me: 'zgrada-1' },
+	building2: { en: 'building-2', me: 'zgrada-2' },
 } as const;
 
 export type RouteId = keyof typeof routes;

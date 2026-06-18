@@ -4,6 +4,7 @@
 	},
 	"nav": {
 		"home": "Home",
+		"residencies": "Residencies",
 		"about": "About",
 		"contact": "Contact"
 	},
@@ -54,6 +55,25 @@
 					{ "word": "Space", "tagline": "Designed to breathe" },
 					{ "word": "Perspective", "tagline": "Views that stay with you" }
 				]
+			},
+			"benefits": {
+				"label": "Benefits",
+				"title": "Crafted for Comfort & Privacy",
+				"imageAlt": "Modern interior with dining area and kitchen",
+				"columns": {
+					"left": [
+						"Panoramic Bay Views",
+						"Outdoor Swimming Pool",
+						"Private Parking",
+						"Elevator Access"
+					],
+					"right": [
+						"Premium Quality Materials",
+						"Spacious Terraces",
+						"Peaceful Residential Setting",
+						"Completion in 2027"
+					]
+				}
 			}
 		},
 		"about": {

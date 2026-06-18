@@ -86,30 +86,32 @@ const t = useTranslations(locale);
 		const root = document.getElementById('site-hero');
 		if (!root) return;
 
+		const container = root.querySelector<HTMLElement>('.hero__container');
 		const title = root.querySelector<HTMLElement>('.hero__title');
-		if (!title) return;
+		if (!container || !title) return;
 
 		const lines = splitTitleIntoLines(title);
 		const copy = root.querySelectorAll<HTMLElement>('.hero__description');
-		const animated = [root, ...lines, ...copy];
+		const animated = [container, ...lines, ...copy];
 
 		heroTimeline?.kill();
 		gsap.killTweensOf(animated);
 
-		gsap.set(root, { opacity: 0, y: -22 });
+		gsap.set(root, { opacity: 0 });
+		gsap.set(container, { y: -22 });
 		gsap.set(lines, { opacity: 0, y: 18 });
 		gsap.set(copy, { opacity: 0, y: 18 });
 
 		heroTimeline = gsap.timeline({
 			onComplete: () => {
-				gsap.set(root, { clearProps: 'transform' });
+				gsap.set(container, { clearProps: 'transform' });
 				gsap.set([...lines, ...copy], { clearProps: 'transform' });
 				heroTimeline = null;
 			},
 		});
 
 		heroTimeline.to(root, { opacity: 1, duration: 1.35, ease: 'sine.out' }, 0);
-		heroTimeline.to(root, { y: 0, duration: 0.85, ease: 'power3.out' }, 0);
+		heroTimeline.to(container, { y: 0, duration: 0.85, ease: 'power3.out' }, 0);
 
 		/* Naslov: red po red (stagger), pa opcioni opis ispod. */
 		const textStart = 0.32;
