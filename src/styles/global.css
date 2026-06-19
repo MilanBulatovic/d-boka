@@ -1,6 +1,4 @@
 /* Global tokens — koristi ih na stranicama van headera */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
 
 @font-face {
 	font-family: 'Euclid Circular A';
@@ -331,11 +329,19 @@ main.main--over-hero + footer {
 	--header-border: transparent;
 	--header-shadow: none;
 	--header-bar-height: calc(3.5rem + 1.3rem);
+	--header-padding-y: 12px;
 	color: var(--header-fg);
 	background: var(--header-bg);
 	border-bottom: 1px solid var(--header-border);
 	box-shadow: var(--header-shadow);
-	font-family: 'IBM Plex Mono', ui-monospace, monospace;
+	font-family: var(--font-sans);
+	font-size: 18px;
+	padding-block: var(--header-padding-y);
+	box-sizing: border-box;
+}
+
+#site-header .site-header__bar {
+	padding-block: 0;
 }
 
 #site-header[data-solid='true'] {
@@ -417,7 +423,8 @@ main.main--over-hero + footer {
 	min-width: 2rem;
 	padding: 0.2rem 0.35rem;
 	border-radius: 4px;
-	font-size: 1.125rem;
+	font-family: var(--font-sans);
+	font-size: 18px;
 	font-weight: 400;
 	letter-spacing: 0.08em;
 	text-decoration: none;
@@ -431,6 +438,20 @@ main.main--over-hero + footer {
 	background: color-mix(in srgb, currentColor 10%, transparent);
 }
 
+#site-header .site-header__nav--desktop,
+#site-header .site-header__link,
+#site-header .site-header__link-label,
+#site-header .site-header__end,
+#site-header .lang-switcher,
+#site-header .lang-switcher__inner,
+#site-header .lang-switcher__link {
+	font-family: var(--font-sans);
+	font-size: 18px;
+}
+
+.site-header__link-label span {
+	font-family: inherit;
+}
 @media (min-width: 768px) {
 	#site-header .site-header__nav--desktop {
 		display: flex;
@@ -443,9 +464,9 @@ main.main--over-hero + footer {
 		align-items: center;
 		gap: 0.4rem;
 		padding: 0.45rem 0.65rem;
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
-		font-size: 18px;
+		font-family: var(--font-sans);
 		font-weight: 400;
+		font-size: 18px;
 		text-transform: uppercase;
 		letter-spacing: 0.12em;
 		text-decoration: none;
@@ -476,7 +497,11 @@ main.main--over-hero + footer {
 		border: none;
 		background: transparent;
 		cursor: pointer;
-		font: inherit;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: 18px;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
 	}
 
 	#site-header .site-header__dropdown {
@@ -511,7 +536,6 @@ main.main--over-hero + footer {
 		padding: 1rem;
 		background: var(--paper);
 		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
-		border-radius: 8px;
 		box-shadow: 0 12px 40px color-mix(in srgb, var(--ink) 12%, transparent);
 	}
 
@@ -527,7 +551,6 @@ main.main--over-hero + footer {
 		aspect-ratio: 16 / 9;
 		height: auto;
 		object-fit: cover;
-		border-radius: 4px;
 	}
 
 	#site-header .site-header__dropdown-building-title {
@@ -681,7 +704,7 @@ main.main--over-hero + footer {
 	#mobile-nav .site-header__drawer-link {
 		text-decoration: none;
 		color: var(--color-nebula);
-		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-family: var(--font-sans);
 		font-size: 18px;
 		font-weight: 400;
 		text-transform: uppercase;

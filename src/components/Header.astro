@@ -43,6 +43,7 @@ const residenciesActive = buildings.some((building) =>
 <header
 	id="site-header"
 	class="site-header is-revealed"
+	transition:persist="site-header"
 	data-menu-open="false"
 	data-revealed="true"
 	data-scroll-dir="up"
@@ -195,7 +196,7 @@ const residenciesActive = buildings.some((building) =>
 	</div>
 </header>
 
-<style>
+<style is:global>
 	.site-header {
 		--line: color-mix(in srgb, var(--ink) 12%, transparent);
 		--accent: var(--color-nebula, #1f3a4a);
@@ -252,7 +253,7 @@ const residenciesActive = buildings.some((building) =>
 		max-width: 1700px;
 		margin: 0 auto;
 		min-height: 3.5rem;
-		padding: 0.65rem 1.25rem;
+		padding: 0;
 		will-change: transform, opacity;
 		transition:
 			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -500,11 +501,24 @@ const residenciesActive = buildings.some((building) =>
 </style>
 
 <script is:inline>
+	const HEADER_PADDING_Y = '12px';
+
+	function enforceHeaderLayout(header) {
+		if (!header) return;
+		header.style.setProperty('padding-top', HEADER_PADDING_Y);
+		header.style.setProperty('padding-bottom', HEADER_PADDING_Y);
+		const bar = header.querySelector('.site-header__bar');
+		if (bar) {
+			bar.style.setProperty('padding-top', '0');
+			bar.style.setProperty('padding-bottom', '0');
+		}
+		header.style.setProperty('--header-bar-height', `${header.offsetHeight}px`);
+	}
+
 	function syncHeaderBarHeight() {
 		const header = document.getElementById('site-header');
-		const bar = header?.querySelector('.site-header__bar');
-		if (!header || !bar) return;
-		header.style.setProperty('--header-bar-height', `${bar.offsetHeight}px`);
+		if (!header) return;
+		enforceHeaderLayout(header);
 	}
 
 	function syncHeaderTheme(header, y) {
@@ -662,17 +676,57 @@ const residenciesActive = buildings.some((building) =>
 		requestAnimationFrame(syncHeaderBarHeight);
 	}
 
+	function syncHeaderSection(incoming, header, selector) {
+		const newEl = incoming.querySelector(selector);
+		const oldEl = header.querySelector(selector);
+		if (newEl && oldEl) oldEl.innerHTML = newEl.innerHTML;
+	}
+
+	function syncHeaderFromIncomingPage(event) {
+		const incoming = event.newDocument?.getElementById('site-header');
+		const header = document.getElementById('site-header');
+		if (!incoming || !header) return;
+
+		header.dataset.overHero = incoming.dataset.overHero ?? 'false';
+		header.dataset.atTop = incoming.dataset.atTop ?? 'false';
+
+		const newLogo = incoming.querySelector('.site-header__logo');
+		const oldLogo = header.querySelector('.site-header__logo');
+		if (newLogo && oldLogo) {
+			const href = newLogo.getAttribute('href');
+			if (href) oldLogo.setAttribute('href', href);
+			const label = newLogo.getAttribute('aria-label');
+			if (label) oldLogo.setAttribute('aria-label', label);
+		}
+
+		syncHeaderSection(incoming, header, '.site-header__nav--desktop');
+		syncHeaderSection(incoming, header, '.site-header__drawer-nav');
+		syncHeaderSection(incoming, header, '.site-header__drawer-buildings');
+
+		const newEnd = incoming.querySelector('.site-header__end');
+		const oldEnd = header.querySelector('.site-header__end');
+		if (newEnd && oldEnd) oldEnd.innerHTML = newEnd.innerHTML;
+
+		enforceHeaderLayout(header);
+	}
+
 	function syncHeaderAfterNavigation() {
 		const header = document.getElementById('site-header');
 		if (!header) return;
-		syncHeaderTheme(header, window.scrollY);
+		enforceHeaderLayout(header);
+		syncHeaderReveal(header);
+	}
+
+	function onBeforeSwap(event) {
+		resetMobileMenu();
+		syncHeaderFromIncomingPage(event);
 	}
 
 	attachMobileMenu();
 	initHeader();
 
 	window.addEventListener('resize', syncHeaderBarHeight, { passive: true });
-	document.addEventListener('astro:before-swap', resetMobileMenu);
+	document.addEventListener('astro:before-swap', onBeforeSwap);
 	document.addEventListener('astro:after-swap', syncHeaderAfterNavigation);
 	document.addEventListener('astro:page-load', initHeader);
 </script>

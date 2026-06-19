@@ -81,8 +81,26 @@
 			"placeholder": "About page content goes here."
 		},
 		"contact": {
-			"title": "Contact",
-			"placeholder": "Contact page content goes here."
+			"label": "Contact",
+			"title": "Let's Connect",
+			"mapAlt": "Map of the Bay of Kotor region",
+			"buildingAlt": "D One Boka Residence — exterior rendering",
+			"visit": {
+				"label": "Visit",
+				"value": "Dobrota, Daošine 85330, Montenegro"
+			},
+			"call": {
+				"label": "Call",
+				"value": "+382 67 526 240"
+			},
+			"write": {
+				"label": "Write",
+				"value": "sales@doneboka.me"
+			},
+			"follow": {
+				"label": "Follow",
+				"value": "Instagram"
+			}
 		}
 	},
 	"footer": {

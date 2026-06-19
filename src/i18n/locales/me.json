@@ -81,8 +81,26 @@
 			"placeholder": "Ovdje ide sadržaj stranice O nama."
 		},
 		"contact": {
-			"title": "Kontakt",
-			"placeholder": "Ovdje ide sadržaj stranice Kontakt."
+			"label": "Kontakt",
+			"title": "Povežimo se",
+			"mapAlt": "Mapa Boke Kotorske",
+			"buildingAlt": "D One Boka Residence — eksterijer",
+			"visit": {
+				"label": "Posjetite",
+				"value": "Dobrota, Daošine 85330, Crna Gora"
+			},
+			"call": {
+				"label": "Pozovite",
+				"value": "+382 67 526 240"
+			},
+			"write": {
+				"label": "Pišite",
+				"value": "sales@doneboka.me"
+			},
+			"follow": {
+				"label": "Pratite",
+				"value": "Instagram"
+			}
 		}
 	},
 	"footer": {

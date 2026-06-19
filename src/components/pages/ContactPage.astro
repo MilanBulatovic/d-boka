@@ -4,20 +4,303 @@
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import Layout from '../../layouts/Layout.astro';
+import SectionHeading from '../SectionHeading.astro';
+import mapImage from '../../assets/map.png';
+import buildingImage from '../../assets/contact.webp';
 import { type Locale } from '../../i18n/config';
 import { useTranslations } from '../../i18n/utils';
 
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
+
+const contactItems: ReadonlyArray<{
+	labelKey: string;
+	valueKey: string;
+	href?: string;
+	external?: boolean;
+}> = [
+	{ labelKey: 'pages.contact.visit.label', valueKey: 'pages.contact.visit.value' },
+	{ labelKey: 'pages.contact.call.label', valueKey: 'footer.phone', href: 'tel:+38267526240' },
+	{ labelKey: 'pages.contact.write.label', valueKey: 'footer.email', href: 'mailto:sales@doneboka.me' },
+	{
+		labelKey: 'pages.contact.follow.label',
+		valueKey: 'footer.social',
+		href: t('footer.socialUrl'),
+		external: true,
+	},
+];
 ---
 
 <Layout>
 	<Header overHero={false} />
 
-	<main>
-		<h1>{t('pages.contact.title')}</h1>
-		<p>{t('pages.contact.placeholder')}</p>
+	<main class="contact-page">
+		<div class="contact-page__grid container">
+			<div class="contact-page__left">
+				<div class="contact-page__heading">
+					<SectionHeading
+						label={t('pages.contact.label')}
+						title={t('pages.contact.title')}
+						align="left"
+					/>
+				</div>
+			</div>
+
+			<div class="contact-page__map">
+				<img
+					class="contact-page__map-img"
+					src={mapImage.src}
+					width={mapImage.width}
+					height={mapImage.height}
+					alt={t('pages.contact.mapAlt')}
+					loading="eager"
+					decoding="async"
+					fetchpriority="high"
+				/>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="contact-page__building">
+				<img
+					class="contact-page__building-img"
+					src={buildingImage.src}
+					width="668p"
+					height="360px"
+					alt={t('pages.contact.buildingAlt')}
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="contact-page__building-content">
+					<ul class="contact-page__contacts">
+						{
+							contactItems.map((item) => (
+								<li class="contact-page__contact">
+									<div class="contact-page__contact-line-container">
+										<span class="contact-page__contact-label">{t(item.labelKey)}</span>
+										<span class="contact-page__contact-line" aria-hidden="true"></span>
+									</div>
+									{item.href ? (
+										<a
+											class="contact-page__contact-value"
+											href={item.href}
+											{...(item.external
+												? { target: '_blank', rel: 'noopener noreferrer' }
+												: {})}
+										>
+											{t(item.valueKey)}
+										</a>
+									) : (
+										<span class="contact-page__contact-value">{t(item.valueKey)}</span>
+									)}
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
 	</main>
 
 	<Footer />
 </Layout>
+
+<style>
+	.contact-page {
+		padding: 0;
+		margin: 0;
+		padding-top: 80px;
+	}
+
+	.contact-page__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+		align-items: stretch;
+		width: 100%;
+	}
+	.contact-page__grid.container {
+		padding-right:0;
+	}
+
+	.contact-page__left {
+		display: flex;
+		flex-direction: column;
+		background: var(--color-white);
+		padding-top: 128px;
+		min-width: 0;
+	}
+
+	.contact-page__building {
+		position: relative;
+		max-width: 1140px;
+		height:545px;
+		width: 100%;
+		background: color-mix(in srgb, var(--color-nebula) 72%, transparent);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		padding: 80px;
+		margin-top: -400px;
+	}
+
+	.contact-page__building-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+		transform: translateY(-200px);
+		max-width: 668px;
+		height: 360px;
+	}
+
+	.contact-page__building-content {
+		position: relative;
+		z-index: 2;
+		margin-top: -100px;
+	}
+
+	.contact-page__contacts {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 2.5rem 3rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.contact-page__contact {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		min-width: 0;
+	}
+
+	.contact-page__contact-label {
+		font-family: var(--font-accent);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1;
+		color: var(--color-white);
+		white-space: nowrap;
+	}
+
+	.contact-page__contact-line-container {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-shrink: 0;
+	}
+
+	.contact-page__contact-line {
+		flex-shrink: 0;
+		height: 2px;
+		width: 65px;
+		background: var(--color-white);
+	}
+
+	.contact-page__contact-value {
+		flex-shrink: 0;
+		font-family: var(--font-sans);
+		font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+		line-height: 1.4;
+		color: var(--color-white);
+		text-decoration: none;
+	}
+
+	a.contact-page__contact-value:hover {
+		opacity: 0.85;
+	}
+
+	.contact-page__map {
+		position: relative;
+		padding-top: 0;
+		overflow: hidden;
+		min-width: 0;
+		width: 100%;
+		max-width: 1000px;
+	}
+
+	.contact-page__map-img {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: 960px;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	@media (max-width: 1024px) {
+		.contact-page__grid.container {
+		
+			padding-left:0;
+		}
+		.contact-page__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-page__left {
+			order: 1;
+			padding-top: 40px;
+			padding-left: 32px;
+		}
+
+		.contact-page__map {
+			order: 2;
+			max-width: none;
+		}
+
+		.contact-page__map-img {
+			max-width: none;
+			height: 400px;
+		}
+
+		.contact-page__building {
+			margin-top: 0;
+			height: auto;
+			max-width: 90%;
+			padding: 48px 32px 32px;
+		}
+
+		.contact-page__building-img {
+			transform: translateY(-48px);
+			z-index: -1;
+			max-width: 310px;
+			height: 200px;
+			position: absolute;
+			right: -30px;
+			top: -50px;
+		}
+
+		.contact-page__building-content {
+			margin-top: -28px;
+			padding-top:128px;
+		}
+
+		.contact-page__contacts {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.contact-page__contact {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1rem;
+		}
+
+		.contact-page__contact-line-container {
+			width: 100%;
+		}
+
+		.contact-page__contact-label {
+			font-size: 48px;
+			order: 2;
+		}
+
+		.contact-page__contact-line {
+			order: 1;
+		}
+
+		.contact-page__contact-value {
+			font-size: 17px;
+		}
+	}
+</style>
