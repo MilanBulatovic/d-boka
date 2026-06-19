@@ -86,7 +86,22 @@
 		}
 	},
 	"footer": {
-		"title": "Footer"
+		"label": "Contact",
+		"title": "Get In Touch",
+		"emailLabel": "Email Address:",
+		"email": "sales@doneboka.me",
+		"phoneLabel": "Phone Number:",
+		"phone": "+382 67 526 240",
+		"socialLabel": "Social Media:",
+		"social": "Instagram",
+		"socialUrl": "https://www.instagram.com/",
+		"brand": "D One Boka Residence",
+		"nav": {
+			"home": "Homepage",
+			"residencies": "Residencies",
+			"about": "About Us",
+			"contact": "Contact"
+		}
 	},
 	"a11y": {
 		"home": "Home",

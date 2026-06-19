@@ -86,7 +86,22 @@
 		}
 	},
 	"footer": {
-		"title": "Podnožje"
+		"label": "Kontakt",
+		"title": "Stupite u kontakt",
+		"emailLabel": "Email adresa:",
+		"email": "sales@doneboka.me",
+		"phoneLabel": "Broj telefona:",
+		"phone": "+382 67 526 240",
+		"socialLabel": "Društvene mreže:",
+		"social": "Instagram",
+		"socialUrl": "https://www.instagram.com/",
+		"brand": "D One Boka Residence",
+		"nav": {
+			"home": "Početna",
+			"residencies": "Rezidencije",
+			"about": "O nama",
+			"contact": "Kontakt"
+		}
 	},
 	"a11y": {
 		"home": "Početna",

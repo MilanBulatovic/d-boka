@@ -118,7 +118,7 @@ svg {
 	max-width: 100%;
 	height: auto;
 	margin: 0;
-	border-radius: var(--radius);
+	/* border-radius: var(--radius); */
 }
 
 a {
@@ -267,7 +267,6 @@ main.main--over-hero {
 main.main--over-hero + footer {
 	position: relative;
 	z-index: 1;
-	background-color: var(--color-white);
 }
 
 .hero-image {

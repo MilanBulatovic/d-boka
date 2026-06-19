@@ -1,11 +1,328 @@
 ---
+import footerBg from '../assets/footer-bg.webp';
+import SectionHeading from './SectionHeading.astro';
 import { type Locale } from '../i18n/config';
+import { getRouteUrl, type RouteId } from '../i18n/routes';
 import { useTranslations } from '../i18n/utils';
-
+import Separator from './Separator.astro';
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
+
+const nav: ReadonlyArray<{ routeId: RouteId; key: string }> = [
+	{ routeId: 'home', key: 'footer.nav.home' },
+	{ routeId: 'building1', key: 'footer.nav.residencies' },
+	{ routeId: 'about', key: 'footer.nav.about' },
+	{ routeId: 'contact', key: 'footer.nav.contact' },
+];
 ---
 
-<footer>
-	<h2>{t('footer.title')}</h2>
+<footer class="site-footer">
+	<div class="site-footer__wrapper">
+		<div class="site-footer__banner" aria-hidden="true">
+			<img
+				class="site-footer__banner-img"
+				src={footerBg.src}
+				width={footerBg.width}
+				height={footerBg.height}
+				alt=""
+				loading="lazy"
+				decoding="async"
+			/>
+		</div>
+
+		<div class="site-footer__main">
+			<p class="site-footer__brand" aria-hidden="true">{t('footer.brand')}</p>
+		</div>
+
+		<div class="site-footer__overlay">
+			<div class="site-footer__heading-box">
+				<SectionHeading
+					label={t('footer.label')}
+					title={t('footer.title')}
+					align="left"
+				/>
+				<span class="site-footer__arrow" aria-hidden="true">
+					<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M17.2929 21.2929C16.9024 21.6834 16.9024 22.3166 17.2929 22.7071C17.6834 23.0976 18.3166 23.0976 18.7071 22.7071L18 22L17.2929 21.2929ZM40 1C40 0.447716 39.5523 3.73706e-07 39 1.20825e-07L30 -4.27084e-07C29.4477 5.84441e-07 29 0.447715 29 1C29 1.55229 29.4477 2 30 2L38 2L38 10C38 10.5523 38.4477 11 39 11C39.5523 11 40 10.5523 40 10L40 1ZM18 22L18.7071 22.7071L39.7071 1.70711L39 1L38.2929 0.292894L17.2929 21.2929L18 22Z"
+							fill="white"
+						/>
+					</svg>
+				</span>
+			</div>
+
+			<div class="site-footer__contact">
+				<p class="site-footer__contact-line">
+					{t('footer.emailLabel')}
+					<a class="site-footer__contact-link" href={`mailto:${t('footer.email')}`}>
+						{t('footer.email')}
+					</a>
+				</p>
+				<p class="site-footer__contact-line">
+					{t('footer.phoneLabel')}
+					<a class="site-footer__contact-link" href="tel:+38267526240">
+						{t('footer.phone')}
+					</a>
+				</p>
+				<p class="site-footer__contact-line">
+					{t('footer.socialLabel')}
+					<a
+						class="site-footer__contact-link"
+						href={t('footer.socialUrl')}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{t('footer.social')}
+					</a>
+				</p>
+			</div>
+
+			<Separator />
+
+			<nav class="site-footer__nav" aria-label={t('a11y.navPrimary')}>
+				{
+					nav.map((item) => {
+						const href = getRouteUrl(locale, item.routeId);
+						return (
+							<a class="site-footer__nav-link" href={href}>
+								{t(item.key)}
+							</a>
+						);
+					})
+				}
+			</nav>
+		</div>
+	</div>
 </footer>
+
+<style>
+	.site-footer {
+		background: var(--color-white);
+		padding-top: 120px;
+	}
+
+	.site-footer__wrapper {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.site-footer__banner {
+		width: 100%;
+		height: 550px;
+		overflow: hidden;
+	}
+
+	.site-footer__banner-img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.site-footer__main {
+		position: relative;
+		width: 100%;
+		height: 733px;
+		background-color: var(--color-nebula);
+		color: var(--color-white);
+		overflow: hidden;
+	}
+
+	.site-footer__brand {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: 0;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-style: normal;
+		font-size: clamp(38px, 10vw, 190px);
+		line-height: 120%;
+		letter-spacing: 0;
+		color: rgba(255, 255, 255, 0.5);
+		text-align: center;
+		white-space: nowrap;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.site-footer__overlay {
+		position: absolute;
+		max-width: 1000px;
+		width: 100%;
+		height: 600px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: flex-start;
+		background: color-mix(in srgb, var(--color-nebula) 72%, transparent);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	.site-footer__overlay :global(.separator) {
+		width: 100%;
+		align-self: stretch;
+		padding: 20px 32px;
+		display: none;
+	}
+
+	.site-footer__overlay :global(.separator__inner) {
+		width: %;
+		height: 1px;
+		margin: 0;
+		display: block;
+		background-color: #FFFFFF1A;
+		
+	}
+
+	.site-footer__heading-box {
+		position: relative;
+		width: 100%;
+		padding: 3rem 2.5rem 2.5rem;
+	
+	}
+
+	.site-footer__heading-box :global(.section-heading__label) {
+		color: var(--color-white);
+	}
+
+	.site-footer__heading-box :global(.section-heading__line) {
+		background-color: var(--color-white);
+	}
+
+	.site-footer__heading-box :global(.section-heading__title) {
+		color: var(--color-white);
+	}
+
+	.site-footer__arrow {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+		display: inline-flex;
+		opacity: 0.9;
+	}
+
+	.site-footer__contact {
+		align-self: flex-end;
+		margin-top: 2.5rem;
+		text-align: right;
+		padding: 3rem 2.5rem 2.5rem;
+	}
+
+	.site-footer__contact-line {
+		margin: 0 0 0.5rem;
+		font-family: var(--font-sans);
+		font-size: 20px;
+		line-height: 140%;
+		color: var(--color-white);
+	}
+
+	.site-footer__contact-line:last-child {
+		margin-bottom: 0;
+	}
+
+	.site-footer__contact-link {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.site-footer__contact-link:hover {
+		opacity: 0.85;
+	}
+
+	.site-footer__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 2rem;
+		margin-top: 2.5rem;
+		padding-right:48px;
+	}
+
+	.site-footer__nav-link {
+		font-family: var(--font-sans);
+		font-size: 20px;
+		line-height: 1.25;
+		color: var(--color-white);
+		text-decoration: none;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+	}
+
+	.site-footer__nav-link:hover {
+		opacity: 0.85;
+	}
+
+	@media (max-width: 768px) {
+		.site-footer__banner {
+			height: 300px;
+		}
+
+		.site-footer__main {
+			height: auto;
+			min-height: 28rem;
+			padding-bottom: 5rem;
+		}
+
+		.site-footer__overlay {
+			max-width: 90%;
+			align-items: center;
+			height: auto;
+			top:150px;
+		}
+
+		.site-footer__heading-box {
+			padding: 48px 32px 0 32px;
+		}
+
+		.site-footer__arrow {
+			top: 1.25rem;
+			right: 1.25rem;
+		}
+
+		.site-footer__arrow svg {
+			width: 28px;
+			height: 28px;
+		}
+
+		.site-footer__contact {
+			align-self: stretch;
+			margin-top: 0;
+			text-align: left;
+			padding:32px;
+		}
+
+		.site-footer__contact-line {
+			font-size: 17px;
+		}
+
+		.site-footer__nav {
+			flex-direction: column;
+			gap: 1rem;
+			margin-top: 2rem;
+			justify-content: center;
+			align-items: center;
+			padding:0;
+			
+		}
+
+		.site-footer__nav-link {
+			font-size: 17px;
+		}
+
+		.site-footer__overlay :global(.separator) {
+		
+			display: block;
+		}
+	
+	}
+</style>
