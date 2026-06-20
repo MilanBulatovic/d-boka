@@ -1,0 +1,106 @@
+---
+---
+<div class="building-apartments-scroll" data-building-apartments-scroll>
+	<slot />
+</div>
+
+<script>
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	type WindowWithStack = Window & {
+		__buildingApartmentsScrollHooked?: boolean;
+		__buildingApartmentsScrollTriggers?: ScrollTrigger[];
+	};
+
+	function getTriggerStore() {
+		const win = window as WindowWithStack;
+		if (!win.__buildingApartmentsScrollTriggers) win.__buildingApartmentsScrollTriggers = [];
+		return win.__buildingApartmentsScrollTriggers;
+	}
+
+	function killBuildingApartmentsScrollTriggers() {
+		const store = getTriggerStore();
+		for (const trigger of store) trigger.kill();
+		store.length = 0;
+
+		document.querySelectorAll<HTMLElement>('[data-building-apartments-scroll]').forEach((wrapper) => {
+			delete wrapper.dataset.buildingApartmentsReady;
+			wrapper.querySelectorAll<HTMLElement>('.building-apartment').forEach((panel) => {
+				gsap.set(panel, { clearProps: 'zIndex,transform' });
+			});
+		});
+	}
+
+	function initBuildingApartmentsScroll() {
+		killBuildingApartmentsScrollTriggers();
+
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+
+		document.querySelectorAll<HTMLElement>('[data-building-apartments-scroll]').forEach((wrapper) => {
+			if (wrapper.dataset.buildingApartmentsReady === 'true') return;
+
+			const panels = gsap.utils.toArray<HTMLElement>('.building-apartment', wrapper);
+			if (panels.length < 2 || reducedMotion || isMobile) {
+				wrapper.dataset.buildingApartmentsReady = 'true';
+				return;
+			}
+
+			const lastPanel = panels[panels.length - 1];
+
+			panels.forEach((panel, index) => {
+				gsap.set(panel, { zIndex: index + 1 });
+
+				const pinTrigger = ScrollTrigger.create({
+					trigger: panel,
+					start: 'top top',
+					pin: true,
+					pinSpacing: index === panels.length - 1,
+					endTrigger: lastPanel,
+					end: 'bottom bottom',
+					invalidateOnRefresh: true,
+					anticipatePin: 1,
+				});
+
+				getTriggerStore().push(pinTrigger);
+			});
+
+			wrapper.dataset.buildingApartmentsReady = 'true';
+		});
+
+		ScrollTrigger.refresh();
+	}
+
+	function scheduleInit() {
+		requestAnimationFrame(() => {
+			requestAnimationFrame(initBuildingApartmentsScroll);
+		});
+	}
+
+	scheduleInit();
+
+	const win = window as WindowWithStack;
+	if (!win.__buildingApartmentsScrollHooked) {
+		win.__buildingApartmentsScrollHooked = true;
+		document.addEventListener('astro:page-load', scheduleInit);
+	}
+</script>
+
+<style>
+	.building-apartments-scroll {
+		position: relative;
+	}
+
+	@media (min-width: 1025px) {
+		.building-apartments-scroll :global(.building-apartment) {
+			position: relative;
+		}
+
+		.building-apartments-scroll :global(.building-apartment:not(:first-child)) {
+			box-shadow: 0 -16px 48px color-mix(in srgb, var(--color-nebula) 10%, transparent);
+		}
+	}
+</style>

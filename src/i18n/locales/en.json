@@ -121,6 +121,24 @@
 			"contact": "Contact"
 		}
 	},
+	"apartments": {
+		"floor": {
+			"groundFloor": "Ground Floor",
+			"firstFloor": "First Floor",
+			"secondFloor": "Second Floor",
+			"penthouse": "Penthouse",
+			"gardenLevel": "Garden Level"
+		},
+		"bedrooms": {
+			"studio": "Studio",
+			"one": "One-Bedroom",
+			"two": "Two-Bedroom",
+			"three": "Three-Bedroom"
+		},
+		"scrollDown": "Scroll Down",
+		"expandImage": "View floor plan",
+		"backToBuilding": "Back to building"
+	},
 	"a11y": {
 		"home": "Home",
 		"openMenu": "Open menu",

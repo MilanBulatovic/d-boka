@@ -121,6 +121,24 @@
 			"contact": "Kontakt"
 		}
 	},
+	"apartments": {
+		"floor": {
+			"groundFloor": "Prizemlje",
+			"firstFloor": "Prvi sprat",
+			"secondFloor": "Drugi sprat",
+			"penthouse": "Penthaus",
+			"gardenLevel": "Nivo vrta"
+		},
+		"bedrooms": {
+			"studio": "Studio",
+			"one": "Jednosoban",
+			"two": "Dvosoban",
+			"three": "Trosoban"
+		},
+		"scrollDown": "Skroluj dolje",
+		"expandImage": "Pogledaj tlocrt",
+		"backToBuilding": "Nazad na zgradu"
+	},
 	"a11y": {
 		"home": "Početna",
 		"openMenu": "Otvori meni",

@@ -1,44 +1,68 @@
 {
 	"apartments": [
 		{
+			"buildingId": "building1",
 			"title": "S1 Jednosobna rezidencija s terasom",
-			"description": "Prostrana jednosobna rezidencija s privatnom terasom, otvorenim dnevnim prostorom i panoramskim pogledom na Boku Kotorsku.",
-			"imageUrl": "/apartments/s1.webp"
+			"description": "Prostrana jednosobna rezidencija s otvorenim dnevnim prostorom i privatnom terasom, osmišljena za udoban obalni život.",
+			"imageUrl": "/apartments/s1.webp",
+			"floor": "groundFloor",
+			"bedrooms": 1
 		},
 		{
+			"buildingId": "building1",
 			"title": "S2 Dvosobna rezidencija",
 			"description": "Elegantno proporcionisan dom s dvije spavaće sobe, obiljem prirodne svjetlosti, profinjenim završnim obradama i mirnom obalnom atmosferom.",
-			"imageUrl": "/apartments/s2.webp"
+			"imageUrl": "/apartments/s2.webp",
+			"floor": "firstFloor",
+			"bedrooms": 2
 		},
 		{
+			"buildingId": "building1",
 			"title": "S3 Penthaus s panoramskim pogledom",
 			"description": "Rijetka rezidencija na gornjem spratu s prostranim terasama, neprekidnim pogledom na more i izuzetnom privatnošću.",
-			"imageUrl": "/apartments/s3.webp"
+			"imageUrl": "/apartments/s3.webp",
+			"floor": "penthouse",
+			"bedrooms": 2
 		},
 		{
+			"buildingId": "building2",
 			"title": "S4 Studio na nivou vrta",
 			"description": "Pažljivo osmišljen studio s direktnim pristupom vrtu, idealan za miran odmor u neposrednoj blizini obale.",
-			"imageUrl": "/apartments/s4.webp"
+			"imageUrl": "/apartments/s4.webp",
+			"floor": "gardenLevel",
+			"bedrooms": 0
 		},
 		{
+			"buildingId": "building2",
 			"title": "S5 Trosobna porodična rezidencija",
 			"description": "Prostran raspored s tri spavaće sobe i jasno odvojenim zonama za život, idealan za porodice koje traže prostor i udobnost uz obalu.",
-			"imageUrl": "/apartments/s5.webp"
+			"imageUrl": "/apartments/s5.webp",
+			"floor": "firstFloor",
+			"bedrooms": 3
 		},
 		{
+			"buildingId": "building2",
 			"title": "S6 Dupleks s privatnim bazenom",
 			"description": "Jedinstvena dupleks rezidencija na dva nivoa, s privatnim bazenom i profinjenim unutrašnje-vanjskim životom.",
-			"imageUrl": "/apartments/s6.webp"
+			"imageUrl": "/apartments/s6.webp",
+			"floor": "groundFloor",
+			"bedrooms": 2
 		},
 		{
+			"buildingId": "building2",
 			"title": "S7 Jednosoban apartman s pogledom na more",
 			"description": "Profinjen jednosoban apartman okrenut prema zalivu, s prozorima od poda do plafona i neposrednom povezanošću s pejzažom.",
-			"imageUrl": "/apartments/s7.webp"
+			"imageUrl": "/apartments/s7.webp",
+			"floor": "secondFloor",
+			"bedrooms": 1
 		},
 		{
+			"buildingId": "building2",
 			"title": "S8 Dvosobna ugaona rezidencija",
 			"description": "Svijetla ugaona rezidencija s pogledom u dva pravca, prostranom terasom i smirenom, savremenom unutrašnjom paletom.",
-			"imageUrl": "/apartments/s8.webp"
+			"imageUrl": "/apartments/s8.webp",
+			"floor": "firstFloor",
+			"bedrooms": 2
 		}
 	]
 }

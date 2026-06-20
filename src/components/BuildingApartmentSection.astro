@@ -1,0 +1,269 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import Button from './Button.astro';
+import { getApartmentUrl, type Apartment } from '../data/apartments';
+import { type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/utils';
+
+type Props = {
+	apartment: Apartment;
+	index: number;
+	total: number;
+	showHeading?: boolean;
+	headingLabel: string;
+	headingTitle: string;
+	showScrollDown?: boolean;
+};
+
+const {
+	apartment,
+	index,
+	total,
+	showHeading = false,
+	headingLabel,
+	headingTitle,
+	showScrollDown = false,
+} = Astro.props;
+
+const t = useTranslations((Astro.currentLocale ?? 'en') as Locale);
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const apartmentHref = getApartmentUrl(locale, apartment.buildingId, apartment.id);
+const indexLabel = `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`;
+
+const bedroomKey =
+	apartment.bedrooms === 0
+		? 'studio'
+		: apartment.bedrooms === 1
+			? 'one'
+			: apartment.bedrooms === 2
+				? 'two'
+				: 'three';
+---
+
+<section class="building-apartment" id={`apartment-${index + 1}`}>
+	<div class="building-apartment__grid">
+		<div class="building-apartment__text">
+			<div class="building-apartment__text-inner">
+				{
+					showHeading && (
+						<div class="building-apartment__heading">
+							<SectionHeading label={headingLabel} title={headingTitle} align="left" />
+						</div>
+					)
+				}
+
+				<p class="building-apartment__index">{indexLabel}</p>
+
+				<div class="building-apartment__tags">
+					<Button as="tag" variant="muted-gray">
+						{t(`apartments.floor.${apartment.floor}`)}
+					</Button>
+					<Button as="tag" variant="muted-gray">
+						{t(`apartments.bedrooms.${bedroomKey}`)}
+					</Button>
+				</div>
+
+				<h3 class="building-apartment__title">{apartment.title}</h3>
+				<p class="building-apartment__description">{apartment.description}</p>
+			</div>
+		</div>
+
+		<div class="building-apartment__media">
+			<img
+				class="building-apartment__image"
+				src={apartment.imageUrl}
+				alt={apartment.title}
+				width="1200"
+				height="900"
+				loading={index === 0 ? 'eager' : 'lazy'}
+				decoding="async"
+			/>
+			<a
+				class="building-apartment__expand"
+				href={apartmentHref}
+				aria-label={t('apartments.expandImage')}
+			>
+			<svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M0.292893 21.2929C-0.0976311 21.6834 -0.0976311 22.3166 0.292893 22.7071C0.683418 23.0976 1.31658 23.0976 1.70711 22.7071L1 22L0.292893 21.2929ZM23 1C23 0.447716 22.5523 3.73706e-07 22 1.20825e-07L13 -4.27084e-07C12.4477 5.84441e-07 12 0.447715 12 1C12 1.55229 12.4477 2 13 2L21 2L21 10C21 10.5523 21.4477 11 22 11C22.5523 11 23 10.5523 23 10L23 1ZM1 22L1.70711 22.7071L22.7071 1.70711L22 1L21.2929 0.292894L0.292893 21.2929L1 22Z" fill="white"/>
+				</svg>
+				
+			</a>
+		</div>
+	</div>
+
+	{
+		showScrollDown && (
+			<div class="building-apartment__scroll" aria-hidden="true">
+				<span>{t('apartments.scrollDown')}</span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path
+						d="M4 6L8 10L12 6"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M4 10L8 14L12 10"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</div>
+		)
+	}
+</section>
+
+<style>
+	.building-apartment {
+		position: relative;
+		min-height: 100dvh;
+	}
+
+	.building-apartment__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+		min-height: 100dvh;
+	}
+
+	.building-apartment__text {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		min-width: 0;
+		padding: clamp(5rem, 8vw, 7.5rem) clamp(1.5rem, 4vw, 4rem) clamp(2rem, 4vw, 3rem);
+		background: var(--color-white);
+		color: var(--color-nebula);
+	}
+
+	.building-apartment__text-inner {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.25rem, 2.5vw, 2rem);
+		max-width: 34rem;
+	}
+
+	.building-apartment__heading {
+		margin-bottom: clamp(1rem, 2vw, 2rem);
+	}
+
+	.building-apartment__index {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-size: clamp(0.875rem, 1.2vw, 1rem);
+		line-height: 1.4;
+		color: var(--color-nebula);
+	}
+
+	.building-apartment__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.building-apartment__title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		line-height: 1.2;
+		color: var(--color-nebula);
+	}
+
+	.building-apartment__description {
+		margin: 0;
+		max-width: 32rem;
+		font-family: var(--font-sans);
+		font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-nebula) 82%, var(--color-greige));
+	}
+
+	.building-apartment__scroll {
+		position: absolute;
+		bottom: 5%;
+		left: 50%;
+		z-index: 2;
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		line-height: 1.2;
+		color: var(--color-greige);
+		transform: translateX(-50%);
+	}
+
+	.building-apartment__media {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 0;
+		padding: clamp(2rem, 5vw, 4rem);
+		background: color-mix(in srgb, var(--color-greige) 12%, var(--color-white));
+	}
+
+	.building-apartment__image {
+		display: block;
+		width: 100%;
+		max-width: 52rem;
+		height: auto;
+		object-fit: contain;
+	}
+
+	.building-apartment__expand {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 100px;
+		height:100px;
+		border-radius: 50%;
+		background: var(--color-nebula);
+		color: var(--color-white);
+		text-decoration: none;
+		transform: translate(-50%, -50%);
+		transition: opacity 0.2s ease;
+	}
+
+	.building-apartment__expand:hover {
+		opacity: 0.85;
+	}
+
+	@media (max-width: 1024px) {
+		.building-apartment__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.building-apartment__text {
+			order: 2;
+			min-height: auto;
+			padding-top: 32px;
+		}
+
+		.building-apartment__media {
+			order: 1;
+			min-height: clamp(20rem, 55vw, 32rem);
+		}
+
+		.building-apartment {
+			min-height: auto;
+		}
+
+		.building-apartment__expand {
+			width: 70px;
+			height: 70px;
+		}
+
+		.building-apartment__expand svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+</style>

@@ -1,0 +1,18 @@
+---
+import ApartmentPage from '../../components/pages/ApartmentPage.astro';
+import { getBuildingApartments } from '../../data/apartments';
+
+export function getStaticPaths() {
+	return getBuildingApartments('en', 'building2').map((apartment) => ({
+		params: { apartment: apartment.id },
+	}));
+}
+
+const { apartment } = Astro.params;
+
+if (!apartment) {
+	throw new Error('Missing apartment param');
+}
+---
+
+<ApartmentPage buildingId="building2" apartmentId={apartment} />

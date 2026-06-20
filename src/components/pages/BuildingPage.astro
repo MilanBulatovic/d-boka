@@ -2,7 +2,10 @@
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import Layout from '../../layouts/Layout.astro';
+import BuildingApartmentSection from '../BuildingApartmentSection.astro';
+import BuildingApartmentsScroll from '../BuildingApartmentsScroll.astro';
 import { buildings, type BuildingId } from '../../data/buildings';
+import { getBuildingApartments } from '../../data/apartments';
 import { type Locale } from '../../i18n/config';
 import { useTranslations } from '../../i18n/utils';
 
@@ -19,22 +22,29 @@ const building = buildings.find((item) => item.id === buildingId);
 if (!building) {
 	throw new Error(`Unknown building: ${buildingId}`);
 }
+
+const apartments = getBuildingApartments(locale, buildingId);
 ---
 
 <Layout>
 	<Header overHero={false} />
 
-	<main class="building-page container">
-		<figure class="building-page__hero">
-			<img
-				src={building.image.src}
-				width={building.image.width}
-				height={building.image.height}
-				alt={t(`pages.home.buildings.${buildingId}.imageAlt`)}
-			/>
-		</figure>
-		<h1 class="page__title">{t(`pages.home.buildings.${buildingId}.title`)}</h1>
-		<p class="building-page__body">{t(`pages.home.buildings.${buildingId}.description`)}</p>
+	<main class="building-page">
+		<BuildingApartmentsScroll>
+			{
+				apartments.map((apartment, index) => (
+					<BuildingApartmentSection
+						apartment={apartment}
+						index={index}
+						total={apartments.length}
+						showHeading={index === 0}
+						headingLabel={t('pages.home.residencies.label')}
+						headingTitle={t(`pages.home.buildings.${buildingId}.title`)}
+						showScrollDown={index === 0 && apartments.length > 1}
+					/>
+				))
+			}
+		</BuildingApartmentsScroll>
 	</main>
 
 	<Footer />
@@ -42,25 +52,6 @@ if (!building) {
 
 <style>
 	.building-page {
-		padding-top: 6rem;
-		padding-bottom: 4rem;
-		color: var(--color-nebula);
-	}
-
-	.building-page__hero {
-		margin: 0 0 1.5rem;
-	}
-
-	.building-page__hero img {
-		width: 100%;
-		border-radius: var(--radius);
-	}
-
-	.building-page__body {
-		max-width: 42rem;
-		margin: 1rem 0 0;
-		font-size: 1rem;
-		line-height: 1.65;
-		color: color-mix(in srgb, var(--color-nebula) 82%, var(--color-greige));
+		padding-top: 80px;
 	}
 </style>

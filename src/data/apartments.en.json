@@ -1,44 +1,68 @@
 {
 	"apartments": [
 		{
-			"title": "S1 One Bedroom Residence with Terrace",
-			"description": "A spacious one-bedroom residence with a private terrace, open-plan living, and panoramic views of the Bay of Kotor.",
-			"imageUrl": "/apartments/s1.webp"
+			"buildingId": "building1",
+			"title": "S1 One-Bedroom Residence with Terrace",
+			"description": "A spacious one-bedroom residence featuring an open-plan living area and a private terrace, designed for comfortable seaside living.",
+			"imageUrl": "/apartments/s1.webp",
+			"floor": "groundFloor",
+			"bedrooms": 1
 		},
 		{
-			"title": "S2 Two Bedroom Residence",
+			"buildingId": "building1",
+			"title": "S2 Two-Bedroom Residence",
 			"description": "An elegantly proportioned two-bedroom home with generous natural light, refined finishes, and a calm coastal atmosphere.",
-			"imageUrl": "/apartments/s2.webp"
+			"imageUrl": "/apartments/s2.webp",
+			"floor": "firstFloor",
+			"bedrooms": 2
 		},
 		{
+			"buildingId": "building1",
 			"title": "S3 Penthouse with Panoramic Views",
 			"description": "A rare upper-floor residence offering expansive terraces, uninterrupted sea views, and exceptional privacy.",
-			"imageUrl": "/apartments/s3.webp"
+			"imageUrl": "/apartments/s3.webp",
+			"floor": "penthouse",
+			"bedrooms": 2
 		},
 		{
+			"buildingId": "building2",
 			"title": "S4 Garden-Level Studio",
 			"description": "A thoughtfully designed studio with direct garden access, ideal for a serene retreat close to the waterfront.",
-			"imageUrl": "/apartments/s4.webp"
+			"imageUrl": "/apartments/s4.webp",
+			"floor": "gardenLevel",
+			"bedrooms": 0
 		},
 		{
-			"title": "S5 Three Bedroom Family Residence",
+			"buildingId": "building2",
+			"title": "S5 Three-Bedroom Family Residence",
 			"description": "A generous three-bedroom layout with distinct living zones, ideal for families seeking space and comfort by the coast.",
-			"imageUrl": "/apartments/s5.webp"
+			"imageUrl": "/apartments/s5.webp",
+			"floor": "firstFloor",
+			"bedrooms": 3
 		},
 		{
+			"buildingId": "building2",
 			"title": "S6 Duplex with Private Pool",
 			"description": "A distinctive duplex residence spanning two levels, complete with a private pool and refined indoor-outdoor living.",
-			"imageUrl": "/apartments/s6.webp"
+			"imageUrl": "/apartments/s6.webp",
+			"floor": "groundFloor",
+			"bedrooms": 2
 		},
 		{
-			"title": "S7 One Bedroom with Sea View",
+			"buildingId": "building2",
+			"title": "S7 One-Bedroom with Sea View",
 			"description": "A refined one-bedroom apartment oriented toward the bay, with floor-to-ceiling glazing and a seamless connection to the landscape.",
-			"imageUrl": "/apartments/s7.webp"
+			"imageUrl": "/apartments/s7.webp",
+			"floor": "secondFloor",
+			"bedrooms": 1
 		},
 		{
-			"title": "S8 Two Bedroom Corner Residence",
+			"buildingId": "building2",
+			"title": "S8 Two-Bedroom Corner Residence",
 			"description": "A bright corner residence with dual-aspect views, a generous terrace, and a calm, contemporary interior palette.",
-			"imageUrl": "/apartments/s8.webp"
+			"imageUrl": "/apartments/s8.webp",
+			"floor": "firstFloor",
+			"bedrooms": 2
 		}
 	]
 }

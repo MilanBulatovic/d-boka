@@ -1,0 +1,164 @@
+---
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import Layout from '../../layouts/Layout.astro';
+import Button from '../Button.astro';
+import { buildings, type BuildingId } from '../../data/buildings';
+import { getApartmentById } from '../../data/apartments';
+import { type Locale } from '../../i18n/config';
+import { getRouteUrl } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+	buildingId: BuildingId;
+	apartmentId: string;
+}
+
+const { buildingId, apartmentId } = Astro.props;
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+const building = buildings.find((item) => item.id === buildingId);
+const apartment = getApartmentById(locale, buildingId, apartmentId);
+
+if (!building || !apartment) {
+	throw new Error(`Unknown apartment: ${buildingId}/${apartmentId}`);
+}
+
+const bedroomKey =
+	apartment.bedrooms === 0
+		? 'studio'
+		: apartment.bedrooms === 1
+			? 'one'
+			: apartment.bedrooms === 2
+				? 'two'
+				: 'three';
+---
+
+<Layout>
+	<Header overHero={false} />
+
+	<main class="apartment-page">
+		<div class="apartment-page__grid">
+			<div class="apartment-page__text">
+				<a class="apartment-page__back" href={getRouteUrl(locale, building.routeId)}>
+					{t('apartments.backToBuilding')}
+				</a>
+
+				<div class="apartment-page__tags">
+					<Button as="tag" variant="muted-gray">
+						{t(`apartments.floor.${apartment.floor}`)}
+					</Button>
+					<Button as="tag" variant="muted-gray">
+						{t(`apartments.bedrooms.${bedroomKey}`)}
+					</Button>
+				</div>
+
+				<h1 class="apartment-page__title">{apartment.title}</h1>
+				<p class="apartment-page__description">{apartment.description}</p>
+			</div>
+
+			<div class="apartment-page__media">
+				<img
+					class="apartment-page__image"
+					src={apartment.imageUrl}
+					alt={apartment.title}
+					width="1200"
+					height="900"
+					loading="eager"
+					decoding="async"
+				/>
+			</div>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.apartment-page {
+		padding-top: 80px;
+	}
+
+	.apartment-page__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+		min-height: calc(100dvh - 80px);
+	}
+
+	.apartment-page__text {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.25rem, 2.5vw, 2rem);
+		padding: clamp(5rem, 8vw, 7.5rem) clamp(1.5rem, 4vw, 4rem);
+		background: var(--color-white);
+		color: var(--color-nebula);
+	}
+
+	.apartment-page__back {
+		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		line-height: 1.4;
+		color: var(--color-greige);
+		text-decoration: none;
+	}
+
+	.apartment-page__back:hover {
+		opacity: 0.75;
+	}
+
+	.apartment-page__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.apartment-page__title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3rem);
+		line-height: 1.2;
+		color: var(--color-nebula);
+	}
+
+	.apartment-page__description {
+		margin: 0;
+		max-width: 32rem;
+		font-family: var(--font-sans);
+		font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-nebula) 82%, var(--color-greige));
+	}
+
+	.apartment-page__media {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: clamp(2rem, 5vw, 4rem);
+		background: color-mix(in srgb, var(--color-greige) 12%, var(--color-white));
+	}
+
+	.apartment-page__image {
+		display: block;
+		width: 100%;
+		max-width: 52rem;
+		height: auto;
+		object-fit: contain;
+	}
+
+	@media (max-width: 1024px) {
+		.apartment-page__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.apartment-page__media {
+			order: 1;
+			min-height: clamp(20rem, 55vw, 32rem);
+		}
+
+		.apartment-page__text {
+			order: 2;
+		}
+	}
+</style>
