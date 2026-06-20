@@ -131,7 +131,8 @@ const bedroomKey =
 	.building-apartment__text {
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
+		justify-content: center;
+		margin-top:70px;
 		min-width: 0;
 		padding: clamp(5rem, 8vw, 7.5rem) clamp(1.5rem, 4vw, 4rem) clamp(2rem, 4vw, 3rem);
 		background: var(--color-white);
@@ -241,10 +242,15 @@ const bedroomKey =
 			grid-template-columns: 1fr;
 		}
 
+		.building-apartment__image {
+			max-width: 380px;
+		}
+
 		.building-apartment__text {
 			order: 2;
 			min-height: auto;
-			padding-top: 32px;
+			padding-top: 0 !important;
+			margin-top: 0;
 		}
 
 		.building-apartment__media {
@@ -264,6 +270,10 @@ const bedroomKey =
 		.building-apartment__expand svg {
 			width: 20px;
 			height: 20px;
+		}
+
+		.building-apartment__text-inner {
+			margin-top: -70px;
 		}
 	}
 </style>
