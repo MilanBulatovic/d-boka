@@ -55,3 +55,59 @@ const apartments = getBuildingApartments(locale, buildingId);
 		padding-top: 80px;
 	}
 </style>
+
+<style is:global>
+	.building-page {
+		--building-heading-offset: -100px;
+	}
+
+	.building-apartment__heading {
+		margin-top: var(--building-heading-offset);
+		margin-bottom: clamp(1rem, 2vw, 2rem);
+	}
+
+	@media (max-width: 1024px) {
+		.building-page {
+			--building-heading-offset: 20px;
+		}
+
+		.building-apartment__heading {
+			margin-bottom: 1rem;
+		}
+	}
+</style>
+
+<script>
+	function getBuildingHeadingOffset() {
+		return window.matchMedia('(max-width: 1024px)').matches ? '20px' : '-100px';
+	}
+
+	function applyBuildingHeadingOffset() {
+		const offset = getBuildingHeadingOffset();
+
+		document.querySelectorAll<HTMLElement>('.building-page').forEach((page) => {
+			page.style.setProperty('--building-heading-offset', offset);
+		});
+
+		document.querySelectorAll<HTMLElement>('.building-apartment__heading').forEach((heading) => {
+			heading.style.marginTop = offset;
+		});
+	}
+
+	function scheduleApplyBuildingHeadingOffset() {
+		requestAnimationFrame(() => {
+			requestAnimationFrame(applyBuildingHeadingOffset);
+		});
+	}
+
+	scheduleApplyBuildingHeadingOffset();
+
+	const win = window as Window & { __buildingHeadingOffsetHooked?: boolean };
+	if (!win.__buildingHeadingOffsetHooked) {
+		win.__buildingHeadingOffsetHooked = true;
+		document.addEventListener('astro:page-load', scheduleApplyBuildingHeadingOffset);
+		document.addEventListener('astro:after-swap', scheduleApplyBuildingHeadingOffset);
+		document.addEventListener('building-apartments-scroll:ready', scheduleApplyBuildingHeadingOffset);
+		window.addEventListener('resize', applyBuildingHeadingOffset, { passive: true });
+	}
+</script>

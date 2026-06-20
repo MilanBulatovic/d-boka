@@ -308,7 +308,6 @@ main.main--over-hero + footer {
 	}
 }
 
-
 @media (max-width: 768px) {
 	.page__title {
 		font-size: 48px;

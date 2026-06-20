@@ -27,6 +27,10 @@
 		return header?.offsetHeight ?? 80;
 	}
 
+	function resetPinnedPanel(panel: HTMLElement) {
+		gsap.set(panel, { clearProps: 'zIndex,transform,top,left,width,maxWidth,position,boxSizing,marginTop' });
+	}
+
 	function killBuildingApartmentsScrollTriggers() {
 		const store = getTriggerStore();
 		for (const trigger of store) trigger.kill();
@@ -35,9 +39,7 @@
 		document.querySelectorAll<HTMLElement>('[data-building-apartments-scroll]').forEach((wrapper) => {
 			delete wrapper.dataset.buildingApartmentsReady;
 			wrapper.dataset.stackActive = 'false';
-			wrapper.querySelectorAll<HTMLElement>('.building-apartment').forEach((panel) => {
-				gsap.set(panel, { clearProps: 'zIndex,transform,top,left' });
-			});
+			wrapper.querySelectorAll<HTMLElement>('.building-apartment').forEach(resetPinnedPanel);
 		});
 	}
 
@@ -85,6 +87,8 @@
 		});
 
 		ScrollTrigger.refresh();
+
+		document.dispatchEvent(new CustomEvent('building-apartments-scroll:ready'));
 	}
 
 	function scheduleInit() {
@@ -144,13 +148,8 @@
 
 		.building-apartments-scroll[data-stack-active='true'] :global(.building-apartment__text) {
 			min-height: 0;
-			overflow-y: auto;
+			overflow: visible;
 			padding: 1.5rem 1.25rem 2rem;
-			-webkit-overflow-scrolling: touch;
-		}
-
-		.building-apartments-scroll[data-stack-active='true'] :global(.building-apartment__heading) {
-			margin-bottom: 1rem;
 		}
 
 		.building-apartments-scroll[data-stack-active='true'] :global(.building-apartment__scroll) {
