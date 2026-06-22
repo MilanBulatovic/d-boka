@@ -41,14 +41,18 @@ const nav: ReadonlyArray<{ routeId: RouteId; key: string }> = [
 					title={t('footer.title')}
 					align="left"
 				/>
-				<span class="site-footer__arrow" aria-hidden="true">
+				<a
+					class="site-footer__arrow"
+					href={getRouteUrl(locale, 'contact')}
+					aria-label={t('footer.nav.contact')}
+				>
 					<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M17.2929 21.2929C16.9024 21.6834 16.9024 22.3166 17.2929 22.7071C17.6834 23.0976 18.3166 23.0976 18.7071 22.7071L18 22L17.2929 21.2929ZM40 1C40 0.447716 39.5523 3.73706e-07 39 1.20825e-07L30 -4.27084e-07C29.4477 5.84441e-07 29 0.447715 29 1C29 1.55229 29.4477 2 30 2L38 2L38 10C38 10.5523 38.4477 11 39 11C39.5523 11 40 10.5523 40 10L40 1ZM18 22L18.7071 22.7071L39.7071 1.70711L39 1L38.2929 0.292894L17.2929 21.2929L18 22Z"
 							fill="white"
 						/>
 					</svg>
-				</span>
+				</a>
 			</div>
 
 			<div class="site-footer__contact">
@@ -207,6 +211,13 @@ const nav: ReadonlyArray<{ routeId: RouteId; key: string }> = [
 		right: 2rem;
 		display: inline-flex;
 		opacity: 0.9;
+		color: var(--color-white);
+		text-decoration: none;
+		transition: opacity 0.2s ease;
+	}
+
+	.site-footer__arrow:hover {
+		opacity: 1;
 	}
 
 	.site-footer__contact {
