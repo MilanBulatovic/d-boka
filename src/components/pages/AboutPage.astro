@@ -3,21 +3,128 @@
 // Rute: src/pages/about.astro i src/pages/me/o-nama.astro
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
+import Hero from '../Hero.astro';
+import ImageTextSection from '../ImageTextSection.astro';
+import SectionHeading from '../SectionHeading.astro';
+import IoImage from '../IoImage.astro';
 import Layout from '../../layouts/Layout.astro';
+import aboutBg from '../../assets/about.jpg';
+import aboutImage from '../../assets/about2.png';
+import about3Image from '../../assets/about3.png';
+import about4Image from '../../assets/about4.webp';
 import { type Locale } from '../../i18n/config';
 import { useTranslations } from '../../i18n/utils';
+import { buildings } from '../../data/buildings';
+import { getRouteUrl } from '../../i18n/routes';
+import SplitBuilding from '../SplitBuilding.astro';
 
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
 ---
 
 <Layout>
-	<Header overHero={false} />
+	<Header overHero />
+	<Hero
+		fixedOnScroll
+		title={t('pages.about.hero.title')}
+		backgroundImage={aboutBg}
+	/>
+	<div class="hero-scroll-spacer" aria-hidden="true"></div>
 
-	<main>
-		<h1>{t('pages.about.title')}</h1>
-		<p>{t('pages.about.placeholder')}</p>
+	<main class="main--over-hero">
+		<div class="container">
+			<ImageTextSection
+				image={aboutImage}
+				imageAlt={t('pages.about.intro.imageAlt')}
+				label={t('pages.about.intro.label')}
+				title={t('pages.about.intro.title')}
+				body={t('pages.about.intro.body')}
+				mediaMaxWidth="730px"
+			/>
+
+			<IoImage
+				src={about3Image}
+				alt={t('pages.about.intro.imageAlt')}
+				width={729}
+				height={740}
+			/>
+
+			<section class="about-rare-offering">
+				<SectionHeading
+					label={t('pages.about.rareOffering.label')}
+					title={t('pages.about.rareOffering.title')}
+					align="left"
+				/>
+				<p class="about-rare-offering__body">{t('pages.about.rareOffering.body')}</p>
+			</section>
+		</div>
+		<div class="about-page__image">
+			<IoImage
+				src={about4Image}
+				alt={t('pages.about.intro.imageAlt')}
+				width={1890}
+				height={920}
+			/>
+		</div>
+		<div class="container">
+			<SectionHeading
+				label={t('pages.home.residencies.label')}
+				title={t('pages.home.residencies.title')}
+				align="right"
+			/>
+			<SplitBuilding
+				buildings={buildings.map((building) => ({
+					title: t(`pages.home.buildings.${building.id}.title`),
+					description: t(`pages.home.buildings.${building.id}.description`),
+					image: building.image,
+					alt: t(`pages.home.buildings.${building.id}.imageAlt`),
+					href: getRouteUrl(locale, building.routeId),
+				}))}
+			/>
+		</div>
 	</main>
 
 	<Footer />
 </Layout>
+
+<style>
+	.about-rare-offering {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+		padding: clamp(4rem, 8vw, 7rem) 0;
+		max-width: 42rem;
+	}
+
+	.about-rare-offering__body {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+		line-height: 140%;
+		color: var(--color-nebula);
+	}
+
+	.about-page__image {
+		height: 550px;
+		overflow: hidden;
+	}
+
+	.about-page__image :global(.io-image-watch),
+	.about-page__image :global(.io-image-frame) {
+		height: 100%;
+	}
+
+	.about-page__image :global(.io-image) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	@media (max-width: 768px) {
+		.about-page__image {
+			height: 400px;
+		}
+	}
+</style>

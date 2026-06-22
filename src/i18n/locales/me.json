@@ -78,7 +78,21 @@
 		},
 		"about": {
 			"title": "O nama",
-			"placeholder": "Ovdje ide sadržaj stranice O nama."
+			"placeholder": "Ovdje ide sadržaj stranice O nama.",
+			"hero": {
+				"title": "Osmišljeno da bude bezvremeno. Inspirisano zalivom."
+			},
+			"intro": {
+				"label": "O nama",
+				"title": "Elegantni prostori uz more",
+				"body": "Smješten u Dobroti, D One Boka Residence je pažljivo osmišljen stambeni projekat koji spaja modernu arhitekturu sa promišljenim osjećajem prostora, svjetla i privatnosti. Razvoj nudi ograničen broj rezidencija u mirnom, dobro pozicioniranom okruženju s pogledom na Boku Kotorsku.\n\nSa savremenim sadržajima, privatnim parkingom, uređenim okruženjem i panoramskim pogledom na more, D One Boka Residence je osmišljen da pruži profinjen i ugodan način života inspirisan jedinstvenim karakterom Boke Kotorske.",
+				"imageAlt": "D One Boka Residence — enterijer i eksterijer"
+			},
+			"rareOffering": {
+				"label": "Rijetka ponuda",
+				"title": "Novi domovi u zaštićenoj obalnoj zoni",
+				"body": "Zbog trenutnog moratorija na novu gradnju u području Boke Kotorske, uvedenog u skladu sa UNESCO propisima o zaštiti, D One Boka Residence predstavlja rijetku priliku za kupovinu novoizgrađene nekretnine na jednoj od najtraženijih lokacija na crnogorskoj obali."
+			}
 		},
 		"contact": {
 			"label": "Kontakt",

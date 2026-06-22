@@ -78,7 +78,21 @@
 		},
 		"about": {
 			"title": "About",
-			"placeholder": "About page content goes here."
+			"placeholder": "About page content goes here.",
+			"hero": {
+				"title": "Designed to Feel Timeless. Inspired by the Bay."
+			},
+			"intro": {
+				"label": "About Us",
+				"title": "Elegant Spaces by the Sea",
+				"body": "Located in Dobrota, D One Boka Residence is a thoughtfully designed residential project that combines modern architecture with a carefully considered sense of space, light, and privacy. The development offers a limited number of residences within a quiet, well-positioned setting overlooking the Bay of Kotor.\n\nWith contemporary amenities, private parking, landscaped surroundings, and panoramic sea views, D One Boka Residence is designed to provide a refined and comfortable lifestyle inspired by the unique character of Boka Bay.",
+				"imageAlt": "D One Boka Residence — interior and exterior views"
+			},
+			"rareOffering": {
+				"label": "Rare Offering",
+				"title": "New Homes In a Protected Coastal Zone",
+				"body": "Due to the current moratorium on new construction in the Bay of Kotor area, imposed under UNESCO protection regulations, D One Boka Residence represents a rare opportunity to purchase a newly built property in one of the most sought-after locations on the Montenegrin coast."
+			}
 		},
 		"contact": {
 			"label": "Contact",

@@ -1,0 +1,101 @@
+---
+import type { ImageMetadata } from 'astro';
+import IoImage from './IoImage.astro';
+import SectionHeading from './SectionHeading.astro';
+
+type Props = {
+	image: ImageMetadata;
+	imageAlt: string;
+	label: string;
+	title: string | string[];
+	/** Jedan ili više pasusa — razdvojeni praznim redom u stringu ili niz. */
+	body: string | string[];
+	/** Opciono ograničenje širine slike (npr. "730px"). */
+	mediaMaxWidth?: string;
+};
+
+const { image, imageAlt, label, title, body, mediaMaxWidth } = Astro.props;
+const paragraphs = Array.isArray(body)
+	? body
+	: body.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+---
+
+<section class="image-text-section">
+	<div class="image-text-section__inner">
+		<div
+			class:list={[
+				'image-text-section__media',
+				{ 'image-text-section__media--limited': mediaMaxWidth },
+			]}
+			style={mediaMaxWidth ? `--media-max-width: ${mediaMaxWidth}` : undefined}
+		>
+			<IoImage
+				src={image}
+				alt={imageAlt}
+				width={729}
+				height={740}
+			/>
+		</div>
+
+		<div class="image-text-section__content">
+			<SectionHeading label={label} title={title} align="left" />
+
+			<div class="image-text-section__body">
+				{paragraphs.map((paragraph) => (
+					<p>{paragraph}</p>
+				))}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.image-text-section {
+		padding: clamp(4rem, 8vw, 7rem) 0;
+	}
+
+	.image-text-section__inner {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: center;
+	}
+
+	.image-text-section__media--limited {
+		max-width: var(--media-max-width);
+		width: 100%;
+	}
+
+	.image-text-section__media--limited :global(.io-image-watch),
+	.image-text-section__media--limited :global(.io-image-frame),
+	.image-text-section__media--limited :global(.io-image) {
+		max-width: 100%;
+	}
+
+	.image-text-section__content {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+	}
+
+	.image-text-section__body {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.image-text-section__body p {
+		margin: 0;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+		line-height: 140%;
+		color: var(--color-nebula);
+	}
+
+	@media (max-width: 768px) {
+		.image-text-section__inner {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

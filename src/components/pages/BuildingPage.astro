@@ -78,6 +78,10 @@ const apartments = getBuildingApartments(locale, buildingId);
 </style>
 
 <script>
+	import { initScrollPageToTop } from '../../lib/scrollPageToTop';
+
+	initScrollPageToTop('.building-page');
+
 	function getBuildingHeadingOffset() {
 		return window.matchMedia('(max-width: 1024px)').matches ? '20px' : '-100px';
 	}

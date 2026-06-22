@@ -202,40 +202,7 @@ const hasComparison = Boolean(apartment.beforeImage && apartment.afterImage);
 </style>
 
 <script>
-	type WindowWithSmooth = Window & {
-		__smoothScroll?: {
-			lenis?: {
-				scrollTo: (target: number, options?: { immediate?: boolean; force?: boolean }) => void;
-			};
-		};
-	};
+	import { initScrollPageToTop } from '../../lib/scrollPageToTop';
 
-	function isApartmentPage() {
-		return Boolean(document.querySelector('.apartment-page'));
-	}
-
-	function scrollApartmentPageToTop() {
-		if (!isApartmentPage()) return;
-
-		window.scrollTo(0, 0);
-
-		const lenis = (window as WindowWithSmooth).__smoothScroll?.lenis;
-		lenis?.scrollTo(0, { immediate: true, force: true });
-	}
-
-	function scheduleScrollApartmentPageToTop() {
-		scrollApartmentPageToTop();
-		requestAnimationFrame(() => {
-			scrollApartmentPageToTop();
-			requestAnimationFrame(scrollApartmentPageToTop);
-		});
-	}
-
-	if ('scrollRestoration' in history) {
-		history.scrollRestoration = 'manual';
-	}
-
-	scheduleScrollApartmentPageToTop();
-	document.addEventListener('astro:after-swap', scheduleScrollApartmentPageToTop);
-	document.addEventListener('astro:page-load', scheduleScrollApartmentPageToTop);
+	initScrollPageToTop('.apartment-page');
 </script>

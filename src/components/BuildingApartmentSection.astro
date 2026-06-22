@@ -46,12 +46,17 @@ const bedroomKey =
 			<div class="building-apartment__text-inner">
 				{
 					showHeading && (
-						<div class="building-apartment__heading">
-							<SectionHeading label={headingLabel} title={headingTitle} align="left" />
-						</div>
+						<>
+							<div class="building-apartment__heading">
+								<SectionHeading label={headingLabel} title={headingTitle} align="left" />
+							</div>
+						</>
 					)
 				}
 
+				<p class="building-apartment__building-label">
+					{t(`pages.home.buildings.${apartment.buildingId}.title`)}
+				</p>
 				<p class="building-apartment__index">{indexLabel}</p>
 
 				<div class="building-apartment__tags">
@@ -155,6 +160,16 @@ const bedroomKey =
 		color: var(--color-nebula);
 	}
 
+	.building-apartment__building-label {
+		display: none;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1rem;
+		line-height: 1.4;
+		color: var(--color-nebula);
+		
+	}
+
 	.building-apartment__tags {
 		display: flex;
 		flex-wrap: wrap;
@@ -237,6 +252,14 @@ const bedroomKey =
 	@media (max-width: 1024px) {
 		.building-apartment__grid {
 			grid-template-columns: 1fr;
+		}
+
+		.building-apartment__heading {
+			display: none;
+		}
+
+		.building-apartment__building-label {
+			display: block;
 		}
 
 		.building-apartment__image {

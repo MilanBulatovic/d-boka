@@ -704,7 +704,7 @@ main.main--over-hero + footer {
 		text-decoration: none;
 		color: var(--color-nebula);
 		font-family: var(--font-sans);
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 400;
 		text-transform: uppercase;
 		letter-spacing: 0.14em;
