@@ -737,7 +737,7 @@ main.main--over-hero + footer {
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
 		border-radius: 0;
-		height:200px;
+		height:auto;
 	}
 
 	#mobile-nav .site-header__drawer-building-title {
