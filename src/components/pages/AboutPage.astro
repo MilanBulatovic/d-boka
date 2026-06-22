@@ -66,7 +66,7 @@ const t = useTranslations(locale);
 				height={920}
 			/>
 		</div>
-		<div class="container">
+		<div class="container about-page__buildings">
 			<SectionHeading
 				label={t('pages.home.residencies.label')}
 				title={t('pages.home.residencies.title')}
@@ -122,9 +122,16 @@ const t = useTranslations(locale);
 		object-position: center;
 	}
 
+	.about-page__buildings {
+		margin-top: 128px;
+	}
+
 	@media (max-width: 768px) {
 		.about-page__image {
 			height: 400px;
+		}
+		.about-page__buildings {
+			margin-top: 64px;
 		}
 	}
 </style>
