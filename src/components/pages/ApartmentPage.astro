@@ -2,7 +2,9 @@
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import Layout from '../../layouts/Layout.astro';
-import Button from '../Button.astro';
+import SectionHeading from '../SectionHeading.astro';
+import BeforeAfterSlider from '../BeforeAfterSlider.astro';
+import ApartmentRoomLayout from '../ApartmentRoomLayout.astro';
 import { buildings, type BuildingId } from '../../data/buildings';
 import { getApartmentById } from '../../data/apartments';
 import { type Locale } from '../../i18n/config';
@@ -25,50 +27,83 @@ if (!building || !apartment) {
 	throw new Error(`Unknown apartment: ${buildingId}/${apartmentId}`);
 }
 
-const bedroomKey =
-	apartment.bedrooms === 0
-		? 'studio'
-		: apartment.bedrooms === 1
-			? 'one'
-			: apartment.bedrooms === 2
-				? 'two'
-				: 'three';
+const hasComparison = Boolean(apartment.beforeImage && apartment.afterImage);
 ---
 
 <Layout>
 	<Header overHero={false} />
 
 	<main class="apartment-page">
-		<div class="apartment-page__grid">
-			<div class="apartment-page__text">
-				<a class="apartment-page__back" href={getRouteUrl(locale, building.routeId)}>
-					{t('apartments.backToBuilding')}
-				</a>
+		<div class="apartment-page__inner container">
+			<a class="apartment-page__back" href={getRouteUrl(locale, building.routeId)}>
+				<svg
+					class="apartment-page__back-icon"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					aria-hidden="true"
+				>
+					<path
+						d="M15 6L9 12L15 18"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="square"
+						stroke-linejoin="round"></path>
+				</svg>
+				{t('apartments.backToBuilding')}
+			</a>
 
-				<div class="apartment-page__tags">
-					<Button as="tag" variant="muted-gray">
-						{t(`apartments.floor.${apartment.floor}`)}
-					</Button>
-					<Button as="tag" variant="muted-gray">
-						{t(`apartments.bedrooms.${bedroomKey}`)}
-					</Button>
-				</div>
-
-				<h1 class="apartment-page__title">{apartment.title}</h1>
-				<p class="apartment-page__description">{apartment.description}</p>
-			</div>
-
-			<div class="apartment-page__media">
-				<img
-					class="apartment-page__image"
-					src={apartment.imageUrl}
-					alt={apartment.title}
-					width="1200"
-					height="900"
-					loading="eager"
-					decoding="async"
+			<div class="apartment-page__heading">
+				<SectionHeading
+					label={t('pages.home.residencies.label')}
+					title={apartment.title}
+					align="left"
 				/>
 			</div>
+
+			<div class="apartment-page__tags">
+				{
+					apartment.tags.map((tag) => (
+						<span class="apartment-page__tag">{tag}</span>
+					))
+				}
+			</div>
+
+			{
+				hasComparison && (
+					<div class="apartment-page__slider">
+						<BeforeAfterSlider
+							beforeSrc={apartment.beforeImage!}
+							afterSrc={apartment.afterImage!}
+							beforeAlt={`${t('apartments.beforeAlt')} — ${apartment.title}`}
+							afterAlt={`${t('apartments.afterAlt')} — ${apartment.title}`}
+							label={t('a11y.beforeAfterSlider')}
+						/>
+					</div>
+				)
+			}
+
+			{
+				hasComparison && (
+					<p class="apartment-page__disclaimer">{t('apartments.disclaimer')}</p>
+				)
+			}
+
+			<div class="apartment-page__information">
+				<SectionHeading
+					label={t('apartments.information.label')}
+					title={t('apartments.information.title')}
+					align="left"
+				/>
+
+				<ApartmentRoomLayout
+					options={apartment.options}
+					planImage={apartment.planImage}
+					planAlt={`${t('apartments.planAlt')} — ${apartment.title}`}
+				/>
+			</div>
+
 		</div>
 	</main>
 
@@ -78,34 +113,42 @@ const bedroomKey =
 <style>
 	.apartment-page {
 		padding-top: 80px;
-	}
-
-	.apartment-page__grid {
-		display: grid;
-		grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
-		min-height: calc(100dvh - 80px);
-	}
-
-	.apartment-page__text {
-		display: flex;
-		flex-direction: column;
-		gap: clamp(1.25rem, 2.5vw, 2rem);
-		padding: clamp(5rem, 8vw, 7.5rem) clamp(1.5rem, 4vw, 4rem);
 		background: var(--color-white);
 		color: var(--color-nebula);
 	}
 
+	.apartment-page__inner {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+		
+		margin-inline: auto;
+		padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 4rem);
+	}
+
 	.apartment-page__back {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		width: fit-content;
 		font-family: var(--font-sans);
 		font-size: 0.875rem;
 		line-height: 1.4;
-		color: var(--color-greige);
+		color: var(--color-nebula);
 		text-decoration: none;
+		opacity: 0.7;
+		transition: opacity 0.2s ease;
 	}
 
 	.apartment-page__back:hover {
-		opacity: 0.75;
+		opacity: 1;
 	}
+
+	.apartment-page__back-icon {
+		flex-shrink: 0;
+	}
+
+
 
 	.apartment-page__tags {
 		display: flex;
@@ -113,53 +156,86 @@ const bedroomKey =
 		gap: 0.75rem;
 	}
 
-	.apartment-page__title {
-		margin: 0;
-		font-family: var(--font-display);
-		font-weight: 400;
-		font-size: clamp(2rem, 4vw, 3rem);
-		line-height: 1.2;
-		color: var(--color-nebula);
-	}
-
-	.apartment-page__description {
-		margin: 0;
-		max-width: 32rem;
-		font-family: var(--font-sans);
-		font-size: clamp(0.95rem, 1.4vw, 1.125rem);
-		line-height: 1.5;
-		color: color-mix(in srgb, var(--color-nebula) 82%, var(--color-greige));
-	}
-
-	.apartment-page__media {
-		display: flex;
+	.apartment-page__tag {
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: clamp(2rem, 5vw, 4rem);
-		background: color-mix(in srgb, var(--color-greige) 12%, var(--color-white));
+		padding: 0.5rem 1.25rem;
+		border-radius: 100px;
+		background-color: var(--color-muted-gray);
+		color: var(--color-greige);
+		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		line-height: 1.2;
 	}
 
-	.apartment-page__image {
-		display: block;
+	.apartment-page__slider {
 		width: 100%;
-		max-width: 52rem;
-		height: auto;
-		object-fit: contain;
 	}
 
-	@media (max-width: 1024px) {
-		.apartment-page__grid {
-			grid-template-columns: 1fr;
-		}
+	.apartment-page__disclaimer {
+		margin: 0;
+		margin-left: auto;
+		margin-top: -1.5rem;
+		max-width: 100%;
 
-		.apartment-page__media {
-			order: 1;
-			min-height: clamp(20rem, 55vw, 32rem);
-		}
+		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		line-height: 1.5;
+		color: var(--color-greige);
+		text-align: right;
+	}
 
-		.apartment-page__text {
-			order: 2;
-			padding-top: 32px;
+	.apartment-page__information {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+	}
+
+	@media (max-width: 768px) {
+		.apartment-page__disclaimer {
+			text-align: left;
+			margin-top: -1rem;
+			margin-bottom:2rem;
 		}
 	}
 </style>
+
+<script>
+	type WindowWithSmooth = Window & {
+		__smoothScroll?: {
+			lenis?: {
+				scrollTo: (target: number, options?: { immediate?: boolean; force?: boolean }) => void;
+			};
+		};
+	};
+
+	function isApartmentPage() {
+		return Boolean(document.querySelector('.apartment-page'));
+	}
+
+	function scrollApartmentPageToTop() {
+		if (!isApartmentPage()) return;
+
+		window.scrollTo(0, 0);
+
+		const lenis = (window as WindowWithSmooth).__smoothScroll?.lenis;
+		lenis?.scrollTo(0, { immediate: true, force: true });
+	}
+
+	function scheduleScrollApartmentPageToTop() {
+		scrollApartmentPageToTop();
+		requestAnimationFrame(() => {
+			scrollApartmentPageToTop();
+			requestAnimationFrame(scrollApartmentPageToTop);
+		});
+	}
+
+	if ('scrollRestoration' in history) {
+		history.scrollRestoration = 'manual';
+	}
+
+	scheduleScrollApartmentPageToTop();
+	document.addEventListener('astro:after-swap', scheduleScrollApartmentPageToTop);
+	document.addEventListener('astro:page-load', scheduleScrollApartmentPageToTop);
+</script>

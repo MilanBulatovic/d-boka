@@ -1,0 +1,206 @@
+---
+interface Props {
+	beforeSrc: string;
+	afterSrc: string;
+	beforeAlt: string;
+	afterAlt: string;
+	label: string;
+}
+
+const { beforeSrc, afterSrc, beforeAlt, afterAlt, label } = Astro.props;
+const sliderId = `before-after-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="before-after" data-before-after={sliderId}>
+	<div class="before-after__frame">
+		<img
+			class="before-after__image before-after__image--before"
+			src={beforeSrc}
+			alt={beforeAlt}
+			width="1200"
+			height="800"
+			loading="eager"
+			decoding="async"
+			draggable="false"
+		/>
+		<div class="before-after__after" data-before-after-clip style="--position: 50%">
+			<img
+				class="before-after__image before-after__image--after"
+				src={afterSrc}
+				alt={afterAlt}
+				width="1200"
+				height="800"
+				loading="eager"
+				decoding="async"
+				draggable="false"
+			/>
+		</div>
+
+		<div class="before-after__divider" data-before-after-divider aria-hidden="true">
+			<span class="before-after__handle">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path
+						d="M9 8L5 12L9 16"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"></path>
+					<path
+						d="M15 8L19 12L15 16"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"></path>
+				</svg>
+			</span>
+		</div>
+
+		<input
+			type="range"
+			class="before-after__range"
+			min="0"
+			max="100"
+			value="50"
+			aria-label={label}
+			data-before-after-range
+		/>
+	</div>
+</div>
+
+<style>
+	.before-after {
+		width: 100%;
+	}
+
+	.before-after__frame {
+		position: relative;
+		width: 100%;
+		height: 800px;
+		overflow: hidden;
+		user-select: none;
+		touch-action: none;
+		background: color-mix(in srgb, var(--color-greige) 12%, var(--color-white));
+	}
+
+	.before-after__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		pointer-events: none;
+	}
+
+	.before-after__image--before {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+	}
+
+	.before-after__after {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		clip-path: inset(0 0 0 var(--position, 50%));
+	}
+
+	.before-after__divider {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: var(--position, 50%);
+		z-index: 2;
+		width: 2px;
+		background: color-mix(in srgb, var(--color-white) 70%, var(--color-greige));
+		transform: translateX(-50%);
+		pointer-events: none;
+	}
+
+	.before-after__handle {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--color-white) 85%, var(--color-greige));
+		color: var(--color-nebula);
+		box-shadow: 0 4px 24px color-mix(in srgb, var(--color-nebula) 18%, transparent);
+		transform: translate(-50%, -50%);
+	}
+
+	.before-after__range {
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		cursor: ew-resize;
+		opacity: 0;
+	}
+
+	.before-after__range:focus-visible + .before-after__divider .before-after__handle,
+	.before-after__frame:has(.before-after__range:focus-visible) .before-after__handle {
+		outline: 2px solid var(--color-nebula);
+		outline-offset: 2px;
+	}
+
+	@media (max-width: 768px) {
+		.before-after__frame {
+			height: 235px;
+		}
+
+		.before-after__handle {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.before-after__after,
+		.before-after__divider {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	function setPosition(root: HTMLElement, value: number) {
+		const position = `${value}%`;
+		const clip = root.querySelector<HTMLElement>('[data-before-after-clip]');
+		const divider = root.querySelector<HTMLElement>('[data-before-after-divider]');
+
+		root.style.setProperty('--position', position);
+		clip?.style.setProperty('--position', position);
+		divider?.style.setProperty('--position', position);
+	}
+
+	function initBeforeAfterSlider(root: HTMLElement) {
+		const range = root.querySelector<HTMLInputElement>('[data-before-after-range]');
+		if (!range || root.dataset.beforeAfterReady === 'true') return;
+
+		root.dataset.beforeAfterReady = 'true';
+
+		const update = () => setPosition(root, Number(range.value));
+		range.addEventListener('input', update);
+		update();
+	}
+
+	function initAllBeforeAfterSliders() {
+		document.querySelectorAll<HTMLElement>('[data-before-after]').forEach((root) => {
+			if (!root.isConnected) return;
+			initBeforeAfterSlider(root);
+		});
+	}
+
+	initAllBeforeAfterSliders();
+
+	const win = window as Window & { __beforeAfterSlidersHooked?: boolean };
+	if (!win.__beforeAfterSlidersHooked) {
+		win.__beforeAfterSlidersHooked = true;
+		document.addEventListener('astro:page-load', initAllBeforeAfterSliders);
+	}
+</script>

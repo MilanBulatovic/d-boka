@@ -14,11 +14,17 @@ export type ApartmentFloor =
 export type Apartment = {
 	id: string;
 	buildingId: BuildingId;
+	buildingNumber: 1 | 2;
 	title: string;
 	description: string;
 	imageUrl: string;
+	beforeImage?: string;
+	afterImage?: string;
 	floor: ApartmentFloor;
 	bedrooms: number;
+	tags: string[];
+	options: string[];
+	planImage?: string;
 };
 
 type ApartmentInput = Omit<Apartment, 'id'> & { id?: string };

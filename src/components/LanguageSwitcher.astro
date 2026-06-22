@@ -1,6 +1,6 @@
 ---
 import { languages, locales, type Locale } from '../i18n/config';
-import { getRouteIdFromUrl, getRouteUrl } from '../i18n/routes';
+import { getLocalizedUrl } from '../i18n/routes';
 import { useTranslations } from '../i18n/utils';
 
 interface Props {
@@ -11,10 +11,9 @@ const { variant = 'desktop' } = Astro.props;
 
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
-const routeId = getRouteIdFromUrl(Astro.url);
 
 function localeHref(target: Locale) {
-	return getRouteUrl(target, routeId);
+	return getLocalizedUrl(Astro.url, target);
 }
 ---
 

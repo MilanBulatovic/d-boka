@@ -137,7 +137,15 @@
 		},
 		"scrollDown": "Scroll Down",
 		"expandImage": "View floor plan",
-		"backToBuilding": "Back to building"
+		"backToBuilding": "Go Back",
+		"beforeAlt": "Floor plan",
+		"afterAlt": "Interior visualization",
+		"planAlt": "Floor plan",
+		"disclaimer": "*Images are AI-generated visualizations for illustrative purposes only. Colors, materials, and details in the renders may differ from the final result.",
+		"information": {
+			"label": "Information",
+			"title": "Room Layout Overview & Position"
+		}
 	},
 	"a11y": {
 		"home": "Home",
@@ -148,6 +156,7 @@
 		"navPrimary": "Primary",
 		"navMobile": "Mobile",
 		"apartmentsSlider": "Apartments",
+		"beforeAfterSlider": "Compare floor plan and visualization",
 		"prevApartment": "Previous apartment",
 		"nextApartment": "Next apartment"
 	},

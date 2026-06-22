@@ -2,67 +2,177 @@
 	"apartments": [
 		{
 			"buildingId": "building1",
-			"title": "S1 One-Bedroom Residence with Terrace",
+			"buildingNumber": 1,
+			"title": "S1 ground floor, one-bedroom apartment",
 			"description": "A spacious one-bedroom residence featuring an open-plan living area and a private terrace, designed for comfortable seaside living.",
 			"imageUrl": "/apartments/s1.webp",
+			"beforeImage": "/apartments/S1 before.jpg",
+			"afterImage": "/apartments/S1 after.jpg",
 			"floor": "groundFloor",
-			"bedrooms": 1
+			"bedrooms": 1,
+			"tags": ["Building 1", "Ground floor", "One-bedroom apartment", "47.28 m²"],
+			"options": [
+				"Hall — 3.73 m²",
+				"Bathroom — 3.63 m²",
+				"Bedroom — 12.33 m²",
+				"Kitchen, dining room and living room — 23.81 m²",
+				"Terrace — 3.79 m²"
+			],
+			"planImage": "/apartments/S1.jpg"
 		},
 		{
 			"buildingId": "building1",
-			"title": "S2 Two-Bedroom Residence",
+			"buildingNumber": 1,
+			"title": "S2 ground floor, two-bedroom apartment",
 			"description": "An elegantly proportioned two-bedroom home with generous natural light, refined finishes, and a calm coastal atmosphere.",
 			"imageUrl": "/apartments/s2.webp",
-			"floor": "firstFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S2 before.jpg",
+			"afterImage": "/apartments/S2 after.jpg",
+			"floor": "groundFloor",
+			"bedrooms": 2,
+			"tags": ["Building 1", "Ground floor", "Two-bedroom apartment", "66.61 m²"],
+			"options": [
+				"Hall — 4.25 m²",
+				"Kitchen, dining room and living room — 27.12 m²",
+				"Terrace — 3.95 m²",
+				"Landing — 2.50 m²",
+				"Bathroom — 3.92 m²",
+				"Bedroom — 14.05 m²",
+				"Bedroom — 10.82 m²"
+			],
+			"planImage": "/apartments/S2.jpg"
 		},
 		{
 			"buildingId": "building1",
-			"title": "S3 Penthouse with Panoramic Views",
+			"buildingNumber": 1,
+			"title": "S5 second floor, three-bedroom apartment",
 			"description": "A rare upper-floor residence offering expansive terraces, uninterrupted sea views, and exceptional privacy.",
 			"imageUrl": "/apartments/s3.webp",
-			"floor": "penthouse",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S3 before.jpg",
+			"afterImage": "/apartments/S3 after.jpg",
+			"floor": "secondFloor",
+			"bedrooms": 3,
+			"tags": ["Building 1", "Second floor", "Three-bedroom apartment", "90.68 m²"],
+			"options": [
+				"Hall — 2.32 m²",
+				"Bathroom — 4.79 m²",
+				"Storage — 2.82 m²",
+				"Kitchen, dining room and living room — 33.57 m²",
+				"Terrace — 3.26 m²",
+				"Landing — 3.71 m²",
+				"Bedroom — 12.18 m²",
+				"Bathroom — 3.51 m²",
+				"Bedroom — 13.43 m²",
+				"Bedroom — 8.49 m²",
+				"Terrace — 2.60 m²"
+			],
+			"planImage": "/apartments/S3.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S4 Garden-Level Studio",
+			"buildingNumber": 2,
+			"title": "S7, ground floor, one-bedroom apartment",
 			"description": "A thoughtfully designed studio with direct garden access, ideal for a serene retreat close to the waterfront.",
 			"imageUrl": "/apartments/s4.webp",
-			"floor": "gardenLevel",
-			"bedrooms": 0
+			"beforeImage": "/apartments/S4 before.jpg",
+			"afterImage": "/apartments/S4 after.jpg",
+			"floor": "groundFloor",
+			"bedrooms": 1,
+			"tags": ["Building 2", "Ground floor", "One-bedroom apartment", "51.08 m²"],
+			"options": [
+				"Hall — 4.88 m²",
+				"Bathroom — 4.78 m²",
+				"Bedroom — 12.17 m²",
+				"Kitchen, dining room and living room — 24.69 m²",
+				"Terrace — 4.55 m²"
+			],
+			"planImage": "/apartments/S4.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S5 Three-Bedroom Family Residence",
+			"buildingNumber": 2,
+			"title": "S13, first floor, two-bedroom apartment",
 			"description": "A generous three-bedroom layout with distinct living zones, ideal for families seeking space and comfort by the coast.",
 			"imageUrl": "/apartments/s5.webp",
+			"beforeImage": "/apartments/S5 before.jpg",
+			"afterImage": "/apartments/S5 after.jpg",
 			"floor": "firstFloor",
-			"bedrooms": 3
+			"bedrooms": 2,
+			"tags": ["Building 2", "First floor", "Two-bedroom apartment", "72.23 m²"],
+			"options": [
+				"Hall — 2.61 m²",
+				"Bathroom — 5.61 m²",
+				"Kitchen, dining room and living room — 29.26 m²",
+				"Bedroom — 10.51 m²",
+				"Landing — 1.38 m²",
+				"Bathroom — 4.30 m²",
+				"Bedroom — 12.13 m²",
+				"Terrace — 6.42 m²"
+			],
+			"planImage": "/apartments/S5.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S6 Duplex with Private Pool",
+			"buildingNumber": 2,
+			"title": "S15, first floor, one-bedroom apartment",
 			"description": "A distinctive duplex residence spanning two levels, complete with a private pool and refined indoor-outdoor living.",
 			"imageUrl": "/apartments/s6.webp",
-			"floor": "groundFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S6 before.jpg",
+			"afterImage": "/apartments/S6 after.jpg",
+			"floor": "firstFloor",
+			"bedrooms": 1,
+			"tags": ["Building 2", "First floor", "One-bedroom apartment", "51.01 m²"],
+			"options": [
+				"Hall — 7.09 m²",
+				"Bedroom — 11.52 m²",
+				"Bathroom — 4.01 m²",
+				"Kitchen, dining room and living room — 25.32 m²",
+				"Terrace — 3.07 m²"
+			],
+			"planImage": "/apartments/S6.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S7 One-Bedroom with Sea View",
+			"buildingNumber": 2,
+			"title": "S15, first floor, one-bedroom apartment",
 			"description": "A refined one-bedroom apartment oriented toward the bay, with floor-to-ceiling glazing and a seamless connection to the landscape.",
 			"imageUrl": "/apartments/s7.webp",
-			"floor": "secondFloor",
-			"bedrooms": 1
+			"beforeImage": "/apartments/S7 before.jpg",
+			"afterImage": "/apartments/S7 after.jpg",
+			"floor": "firstFloor",
+			"bedrooms": 1,
+			"tags": ["Building 2", "First floor", "One-bedroom apartment", "49.29 m²"],
+			"options": [
+				"Hall — 6.08 m²",
+				"Bathroom — 3.67 m²",
+				"Bedroom — 10.54 m²",
+				"Kitchen, dining room and living room — 24.54 m²",
+				"Terrace — 4.46 m²"
+			],
+			"planImage": "/apartments/S7.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S8 Two-Bedroom Corner Residence",
+			"buildingNumber": 2,
+			"title": "S18, second floor, three-bedroom apartment",
 			"description": "A bright corner residence with dual-aspect views, a generous terrace, and a calm, contemporary interior palette.",
 			"imageUrl": "/apartments/s8.webp",
-			"floor": "firstFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S8 before.jpg",
+			"afterImage": "/apartments/S8 after.jpg",
+			"floor": "secondFloor",
+			"bedrooms": 3,
+			"tags": ["Building 2", "Second floor", "Three-bedroom apartment", "86.74 m²"],
+			"options": [
+				"Hall — 7.64 m²",
+				"WC — 3.03 m²",
+				"Kitchen, dining room and living room — 28.54 m²",
+				"Terrace — 3.02 m²",
+				"Bathroom — 6.13 m²",
+				"Bedroom — 12.18 m²",
+				"Study — 10.54 m²",
+				"Bedroom — 15.66 m²"
+			],
+			"planImage": "/apartments/S8.jpg"
 		}
 	]
 }

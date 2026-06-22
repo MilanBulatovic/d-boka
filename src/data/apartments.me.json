@@ -2,67 +2,177 @@
 	"apartments": [
 		{
 			"buildingId": "building1",
-			"title": "S1 Jednosobna rezidencija s terasom",
+			"buildingNumber": 1,
+			"title": "S1 prizemlje, jednosoban stan",
 			"description": "Prostrana jednosobna rezidencija s otvorenim dnevnim prostorom i privatnom terasom, osmišljena za udoban obalni život.",
 			"imageUrl": "/apartments/s1.webp",
+			"beforeImage": "/apartments/S1 before.jpg",
+			"afterImage": "/apartments/S1 after.jpg",
 			"floor": "groundFloor",
-			"bedrooms": 1
+			"bedrooms": 1,
+			"tags": ["Zgrada 1", "Prizemlje", "Jednosoban stan", "47.28 m²"],
+			"options": [
+				"Hodnik — 3.73 m²",
+				"Kupatilo — 3.63 m²",
+				"Spavaća soba — 12.33 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 23.81 m²",
+				"Terasa — 3.79 m²"
+			],
+			"planImage": "/apartments/S1.jpg"
 		},
 		{
 			"buildingId": "building1",
-			"title": "S2 Dvosobna rezidencija",
+			"buildingNumber": 1,
+			"title": "S2 prizemlje, dvosoban stan",
 			"description": "Elegantno proporcionisan dom s dvije spavaće sobe, obiljem prirodne svjetlosti, profinjenim završnim obradama i mirnom obalnom atmosferom.",
 			"imageUrl": "/apartments/s2.webp",
-			"floor": "firstFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S2 before.jpg",
+			"afterImage": "/apartments/S2 after.jpg",
+			"floor": "groundFloor",
+			"bedrooms": 2,
+			"tags": ["Zgrada 1", "Prizemlje", "Dvosoban stan", "66.61 m²"],
+			"options": [
+				"Hodnik — 4.25 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 27.12 m²",
+				"Terasa — 3.95 m²",
+				"Degažman — 2.50 m²",
+				"Kupatilo — 3.92 m²",
+				"Spavaća soba — 14.05 m²",
+				"Spavaća soba — 10.82 m²"
+			],
+			"planImage": "/apartments/S2.jpg"
 		},
 		{
 			"buildingId": "building1",
-			"title": "S3 Penthaus s panoramskim pogledom",
+			"buildingNumber": 1,	
+			"title": "S5 drugi sprat, trosoban stan",
 			"description": "Rijetka rezidencija na gornjem spratu s prostranim terasama, neprekidnim pogledom na more i izuzetnom privatnošću.",
 			"imageUrl": "/apartments/s3.webp",
-			"floor": "penthouse",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S3 before.jpg",
+			"afterImage": "/apartments/S3 after.jpg",
+			"floor": "secondFloor",
+			"bedrooms": 3,
+			"tags": ["Zgrada 1", "Drugi sprat", "Trosoban stan", "90.68 m²"],
+			"options": [
+				"Hodnik — 2.32 m²",
+				"Kupatilo — 4.79 m²",
+				"Ostava — 2.82 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 33.57 m²",
+				"Terasa — 3.26 m²",
+				"Degažman — 3.71 m²",
+				"Spavaća soba — 12.18 m²",
+				"Kupatilo — 3.51 m²",
+				"Spavaća soba — 13.43 m²",
+				"Spavaća soba — 8.49 m²",
+				"Terasa — 2.60 m²"
+			],
+			"planImage": "/apartments/S3.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S4 Studio na nivou vrta",
+			"buildingNumber": 2,
+			"title": "S7, prizemlje, jednosoban stan",
 			"description": "Pažljivo osmišljen studio s direktnim pristupom vrtu, idealan za miran odmor u neposrednoj blizini obale.",
 			"imageUrl": "/apartments/s4.webp",
-			"floor": "gardenLevel",
-			"bedrooms": 0
+			"beforeImage": "/apartments/S4 before.jpg",
+			"afterImage": "/apartments/S4 after.jpg",
+			"floor": "groundFloor",
+			"bedrooms": 1,
+			"tags": ["Zgrada 2", "Prizemlje", "Jednosoban stan", "51.08 m²"],
+			"options": [
+				"Hodnik — 4.88 m²",
+				"Kupatilo — 4.78 m²",
+				"Spavaća soba — 12.17 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 24.69 m²",
+				"Terasa — 4.55 m²"
+			],
+			"planImage": "/apartments/S4.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S5 Trosobna porodična rezidencija",
+			"buildingNumber": 2,
+			"title": "S13, prvi sprat, dvosoban stan",
 			"description": "Prostran raspored s tri spavaće sobe i jasno odvojenim zonama za život, idealan za porodice koje traže prostor i udobnost uz obalu.",
 			"imageUrl": "/apartments/s5.webp",
+			"beforeImage": "/apartments/S5 before.jpg",
+			"afterImage": "/apartments/S5 after.jpg",
 			"floor": "firstFloor",
-			"bedrooms": 3
+			"bedrooms": 2,
+			"tags": ["Zgrada 2", "Prvi sprat", "Dvosoban stan", "72.23 m²"],
+			"options": [
+				"Hodnik — 2.61 m²",
+				"Kupatilo — 5.61 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 29.26 m²",
+				"Spavaća soba — 10.51 m²",
+				"Degažman — 1.38 m²",
+				"Kupatilo — 4.30 m²",
+				"Spavaća soba — 12.13 m²",
+				"Terasa — 6.42 m²"
+			],
+			"planImage": "/apartments/S5.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S6 Dupleks s privatnim bazenom",
+			"buildingNumber": 2,
+			"title": "S15, prvi sprat, jednosoban stan",
 			"description": "Jedinstvena dupleks rezidencija na dva nivoa, s privatnim bazenom i profinjenim unutrašnje-vanjskim životom.",
 			"imageUrl": "/apartments/s6.webp",
-			"floor": "groundFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S6 before.jpg",
+			"afterImage": "/apartments/S6 after.jpg",
+			"floor": "firstFloor",
+			"bedrooms": 1,
+			"tags": ["Zgrada 2", "Prvi sprat", "Jednosoban stan", "51.01 m²"],
+			"options": [
+				"Hodnik — 7.09 m²",
+				"Spavaća soba — 11.52 m²",
+				"Kupatilo — 4.01 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 25.32 m²",
+				"Terasa — 3.07 m²"
+			],
+			"planImage": "/apartments/S6.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S7 Jednosoban apartman s pogledom na more",
+			"buildingNumber": 2,
+			"title": "S15, prvi sprat, jednosoban stan",
 			"description": "Profinjen jednosoban apartman okrenut prema zalivu, s prozorima od poda do plafona i neposrednom povezanošću s pejzažom.",
 			"imageUrl": "/apartments/s7.webp",
-			"floor": "secondFloor",
-			"bedrooms": 1
+			"beforeImage": "/apartments/S7 before.jpg",
+			"afterImage": "/apartments/S7 after.jpg",
+			"floor": "firstFloor",
+			"bedrooms": 1,
+			"tags": ["Zgrada 2", "Prvi sprat", "Jednosoban stan", "49.29 m²"],
+			"options": [
+				"Hodnik — 6.08 m²",
+				"Kupatilo — 3.67 m²",
+				"Spavaća soba — 10.54 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 24.54 m²",
+				"Terasa — 4.46 m²"
+			],
+			"planImage": "/apartments/S7.jpg"
 		},
 		{
 			"buildingId": "building2",
-			"title": "S8 Dvosobna ugaona rezidencija",
+			"buildingNumber": 2,
+			"title": "S18, drugi sprat, trosoban stan",
 			"description": "Svijetla ugaona rezidencija s pogledom u dva pravca, prostranom terasom i smirenom, savremenom unutrašnjom paletom.",
 			"imageUrl": "/apartments/s8.webp",
-			"floor": "firstFloor",
-			"bedrooms": 2
+			"beforeImage": "/apartments/S8 before.jpg",
+			"afterImage": "/apartments/S8 after.jpg",
+			"floor": "secondFloor",
+			"bedrooms": 3,
+			"tags": ["Zgrada 2", "Drugi sprat", "Trosoban stan", "86.74 m²"],
+			"options": [
+				"Hodnik — 7.64 m²",
+				"Toalet — 3.03 m²",
+				"Kuhinja, trpezarija i dnevni boravak — 28.54 m²",
+				"Terasa — 3.02 m²",
+				"Kupatilo — 6.13 m²",
+				"Spavaća soba — 12.18 m²",
+				"Radna soba — 10.54 m²",
+				"Spavaća soba — 15.66 m²"
+			],
+			"planImage": "/apartments/S8.jpg"
 		}
 	]
 }

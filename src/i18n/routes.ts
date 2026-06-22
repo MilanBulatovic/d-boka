@@ -26,16 +26,44 @@ export function getRouteUrl(locale: Locale, routeId: RouteId): string {
 	return segment ? `/me/${segment}` : '/me/pocetna';
 }
 
-export function getRouteIdFromUrl(url: URL): RouteId {
+export type RouteFromUrl = {
+	routeId: RouteId;
+	subpath?: string;
+};
+
+export function getRouteFromUrl(url: URL): RouteFromUrl {
 	const locale = getLocaleFromUrl(url);
 	const path = getPathWithoutLocale(url);
 	const segment = path === '/' ? '' : path.replace(/^\//, '');
 
-	if (!segment) return 'home';
+	if (!segment) return { routeId: 'home' };
 
 	for (const routeId of Object.keys(routes) as RouteId[]) {
-		if (routes[routeId][locale] === segment) return routeId;
+		const routeSegment = routes[routeId][locale];
+		if (!routeSegment) continue;
+
+		if (segment === routeSegment) {
+			return { routeId };
+		}
+
+		if (segment.startsWith(`${routeSegment}/`)) {
+			return {
+				routeId,
+				subpath: segment.slice(routeSegment.length + 1),
+			};
+		}
 	}
 
-	return 'home';
+	return { routeId: 'home' };
+}
+
+export function getLocalizedUrl(url: URL, targetLocale: Locale): string {
+	const { routeId, subpath } = getRouteFromUrl(url);
+	const base = getRouteUrl(targetLocale, routeId);
+
+	return subpath ? `${base}/${subpath}` : base;
+}
+
+export function getRouteIdFromUrl(url: URL): RouteId {
+	return getRouteFromUrl(url).routeId;
 }

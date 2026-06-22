@@ -137,7 +137,15 @@
 		},
 		"scrollDown": "Skroluj dolje",
 		"expandImage": "Pogledaj tlocrt",
-		"backToBuilding": "Nazad na zgradu"
+		"backToBuilding": "Nazad",
+		"beforeAlt": "Tlocrt",
+		"afterAlt": "Vizualizacija enterijera",
+		"planAlt": "Tlocrt",
+		"disclaimer": "*Slike su AI-generisane vizualizacije isključivo u ilustrativne svrhe. Boje, materijali i detalji u renderima mogu se razlikovati od konačnog rezultata.",
+		"information": {
+			"label": "Informacije",
+			"title": "Pregled rasporeda soba i položaj"
+		}
 	},
 	"a11y": {
 		"home": "Početna",
@@ -148,6 +156,7 @@
 		"navPrimary": "Glavna navigacija",
 		"navMobile": "Mobilna navigacija",
 		"apartmentsSlider": "Apartmani",
+		"beforeAfterSlider": "Uporedi tlocrt i vizualizaciju",
 		"prevApartment": "Prethodni apartman",
 		"nextApartment": "Sljedeći apartman"
 	},

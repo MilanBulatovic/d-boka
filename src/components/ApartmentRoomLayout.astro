@@ -1,0 +1,114 @@
+---
+type Props = {
+	options: string[];
+	planImage?: string;
+	planAlt: string;
+};
+
+const { options, planImage, planAlt } = Astro.props;
+const midpoint = Math.ceil(options.length / 2);
+const leftOptions = options.slice(0, midpoint);
+const rightOptions = options.slice(midpoint);
+---
+
+<div class="apartment-room-layout">
+	{
+		options.length > 0 && (
+			<div class="apartment-room-layout__options">
+				<ul class="apartment-room-layout__list">
+					{leftOptions.map((option) => (
+						<li>{option}</li>
+					))}
+				</ul>
+				{
+					rightOptions.length > 0 && (
+						<ul class="apartment-room-layout__list">
+							{rightOptions.map((option) => (
+								<li>{option}</li>
+							))}
+						</ul>
+					)
+				}
+			</div>
+		)
+	}
+
+	{
+		planImage && (
+			<img
+				class="apartment-room-layout__plan"
+				src={planImage}
+				alt={planAlt}
+				width="1200"
+				height="900"
+				loading="lazy"
+				decoding="async"
+			/>
+		)
+	}
+</div>
+
+<style>
+	.apartment-room-layout {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.apartment-room-layout__options {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.apartment-room-layout__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.apartment-room-layout__list li {
+		position: relative;
+		padding-left: 1.25rem;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: 1.5rem;
+		line-height: 140%;
+		color: rgba(18, 18, 18, 0.7);
+	}
+
+	.apartment-room-layout__list li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.65em;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background-color: var(--color-nebula);
+		transform: translateY(-50%);
+	}
+
+	.apartment-room-layout__plan {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-top: 8rem;
+	}
+
+	@media (max-width: 768px) {
+		.apartment-room-layout__options {
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.apartment-room-layout__plan {
+			margin-top: 3rem;
+		}
+		
+		.apartment-room-layout__list li {
+			font-size: 1rem;
+		}
+	}
+</style>
