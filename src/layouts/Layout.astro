@@ -3,10 +3,33 @@ import '../styles/global.css';
 import SmoothScroll from '../components/SmoothScroll.astro';
 import { ClientRouter } from 'astro:transitions';
 import { type Locale } from '../i18n/config';
+import { type RouteId } from '../i18n/routes';
 import { useTranslations } from '../i18n/utils';
+import {
+	getAlternateLinks,
+	getDefaultAlternateHref,
+	getPageUrl,
+	normalizeSiteUrl,
+	ogLocaleMap,
+} from '../lib/seo';
 
+interface Props {
+	title?: string;
+	description?: string;
+	routeId?: RouteId;
+}
+
+const { title, description, routeId } = Astro.props;
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
+
+const pageTitle = title ?? t('site.title');
+const pageDescription = description ?? t('site.description');
+const siteUrl = normalizeSiteUrl(Astro.site);
+const canonicalUrl = routeId && siteUrl ? getPageUrl(siteUrl, locale, routeId) : Astro.url.href;
+const ogImage = siteUrl ? `${siteUrl}/garden-suite.jpg` : '/garden-suite.jpg';
+const alternateLinks = routeId && siteUrl ? getAlternateLinks(siteUrl, routeId) : [];
+const defaultAlternateHref = routeId && siteUrl ? getDefaultAlternateHref(siteUrl, routeId) : '';
 ---
 
 <!doctype html>
@@ -33,7 +56,26 @@ const t = useTranslations(locale);
 		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{t('site.title')}</title>
+		<title>{pageTitle}</title>
+		<meta name="description" content={pageDescription} />
+		<link rel="canonical" href={canonicalUrl} />
+		{
+			alternateLinks.map(({ hreflang, href }) => (
+				<link rel="alternate" hreflang={hreflang} href={href} />
+			))
+		}
+		{defaultAlternateHref && <link rel="alternate" hreflang="x-default" href={defaultAlternateHref} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={t('site.title')} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={pageDescription} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:locale" content={ogLocaleMap[locale]} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		<meta name="twitter:description" content={pageDescription} />
+		<meta name="twitter:image" content={ogImage} />
 		<ClientRouter />
 	</head>
 	<body>

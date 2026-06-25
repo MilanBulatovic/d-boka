@@ -24,7 +24,11 @@ const t = useTranslations(locale);
 const introImage = locale === 'me' ? nearbyLocationsImage : aboutImage;
 ---
 
-<Layout>
+<Layout
+	title={t('pages.about.seo.title')}
+	description={t('pages.about.seo.description')}
+	routeId="about"
+>
 	<Header overHero />
 	<Hero
 		fixedOnScroll

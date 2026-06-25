@@ -1,6 +1,7 @@
 {
 	"site": {
-		"title": "DBoka One"
+		"title": "D One Boka Residence",
+		"description": "Luksuzne rezidencije u Dobroti s pogledom na Boku Kotorsku. Moderna arhitektura, panoramski pogled na Jadransko more i profinjen obalni život u D One Boka Residence."
 	},
 	"nav": {
 		"home": "Početna",
@@ -14,6 +15,10 @@
 	"pages": {
 		"home": {
 			"title": "Početna",
+			"seo": {
+				"title": "D One Boka Residence — Luksuzne rezidencije u Dobroti, Boka Kotorska",
+				"description": "Otkrijte D One Boka Residence u Dobroti — privatnu kolekciju luksuznih rezidencija s pogledom na Jadransko more. Moderna arhitektura, panoramski pogled na Boku i profinjen obalni život."
+			},
 			"placeholder": "Ovdje ide sadržaj stranice Početna.",
 			"about": {
 				"label": "O nama",
@@ -78,6 +83,10 @@
 		},
 		"about": {
 			"title": "O projektu",
+			"seo": {
+				"title": "O projektu — D One Boka Residence",
+				"description": "Saznajte više o D One Boka Residence u Dobroti — pažljivo osmišljenom stambenom projektu koji spaja modernu arhitekturu sa prostorom, svjetlom i privatnošću uz Boku Kotorsku."
+			},
 			"placeholder": "Ovdje ide sadržaj stranice O nama.",
 			"hero": {
 				"title": "Osmišljeno da bude bezvremeno. Inspirisano zalivom."
@@ -97,6 +106,10 @@
 		"contact": {
 			"label": "Kontakt",
 			"title": "Povežimo se",
+			"seo": {
+				"title": "Kontakt — D One Boka Residence",
+				"description": "Kontaktirajte D One Boka Residence. Posjetite nas u Dobroti, Crna Gora, pozovite +382 67 526 240 ili pišite na sales@doneboka.me za informacije o luksuznim rezidencijama u Boki Kotorskoj."
+			},
 			"mapAlt": "Mapa Boke Kotorske",
 			"buildingAlt": "D One Boka Residence — eksterijer",
 			"visit": {

@@ -24,7 +24,11 @@ const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
 ---
 
-<Layout>
+<Layout
+	title={t('pages.home.seo.title')}
+	description={t('pages.home.seo.description')}
+	routeId="home"
+>
 	<Header overHero />
 	<Hero fixedOnScroll />
 	<div class="hero-scroll-spacer" aria-hidden="true"></div>

@@ -1,6 +1,7 @@
 {
 	"site": {
-		"title": "DBoka One"
+		"title": "D One Boka Residence",
+		"description": "Luxury residences in Dobrota overlooking the Bay of Kotor. Modern architecture, panoramic Adriatic views, and refined coastal living at D One Boka Residence."
 	},
 	"nav": {
 		"home": "Home",
@@ -14,6 +15,10 @@
 	"pages": {
 		"home": {
 			"title": "Home",
+			"seo": {
+				"title": "D One Boka Residence — Luxury Residences in Dobrota, Bay of Kotor",
+				"description": "Discover D One Boka Residence in Dobrota — a private collection of luxury residences overlooking the Adriatic coast. Modern architecture, panoramic bay views, and refined coastal living."
+			},
 			"placeholder": "Home page content goes here.",
 			"about": {
 				"label": "About Us",
@@ -78,6 +83,10 @@
 		},
 		"about": {
 			"title": "About",
+			"seo": {
+				"title": "About the Project — D One Boka Residence",
+				"description": "Learn about D One Boka Residence in Dobrota — a thoughtfully designed residential project combining modern architecture with space, light, and privacy overlooking the Bay of Kotor."
+			},
 			"placeholder": "About page content goes here.",
 			"hero": {
 				"title": "Designed to Feel Timeless. Inspired by the Bay."
@@ -97,6 +106,10 @@
 		"contact": {
 			"label": "Contact",
 			"title": "Let's Connect",
+			"seo": {
+				"title": "Contact — D One Boka Residence",
+				"description": "Get in touch with D One Boka Residence. Visit us in Dobrota, Montenegro, call +382 67 526 240, or email sales@doneboka.me for inquiries about luxury residences in the Bay of Kotor."
+			},
 			"mapAlt": "Map of the Bay of Kotor region",
 			"buildingAlt": "D One Boka Residence — exterior rendering",
 			"visit": {
