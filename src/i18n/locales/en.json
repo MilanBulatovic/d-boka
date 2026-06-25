@@ -5,7 +5,7 @@
 	"nav": {
 		"home": "Home",
 		"residencies": "Residencies",
-		"about": "About",
+		"about": "The project",
 		"contact": "Contact"
 	},
 	"hero": {
@@ -85,7 +85,7 @@
 			"intro": {
 				"label": "About Us",
 				"title": "Elegant Spaces by the Sea",
-				"body": "Located in Dobrota, D One Boka Residence is a thoughtfully designed residential project that combines modern architecture with a carefully considered sense of space, light, and privacy. The development offers a limited number of residences within a quiet, well-positioned setting overlooking the Bay of Kotor.\n\nWith contemporary amenities, private parking, landscaped surroundings, and panoramic sea views, D One Boka Residence is designed to provide a refined and comfortable lifestyle inspired by the unique character of Boka Bay.",
+				"body": "Located in Dobrota, <strong>D One Boka Residence</strong> is a thoughtfully designed residential project that combines modern architecture with a carefully considered sense of space, light, and privacy. The development offers a limited number of residences within a quiet, well-positioned setting overlooking the Bay of Kotor.\n\nWith contemporary amenities, private parking, landscaped surroundings, and panoramic sea views, <strong>D One Boka Residence</strong> is designed to provide a refined and comfortable lifestyle inspired by the unique character of Boka Bay.",
 				"imageAlt": "D One Boka Residence — interior and exterior views"
 			},
 			"rareOffering": {

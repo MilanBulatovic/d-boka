@@ -3,7 +3,7 @@ import { getLocaleFromUrl, getPathWithoutLocale } from './utils';
 
 export const routes = {
 	home: { en: '', me: 'pocetna' },
-	about: { en: 'about', me: 'o-nama' },
+	about: { en: 'about', me: 'o-projektu' },
 	contact: { en: 'contact', me: 'kontakt' },
 	building1: { en: 'building-1', me: 'zgrada-1' },
 	building2: { en: 'building-2', me: 'zgrada-2' },

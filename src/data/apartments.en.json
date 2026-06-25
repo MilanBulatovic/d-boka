@@ -10,6 +10,7 @@
 			"afterImage": "/apartments/S1 after.jpg",
 			"floor": "groundFloor",
 			"bedrooms": 1,
+			"sold": false,
 			"tags": ["Building 1", "Ground floor", "One-bedroom apartment", "47.28 m²"],
 			"options": [
 				"Hall — 3.73 m²",
@@ -30,6 +31,7 @@
 			"afterImage": "/apartments/S2 after.jpg",
 			"floor": "groundFloor",
 			"bedrooms": 2,
+			"sold": false,
 			"tags": ["Building 1", "Ground floor", "Two-bedroom apartment", "66.61 m²"],
 			"options": [
 				"Hall — 4.25 m²",
@@ -52,6 +54,7 @@
 			"afterImage": "/apartments/S3 after.jpg",
 			"floor": "secondFloor",
 			"bedrooms": 3,
+			"sold": false,
 			"tags": ["Building 1", "Second floor", "Three-bedroom apartment", "90.68 m²"],
 			"options": [
 				"Hall — 2.32 m²",
@@ -78,6 +81,7 @@
 			"afterImage": "/apartments/S4 after.jpg",
 			"floor": "groundFloor",
 			"bedrooms": 1,
+			"sold": true,
 			"tags": ["Building 2", "Ground floor", "One-bedroom apartment", "51.08 m²"],
 			"options": [
 				"Hall — 4.88 m²",
@@ -98,6 +102,7 @@
 			"afterImage": "/apartments/S5 after.jpg",
 			"floor": "firstFloor",
 			"bedrooms": 2,
+			"sold": false,
 			"tags": ["Building 2", "First floor", "Two-bedroom apartment", "72.23 m²"],
 			"options": [
 				"Hall — 2.61 m²",
@@ -121,6 +126,7 @@
 			"afterImage": "/apartments/S6 after.jpg",
 			"floor": "firstFloor",
 			"bedrooms": 1,
+			"sold": false,
 			"tags": ["Building 2", "First floor", "One-bedroom apartment", "51.01 m²"],
 			"options": [
 				"Hall — 7.09 m²",
@@ -141,6 +147,7 @@
 			"afterImage": "/apartments/S7 after.jpg",
 			"floor": "firstFloor",
 			"bedrooms": 1,
+			"sold": false,
 			"tags": ["Building 2", "First floor", "One-bedroom apartment", "49.29 m²"],
 			"options": [
 				"Hall — 6.08 m²",
@@ -161,6 +168,7 @@
 			"afterImage": "/apartments/S8 after.jpg",
 			"floor": "secondFloor",
 			"bedrooms": 3,
+			"sold": false,
 			"tags": ["Building 2", "Second floor", "Three-bedroom apartment", "86.74 m²"],
 			"options": [
 				"Hall — 7.64 m²",

@@ -5,7 +5,7 @@
 	"nav": {
 		"home": "Početna",
 		"residencies": "Rezidencije",
-		"about": "O nama",
+		"about": "O projektu",
 		"contact": "Kontakt"
 	},
 	"hero": {
@@ -33,12 +33,12 @@
 			"buildings": {
 				"building1": {
 					"title": "Zgrada 1",
-					"description": "Ograničena kolekcija od samo četiri ekskluzivne rezidencije dizajnirane s naglaskom na privatnost, prostrane enterijere i panoramski pogled na Boku Kotorsku.",
+					"description": "Ograničena kolekcija od samo pet ekskluzivnih rezidencija dizajniranih s naglaskom na privatnost, prostrane enterijere i panoramski pogled na Boku Kotorsku.",
 					"imageAlt": "Zgrada 1 — eksterijer"
 				},
 				"building2": {
 					"title": "Zgrada 2",
-					"description": "Profinjena stambena zgrada koja nudi pažljivo osmišljene apartmane, moderne sadržaje i ugodan životni doživljaj u Dobroti.",
+					"description": "Profinjena stambena zgrada koja nudi pažljivo osmišljene stanove , moderne sadržaje i ugodan životni doživljaj u Dobroti.",
 					"imageAlt": "Zgrada 2 — eksterijer"
 				}
 			},
@@ -77,7 +77,7 @@
 			}
 		},
 		"about": {
-			"title": "O nama",
+			"title": "O projektu",
 			"placeholder": "Ovdje ide sadržaj stranice O nama.",
 			"hero": {
 				"title": "Osmišljeno da bude bezvremeno. Inspirisano zalivom."
@@ -85,7 +85,7 @@
 			"intro": {
 				"label": "O nama",
 				"title": "Elegantni prostori uz more",
-				"body": "Smješten u Dobroti, D One Boka Residence je pažljivo osmišljen stambeni projekat koji spaja modernu arhitekturu sa promišljenim osjećajem prostora, svjetla i privatnosti. Razvoj nudi ograničen broj rezidencija u mirnom, dobro pozicioniranom okruženju s pogledom na Boku Kotorsku.\n\nSa savremenim sadržajima, privatnim parkingom, uređenim okruženjem i panoramskim pogledom na more, D One Boka Residence je osmišljen da pruži profinjen i ugodan način života inspirisan jedinstvenim karakterom Boke Kotorske.",
+				"body": "Smješten u Dobroti, <strong>D One Boka Residence</strong> je pažljivo osmišljen stambeni kompleks koji spaja modernu arhitekturu sa promišljenim osjećajem prostora, svjetla i privatnosti. Kompleks nudi ograničen broj rezidencija u mirnom, dobro pozicioniranom okruženju s pogledom na Boku Kotorsku.\n\nSa savremenim sadržajima, privatnim parkingom, bazenom, uređenim okruženjem i panoramskim pogledom na more, <strong>D One Boka Residence</strong> je osmišljen da pruži profinjen i ugodan način života inspirisan jedinstvenim karakterom Boke Kotorske.",
 				"imageAlt": "D One Boka Residence — enterijer i eksterijer"
 			},
 			"rareOffering": {

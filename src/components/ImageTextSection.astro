@@ -42,7 +42,7 @@ const paragraphs = Array.isArray(body)
 
 			<div class="image-text-section__body">
 				{paragraphs.map((paragraph) => (
-					<p>{paragraph}</p>
+					<p set:html={paragraph} />
 				))}
 			</div>
 		</div>
@@ -91,6 +91,10 @@ const paragraphs = Array.isArray(body)
 		font-size: clamp(0.95rem, 1.5vw, 1.125rem);
 		line-height: 140%;
 		color: var(--color-nebula);
+	}
+
+	.image-text-section__body p :global(strong) {
+		font-weight: 600;
 	}
 
 	@media (max-width: 768px) {
