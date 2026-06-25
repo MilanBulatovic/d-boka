@@ -3,6 +3,7 @@ import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import Layout from '../../layouts/Layout.astro';
 import SectionHeading from '../SectionHeading.astro';
+import Button from '../Button.astro';
 import BeforeAfterSlider from '../BeforeAfterSlider.astro';
 import ApartmentRoomLayout from '../ApartmentRoomLayout.astro';
 import { buildings, type BuildingId } from '../../data/buildings';
@@ -63,6 +64,13 @@ const hasComparison = Boolean(apartment.beforeImage && apartment.afterImage);
 			</div>
 
 			<div class="apartment-page__tags">
+				{
+					apartment.sold && (
+						<Button as="tag" variant="sold">
+							{t('apartments.sold')}
+						</Button>
+					)
+				}
 				{
 					apartment.tags.map((tag) => (
 						<span class="apartment-page__tag">{tag}</span>

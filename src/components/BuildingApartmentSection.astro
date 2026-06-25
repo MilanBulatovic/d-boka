@@ -60,6 +60,13 @@ const bedroomKey =
 				<p class="building-apartment__index">{indexLabel}</p>
 
 				<div class="building-apartment__tags">
+					{
+						apartment.sold && (
+							<Button as="tag" variant="sold">
+								{t('apartments.sold')}
+							</Button>
+						)
+					}
 					<Button as="tag" variant="muted-gray">
 						{t(`apartments.floor.${apartment.floor}`)}
 					</Button>
