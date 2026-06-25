@@ -692,12 +692,11 @@ main.main--over-hero + footer {
 
 	#mobile-nav .site-header__drawer-nav {
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 0.65rem 1.35rem;
+		gap: 1rem;
 		padding: 1.1rem 0 1.35rem;
-		flex-shrink: 0;
+		flex-shrink: 1;
 	}
 
 	#mobile-nav .site-header__drawer-link {
@@ -707,7 +706,7 @@ main.main--over-hero + footer {
 		font-size: 16px;
 		font-weight: 400;
 		text-transform: uppercase;
-		letter-spacing: 0.14em;
+		letter-spacing: 0;
 		line-height: 1.2;
 	}
 
@@ -727,22 +726,28 @@ main.main--over-hero + footer {
 	}
 
 	#mobile-nav .site-header__drawer-building {
+		position: relative;
 		display: block;
 		text-decoration: none;
-		color: var(--color-nebula);
+		color: var(--color-white);
+		overflow: hidden;
 	}
 
 	#mobile-nav .site-header__drawer-building-image {
+		display: block;
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
 		border-radius: 0;
-		height:auto;
+		height: auto;
 	}
 
 	#mobile-nav .site-header__drawer-building-title {
-		display: block;
-		margin-top: 0.75rem;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		margin: 0;
+		padding: 1rem 1.25rem;
 		font-family: var(--font-display);
 		font-size: clamp(1.65rem, 6vw, 2rem);
 		font-weight: 400;
@@ -751,6 +756,8 @@ main.main--over-hero + footer {
 		text-decoration: underline;
 		text-underline-offset: 0.18em;
 		text-decoration-thickness: 1px;
+		color: var(--color-white);
+		text-shadow: 0 1px 12px color-mix(in srgb, var(--color-nebula) 55%, transparent);
 	}
 
 	#mobile-nav .site-header__drawer-building.is-active .site-header__drawer-building-title {
