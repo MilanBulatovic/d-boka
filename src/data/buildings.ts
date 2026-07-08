@@ -1,5 +1,5 @@
-import building1Image from '../assets/b1.jpg';
-import building2Image from '../assets/b2.jpg';
+import building1Image from '../assets/b1.webp';
+import building2Image from '../assets/b2.webp';
 import type { RouteId } from '../i18n/routes';
 
 export type BuildingId = 'building1' | 'building2';
