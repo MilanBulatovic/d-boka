@@ -163,6 +163,7 @@
 			"three": "Three-Bedroom"
 		},
 		"sold": "SOLD",
+		"reserved": "RESERVED",
 		"scrollDown": "Scroll Down",
 		"expandImage": "View floor plan",
 		"backToBuilding": "Go Back",

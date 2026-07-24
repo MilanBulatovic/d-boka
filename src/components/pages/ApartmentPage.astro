@@ -72,6 +72,13 @@ const hasComparison = Boolean(apartment.beforeImage && apartment.afterImage);
 					)
 				}
 				{
+					apartment.reserved && (
+						<Button as="tag" variant="reserved">
+							{t('apartments.reserved')}
+						</Button>
+					)
+				}
+				{
 					apartment.tags.map((tag) => (
 						<span class="apartment-page__tag">{tag}</span>
 					))

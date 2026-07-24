@@ -11,6 +11,7 @@
 			"floor": "groundFloor",
 			"bedrooms": 1,
 			"sold": false,
+			"reserved": true,
 			"tags": ["Zgrada 1", "Prizemlje", "Jednosoban stan", "47.28 m²"],
 			"options": [
 				"Hodnik — 3.73 m²",
@@ -31,7 +32,8 @@
 			"afterImage": "/apartments/S2 after.jpg",
 			"floor": "groundFloor",
 			"bedrooms": 2,
-			"sold": false,
+			"sold": true,
+			"reserved": false,
 			"tags": ["Zgrada 1", "Prizemlje", "Dvosoban stan", "66.61 m²"],
 			"options": [
 				"Hodnik — 4.25 m²",
@@ -55,6 +57,7 @@
 			"floor": "secondFloor",
 			"bedrooms": 3,
 			"sold": false,
+			"reserved": true,
 			"tags": ["Zgrada 1", "Drugi sprat", "Trosoban stan", "90.68 m²"],
 			"options": [
 				"Hodnik — 2.32 m²",
@@ -82,6 +85,7 @@
 			"floor": "groundFloor",
 			"bedrooms": 1,
 			"sold": true,
+			"reserved": false,
 			"tags": ["Zgrada 2", "Prizemlje", "Jednosoban stan", "51.08 m²"],
 			"options": [
 				"Hodnik — 4.88 m²",
@@ -103,6 +107,7 @@
 			"floor": "firstFloor",
 			"bedrooms": 2,
 			"sold": false,
+			"reserved": false,
 			"tags": ["Zgrada 2", "Prvi sprat", "Dvosoban stan", "72.23 m²"],
 			"options": [
 				"Hodnik — 2.61 m²",
@@ -127,6 +132,7 @@
 			"floor": "firstFloor",
 			"bedrooms": 1,
 			"sold": false,
+			"reserved": false,
 			"tags": ["Zgrada 2", "Prvi sprat", "Jednosoban stan", "51.01 m²"],
 			"options": [
 				"Hodnik — 7.09 m²",
@@ -148,6 +154,7 @@
 			"floor": "firstFloor",
 			"bedrooms": 1,
 			"sold": false,
+			"reserved": false,
 			"tags": ["Zgrada 2", "Prvi sprat", "Jednosoban stan", "49.29 m²"],
 			"options": [
 				"Hodnik — 6.08 m²",
@@ -169,6 +176,7 @@
 			"floor": "secondFloor",
 			"bedrooms": 3,
 			"sold": false,
+			"reserved": true,
 			"tags": ["Zgrada 2", "Drugi sprat", "Trosoban stan", "86.74 m²"],
 			"options": [
 				"Hodnik — 7.64 m²",

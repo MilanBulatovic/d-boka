@@ -26,6 +26,7 @@ export type Apartment = {
 	options: string[];
 	planImage?: string;
 	sold?: boolean;
+	reserved?: boolean;
 };
 
 type ApartmentInput = Omit<Apartment, 'id'> & { id?: string };

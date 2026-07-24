@@ -67,6 +67,13 @@ const bedroomKey =
 							</Button>
 						)
 					}
+					{
+						apartment.reserved && (
+							<Button as="tag" variant="reserved">
+								{t('apartments.reserved')}
+							</Button>
+						)
+					}
 					<Button as="tag" variant="muted-gray">
 						{t(`apartments.floor.${apartment.floor}`)}
 					</Button>

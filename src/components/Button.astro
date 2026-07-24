@@ -1,5 +1,5 @@
 ---
-export type ButtonVariant = 'blur' | 'border-transparent' | 'nebula' | 'muted-gray' | 'sold';
+export type ButtonVariant = 'blur' | 'border-transparent' | 'nebula' | 'muted-gray' | 'sold' | 'reserved';
 export type ButtonAs = 'link' | 'tag';
 
 type Props = {
@@ -73,7 +73,8 @@ const classList = ['btn', `btn--${variant}`];
 		color: var(--color-greige);
 	}
 
-	.btn--sold {
+	.btn--sold,
+	.btn--reserved {
 		background-color: #c62828;
 		color: var(--color-white);
 		font-weight: 600;
