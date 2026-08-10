@@ -176,7 +176,7 @@
 			"floor": "secondFloor",
 			"bedrooms": 3,
 			"sold": true,
-			"reserved": true,
+			"reserved": false,
 			"tags": ["Zgrada 2", "Drugi sprat", "Trosoban stan", "86.74 m²"],
 			"options": [
 				"Hodnik — 7.64 m²",

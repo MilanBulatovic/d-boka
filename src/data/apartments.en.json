@@ -10,8 +10,8 @@
 			"afterImage": "/apartments/S1 after.jpg",
 			"floor": "groundFloor",
 			"bedrooms": 1,
-			"sold": false,
-			"reserved": true,
+			"sold": true,
+			"reserved": false,
 			"tags": ["Building 1", "Ground floor", "One-bedroom apartment", "47.28 m²"],
 			"options": [
 				"Hall — 3.73 m²",
@@ -174,7 +174,7 @@
 			"floor": "secondFloor",
 			"bedrooms": 3,
 			"sold": true,
-			"reserved": true,
+			"reserved": false,
 			"tags": ["Building 2", "Second floor", "Three-bedroom apartment", "86.74 m²"],
 			"options": [
 				"Hall — 7.64 m²",
